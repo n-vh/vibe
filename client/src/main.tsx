@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { AuthProvider } from './providers/AuthProvider';
-import { ServerProvider } from './providers/ServerProvider';
+import { GraphQLProvider } from './providers/GraphQLProvider';
 import { Router } from './Router';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ServerProvider>
+    <GraphQLProvider>
       <AuthProvider>
         <Router />
       </AuthProvider>
-    </ServerProvider>
+    </GraphQLProvider>
   </React.StrictMode>,
 );
