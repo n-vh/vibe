@@ -1,6 +1,9 @@
 import Button from '../components/Button';
+import { useNavigate } from 'react-router-dom';
 
 export function Index() {
+  const navigate = useNavigate();
+
   return (
     <div className="flex h-screen flex-col">
       <div className="relative flex">
@@ -9,7 +12,7 @@ export function Index() {
           vibe
         </h1>
       </div>
-      <div className="mx-6 mt-36 mb-4 flex flex-col items-center rounded-[16px] bg-white bg-opacity-70 shadow-md">
+      <div className="mx-6 mt-36 mb-4 flex flex-col items-center rounded-[16px] bg-white bg-opacity-80 shadow-md">
         <img src="/bluesmiley.svg" className="mt-6 mb-3 h-[48px] w-full"></img>
         <div className="m-2 flex h-[55vh] w-64 overflow-scroll">
           <p className="justify-self-center text-justify font-roboto text-lg font-light tracking-wider text-blue">
@@ -38,12 +41,14 @@ export function Index() {
       </div>
       <div className="mx-6 mt-4 flex flex-row justify-between">
         <Button
-          className="rounded-[16px]  border-opacity-60 bg-white bg-opacity-70  py-2 px-12 font-roboto text-xl font-bold text-blue text-opacity-60 shadow-md"
-          text="LOGIN"
+          className="rounded-[16px] border-opacity-60 bg-white bg-opacity-80  py-2 px-12 font-roboto text-xl font-bold tracking-wider text-blue shadow-md"
+          text="LOG IN"
+          onClick={() => navigate('/login')}
         />
         <Button
-          className="rounded-[16px] border-opacity-60 bg-white bg-opacity-70  py-3 px-10 font-roboto text-xl font-bold text-blue text-opacity-60 shadow-md"
+          className="rounded-[16px] border-opacity-60 bg-white bg-opacity-80  py-3 px-10 font-roboto text-xl font-bold tracking-wider text-blue shadow-md"
           text="SIGN UP"
+          onClick={() => navigate('/signup')}
         />
       </div>
     </div>

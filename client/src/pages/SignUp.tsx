@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { useFetch } from '../hooks/useFetch';
+import Form from '../components/Form';
+import Button from '../components/Button';
+import { Link } from 'react-router-dom';
 
 export function SignUp() {
   const [username, setUsername] = useState('');
@@ -15,28 +18,66 @@ export function SignUp() {
     }),
   });
 
-  if (data.error) {
-    return <div>Error: {data.error.message}</div>;
-  } else if (data.loading) {
-    return <div>Loading...</div>;
-  } else if (data.data) {
-    return <div>Sign Up email sent!</div>;
-  }
+  // if (data.error) {
+  //   return <div>Error: {data.error.message}</div>;
+  // } else if (data.loading) {
+  //   return <div>Loading...</div>;
+  // } else if (data.data) {
+  //   return <div>Sign Up email sent!</div>;
+  // }
 
   return (
-    <div>
-      Signup
-      <input
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-      />
-      <input
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-      />
-      <button onClick={execute}>Sign Up</button>
+    <div className="flex h-screen flex-col">
+      <div className="relative flex">
+        <img src="/wave.svg" className="absolute h-[120px] w-full"></img>
+        <h1 className="absolute top-1/2 left-1/2 mt-12 flex -translate-x-1/2 -translate-y-1/2 transform font-days text-6xl text-white">
+          vibe
+        </h1>
+      </div>
+      <div className="my-auto flex flex-col gap-8">
+        <Form title={data.data ? '' : 'Sign up'}>
+          {data.data ? (
+            <div className="text-md pl-2 pt-4 font-roboto font-medium tracking-wider text-blue">
+              Sign up e-mail sent!
+            </div>
+          ) : (
+            <>
+              <input
+                className="mt-4 mb-2 rounded-[8px] border-2 border-pink p-2"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Choose a username"
+                type="text"
+                // pattern="[A-Za-z0-9_]{3,25}"
+                // title="Only letters, numbers, underscore; between 3 and 25 characters."
+              />
+              <input
+                className="mt-4 rounded-[8px] border-2 border-pink p-2"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                type="email"
+                required
+              />
+            </>
+          )}
+        </Form>
+        <div className="mx-6 flex flex-col">
+          <Button
+            className="rounded-[16px]  border-opacity-60 bg-white bg-opacity-80  py-2 px-12 font-roboto text-xl font-bold tracking-wider text-blue shadow-md disabled:opacity-60"
+            text="SIGN UP"
+            onClick={() => execute()}
+            disabled={!!data.data}
+          />
+          <p className="text-md pl-2 pt-4 font-roboto font-medium tracking-wider text-blue">
+            Did you mean to{' '}
+            <Link to="/login" className="text-bold text-dark-pink underline">
+              log in
+            </Link>{' '}
+            instead?
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

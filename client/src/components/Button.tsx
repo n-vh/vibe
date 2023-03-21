@@ -6,11 +6,25 @@ interface ButtonProps {
   type?: 'button';
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   text?: string;
+  disabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ id, className, type, onClick, text }) => {
+const Button: React.FC<ButtonProps> = ({
+  id,
+  className,
+  type,
+  onClick,
+  text,
+  disabled = false,
+}) => {
   return (
-    <button id={id} className={className} type={type} onClick={onClick}>
+    <button
+      id={id}
+      className={className}
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {text}
     </button>
   );
