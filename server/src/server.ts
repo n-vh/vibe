@@ -27,7 +27,6 @@ const initServer = async (opts?: FastifyServerOptions) => {
 
   app.register(jwt, {
     secret: import.meta.env.VITE_JWT_SECRET,
-    sign: { algorithm: 'RS256' },
   });
 
   app.register(mail, {
