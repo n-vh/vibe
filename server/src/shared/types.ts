@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { MailVerifyType } from './enums';
+import { TokenType } from './enums';
 
 export interface Me {
   id?: ObjectId;
@@ -26,5 +26,5 @@ export interface Vibe {
 export interface IMailVerify {
   id?: ObjectId;
   token: string;
-  type: MailVerifyType;
+  type: TokenType;
 }

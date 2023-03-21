@@ -1,4 +1,5 @@
-export enum MailVerifyType {
+export enum TokenType {
   SIGNUP = 'SIGNUP',
-  PASSWORD_RESET = 'PASSWORD_RESET',
+  LOGIN = 'LOGIN',
+  SIGNED = 'SIGNED',
 }

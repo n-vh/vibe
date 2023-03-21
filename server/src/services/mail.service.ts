@@ -5,6 +5,7 @@ import type Client from 'mailgun.js/client';
 import Mailgun from 'mailgun.js';
 import FormData from 'form-data';
 import Options from 'mailgun.js/interfaces/Options';
+import { TokenType } from '~/shared/enums';
 
 export class MailService {
   private app: FastifyInstance;
@@ -18,7 +19,10 @@ export class MailService {
   }
 
   public sendSignUp(user: Partial<User>) {
-    const { url, token } = this.appendTokenToURL('signup', user, '24h');
+    const { url, token } = this.appendTokenToURL(
+      { ...user, type: TokenType.SIGNUP },
+      '24h',
+    );
 
     this.send({
       to: user.email,
@@ -27,6 +31,29 @@ export class MailService {
       html: `
         <p>Thank you for signing up with Vibe.</p>
         <p>To confirm your signup, please click on the following link:</p>
+        <p>
+          <a href="${url}">${url}</a>
+        </p>
+        <p>Thank you,<br />The Vibe Team</p>
+      `,
+    });
+
+    return token;
+  }
+
+  public sendLogin(user: Partial<User>) {
+    const { url, token } = this.appendTokenToURL(
+      { ...user, type: TokenType.LOGIN },
+      '24h',
+    );
+
+    this.send({
+      to: user.email,
+      subject: 'Vibe account login',
+      text: url,
+      html: `
+        <p>Hello, ${user.username}!</p>
+        <p>To confirm your login, please click on the following link:</p>
         <p>
           <a href="${url}">${url}</a>
         </p>
@@ -46,8 +73,8 @@ export class MailService {
       .catch((err) => console.error(err));
   }
 
-  private appendTokenToURL<T>(route: string, payload: T, expiresIn: string) {
+  private appendTokenToURL<T>(payload: T, expiresIn: string) {
     const token = this.app.jwt.sign({ payload }, { expiresIn });
-    return { url: `${import.meta.env.VITE_HOST_URL}/${route}/${token}`, token };
+    return { url: `${import.meta.env.VITE_HOST_URL}verify?token=${token}`, token };
   }
 }

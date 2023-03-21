@@ -21,14 +21,17 @@ const schema = new Schema<User>(
     vibes: {
       type: [ObjectId],
       required: true,
+      default: [],
     },
     comments: {
       type: [ObjectId],
       required: true,
+      default: [],
     },
     smiles: {
       type: [ObjectId],
       required: true,
+      default: [],
     },
   },
   {

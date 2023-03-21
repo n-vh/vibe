@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
-import { useAuthContext } from './hooks/useAuthContext';
+import { useAuthContext } from './hooks';
 import { Home } from './pages/Home';
 import { Index } from './pages/Index';
 import { Login } from './pages/Login';
@@ -10,9 +10,9 @@ import { Verify } from './pages/Verify';
 import { Vibe } from './pages/Vibe';
 
 function Protected() {
-  const { isAuthorized: isAuthenticated } = useAuthContext();
+  const { isAuthorized } = useAuthContext();
 
-  if (!isAuthenticated) {
+  if (!isAuthorized) {
     return <Navigate to="/" replace />;
   }
 
@@ -26,7 +26,7 @@ export function Router() {
         <Route path="/" index element={<Index />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/verify/:token" element={<Verify />} />
+        <Route path="/verify" element={<Verify />} />
         <Route element={<Protected />}>
           <Route path="/home" element={<Home />} />
           <Route path="/vibe/:id" element={<Vibe />} />

@@ -35,7 +35,7 @@ export const UserController = {
   async getSelf(filter: FilterQuery<User>) {
     const doc = await UserModel.findOne(filter);
 
-    if (!doc) {
+    if (!filter || !doc) {
       throw new GraphQLError('USER_NOT_FOUND');
     }
 

@@ -3,7 +3,7 @@ import type { User } from '~/shared/types';
 import { MailVerifyController, UserController } from '~/controllers';
 import { RouteSchema } from './auth.schema';
 import { comparePassword } from '~/utils/password';
-import { MailVerifyType } from '~/shared/enums';
+import { TokenType } from '~/shared/enums';
 import { UserModel } from '~/database/models';
 import { tokenPayload } from '~/utils/token';
 
@@ -11,11 +11,64 @@ type SignUpRouteRequest = FastifyRequest<{
   Body: Pick<User, 'username' | 'email'>;
 }>;
 
-type SignUpRouteVerifyRequest = FastifyRequest<{
+type VerifyRouteRequest = FastifyRequest<{
   Body: { token: string };
 }>;
 
 export const authRouter: FastifyPluginCallback = (app, opts, next) => {
+  app.route({
+    url: '/verify',
+    method: 'POST',
+    handler: async (req: VerifyRouteRequest, rep) => {
+      try {
+        const payload = tokenPayload(app, req.body.token);
+
+        // delete the mail verify token
+        // throws error if token is not found
+        await MailVerifyController.deleteOne(req.body);
+
+        if (payload.type === TokenType.SIGNUP) {
+          // create the user
+          // throws error if user already exists
+          const user = await UserController.create(payload);
+
+          rep.send({
+            token: app.jwt.sign(
+              {
+                username: user.username,
+                email: user.email,
+                avatar: user.avatar,
+                type: TokenType.SIGNED,
+              },
+              { expiresIn: '7d' },
+            ),
+          });
+        }
+
+        if (payload.type === TokenType.LOGIN) {
+          const user = await UserController.findOne({ email: payload.email });
+
+          rep.send({
+            token: app.jwt.sign(
+              {
+                username: user.username,
+                email: user.email,
+                avatar: user.avatar,
+                type: TokenType.SIGNED,
+              },
+              { expiresIn: '7d' },
+            ),
+          });
+        }
+      } catch (e) {
+        rep.status(400).send({
+          status: 400,
+          error: e.message,
+        });
+      }
+    },
+  });
+
   app.route({
     url: '/signup',
     method: 'POST',
@@ -40,7 +93,7 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
         // save the token in the database
         await MailVerifyController.create({
           token,
-          type: MailVerifyType.SIGNUP,
+          type: TokenType.SIGNUP,
         });
 
         rep.send({
@@ -57,56 +110,30 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
   });
 
   app.route({
-    url: '/signup/verify',
-    method: 'POST',
-    handler: async (req: SignUpRouteVerifyRequest, rep) => {
-      try {
-        const user = tokenPayload(app, req.body.token);
-
-        // delete the mail verify token
-        // throws error if token is not found
-        // await MailVerifyController.deleteOne(req.body);
-
-        console.log(user);
-
-        // create the user
-        // throws error if user already exists
-        await UserController.create(user);
-
-        rep.send({
-          status: 200,
-          message: 'SIGNUP_SUCCESS',
-        });
-      } catch (e) {
-        rep.status(400).send({
-          status: 400,
-          error: e.message,
-        });
-      }
-    },
-  });
-
-  app.route({
-    url: '/signin',
+    url: '/login',
     method: 'POST',
     schema: RouteSchema,
     handler: async (req: SignUpRouteRequest, rep) => {
       try {
         // if the user doesn't exist, throw an error
         const user = await UserController.findOne({
+          username: req.body.username.toLowerCase(),
           email: req.body.email.toLowerCase(),
         });
 
-        const isPasswordValid = await comparePassword(req.body.password, user.password);
+        const token = app.mail.sendLogin({
+          email: user.email,
+          username: user.username,
+        });
 
-        // if the hashed password is invalid, throw an error
-        if (!isPasswordValid) {
-          throw new Error('INVALID_CREDENTIALS');
-        }
+        await MailVerifyController.create({
+          token,
+          type: TokenType.LOGIN,
+        });
 
-        // if the user exists, send a Bearer token
         rep.send({
-          token: app.jwt.sign({ payload: user.toJSON() }, { expiresIn: '7d' }),
+          status: 200,
+          message: 'LOGIN_TOKEN_SENT',
         });
       } catch (e) {
         rep.status(400).send({

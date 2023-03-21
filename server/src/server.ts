@@ -8,7 +8,6 @@ import { mail } from '~/plugins';
 import { Database } from '~/database';
 import { authRouter } from '~/router';
 import { schema } from '~/graphql/schema';
-import { AuthContext } from './graphql/context';
 
 const initServer = async (opts?: FastifyServerOptions) => {
   const app = fastify(opts);
@@ -28,6 +27,7 @@ const initServer = async (opts?: FastifyServerOptions) => {
 
   app.register(jwt, {
     secret: import.meta.env.VITE_JWT_SECRET,
+    sign: { algorithm: 'RS256' },
   });
 
   app.register(mail, {

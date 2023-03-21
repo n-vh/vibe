@@ -1,5 +1,5 @@
 import { createContext, PropsWithChildren } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useLocalStorage } from '../hooks';
 
 export const AuthContext = createContext({
   isAuthorized: false,
