@@ -64,6 +64,30 @@ export class MailService {
     return token;
   }
 
+  public sendForgotPassword(user: Partial<User>) {
+    const { url, token } = this.appendTokenToURL(
+      { ...user, type: TokenType.FORGOT_PASSWORD },
+      '24h',
+      'forgot-password',
+    );
+
+    this.send({
+      to: user.email,
+      subject: 'Vibe account password reset',
+      text: url,
+      html: `
+        <p>Hello, ${user.username}!</p>
+        <p>To reset your password, please click on the following link:</p>
+        <p>
+          <a href="${url}">${url}</a>
+        </p>
+        <p>Thank you,<br />The Vibe Team</p>
+      `,
+    });
+
+    return token;
+  }
+
   private async send(data: MailgunMessageData) {
     this.client.messages
       .create(import.meta.env.VITE_DOMAIN_NAME, {
@@ -73,8 +97,8 @@ export class MailService {
       .catch((err) => console.error(err));
   }
 
-  private appendTokenToURL<T>(payload: T, expiresIn: string) {
+  private appendTokenToURL<T>(payload: T, expiresIn: string, route: string = 'verify') {
     const token = this.app.jwt.sign({ payload }, { expiresIn });
-    return { url: `${import.meta.env.VITE_HOST_URL}verify?token=${token}`, token };
+    return { url: `${import.meta.env.VITE_HOST_URL}${route}?token=${token}`, token };
   }
 }

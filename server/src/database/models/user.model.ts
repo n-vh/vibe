@@ -14,6 +14,10 @@ const schema = new Schema<User>(
       required: true,
       unique: true,
     },
+    password: {
+      type: String,
+      required: true,
+    },
     avatar: {
       type: String,
       required: true,

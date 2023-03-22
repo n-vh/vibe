@@ -15,8 +15,10 @@ export namespace UserController {
     }
 
     return await UserModel.create({
-      avatar: 'https://i.pravatar.cc/150',
       ...user,
+      username: user.username.toLowerCase(),
+      email: user.email.toLowerCase(),
+      avatar: 'https://i.pravatar.cc/150',
     });
   }
 
