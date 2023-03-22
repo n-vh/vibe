@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useFetch } from '../hooks/useFetch';
 import { useNavigate, Link } from 'react-router-dom';
-import Button from '../components/Button';
 import Form from '../components/Form';
+import Button from '../components/Button';
 
 export function Login() {
   const navigate = useNavigate();
@@ -29,13 +29,7 @@ export function Login() {
 
   return (
     <div className="flex h-screen flex-col">
-      <div className="relative flex">
-        <img src="/wave.svg" className="absolute h-[120px] w-full"></img>
-        <h1 className="absolute top-1/2 left-1/2 mt-12 flex -translate-x-1/2 -translate-y-1/2 transform font-days text-6xl text-white">
-          vibe
-        </h1>
-      </div>
-      <div className="my-auto flex flex-col gap-8">
+      <div className="my-auto flex flex-col gap-8 md:w-5/6 md:self-center lg:w-3/6">
         <Form title={data.data ? '' : 'Log in'}>
           {data.data ? (
             <div className="text-md pl-2 pt-4 font-roboto font-medium tracking-wider text-blue">
