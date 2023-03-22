@@ -4,8 +4,8 @@ import { ObjectId } from 'mongodb';
 import { GraphQLError } from 'graphql';
 import { UserModel } from '~/database/models';
 
-export const UserController = {
-  async create(user: User) {
+export namespace UserController {
+  export async function create(user: User) {
     const doc = await UserModel.findOne({
       email: user.email.toLowerCase(),
     });
@@ -18,9 +18,9 @@ export const UserController = {
       avatar: 'https://i.pravatar.cc/150',
       ...user,
     });
-  },
+  }
 
-  async findOne(filter: FilterQuery<User>) {
+  export async function findOne(filter: FilterQuery<User>) {
     const doc = await UserModel.findOne(filter);
 
     if (!doc) {
@@ -28,9 +28,9 @@ export const UserController = {
     }
 
     return doc;
-  },
+  }
 
-  async getSelf(userId: ObjectId) {
+  export async function getSelf(userId: ObjectId) {
     const doc = await UserModel.findById(userId);
 
     if (!doc) {
@@ -42,9 +42,9 @@ export const UserController = {
       email: doc.email,
       avatar: doc.avatar,
     };
-  },
+  }
 
-  async updateOne(id: ObjectId, user: Partial<User>) {
+  export async function updateOne(id: ObjectId, user: Partial<User>) {
     const document = await UserModel.findOneAndUpdate(
       {
         _id: id,
@@ -58,9 +58,9 @@ export const UserController = {
     }
 
     return document;
-  },
+  }
 
-  async push(id: ObjectId, field: string, value: ObjectId) {
+  export async function push(id: ObjectId, field: string, value: ObjectId) {
     const document = await UserModel.findOneAndUpdate(
       {
         _id: id,
@@ -74,9 +74,9 @@ export const UserController = {
     }
 
     return document;
-  },
+  }
 
-  async pull(id: ObjectId, field: string, value: ObjectId) {
+  export async function pull(id: ObjectId, field: string, value: ObjectId) {
     const document = await UserModel.findOneAndUpdate(
       {
         _id: id,
@@ -90,5 +90,5 @@ export const UserController = {
     }
 
     return document;
-  },
-};
+  }
+}
