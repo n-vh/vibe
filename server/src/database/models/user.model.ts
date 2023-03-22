@@ -33,6 +33,16 @@ const schema = new Schema<User>(
       required: true,
       default: [],
     },
+    followers: {
+      type: [ObjectId],
+      required: true,
+      default: [],
+    },
+    following: {
+      type: [ObjectId],
+      required: true,
+      default: [],
+    },
   },
   {
     versionKey: false,

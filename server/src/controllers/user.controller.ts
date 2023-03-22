@@ -15,9 +15,6 @@ export const UserController = {
 
     return await UserModel.create({
       avatar: 'https://i.pravatar.cc/150',
-      vibes: [],
-      comments: [],
-      smiles: [],
       ...user,
     });
   },
