@@ -10,8 +10,8 @@ export function Index() {
         <div className="mx-6 flex flex-col items-center rounded-[16px] bg-white bg-opacity-80 shadow-md lg:w-5/6">
           <img src="/bluesmiley.svg" className="mt-6 mb-3 h-[48px] w-full"></img>
           <div className="m-2 mb-6 flex h-[55vh] w-64 overflow-scroll md:w-5/6">
-            <p className="justify-self-center text-justify font-roboto text-lg font-light tracking-wider text-blue">
-              <p className="text-center font-roboto text-lg font-medium tracking-wider text-blue md:text-xl">
+            <p className="justify-self-center text-justify font-gothic text-lg font-light tracking-wider text-blue">
+              <p className="text-center font-gothic text-lg font-bold tracking-wider text-blue md:text-xl">
                 Welcome to Vibe, a social media platform dedicated to sharing positive and
                 uplifting news from around the world.
               </p>
@@ -36,12 +36,12 @@ export function Index() {
         </div>
         <div className="mx-6 mt-4 flex flex-row justify-between lg:w-1/4 lg:flex-col lg:justify-center lg:gap-4">
           <Button
-            className="rounded-[16px] border-opacity-60 bg-white bg-opacity-80  py-3 px-10 font-roboto text-xl font-medium tracking-wider text-blue shadow-md"
+            className="rounded-[16px] border-opacity-60 bg-white bg-opacity-80  py-3 px-10 font-roboto text-lg font-bold tracking-wider text-blue shadow-md"
             text="LOG IN"
             onClick={() => navigate('/login')}
           />
           <Button
-            className="rounded-[16px] border-opacity-60 bg-white bg-opacity-80  py-3 px-10 font-roboto text-xl font-medium tracking-wider text-blue shadow-md"
+            className="rounded-[16px] border-opacity-60 bg-white bg-opacity-80  py-3 px-10 font-roboto text-lg font-bold tracking-wider text-blue shadow-md"
             text="SIGN UP"
             onClick={() => navigate('/signup')}
           />

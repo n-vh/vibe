@@ -11,11 +11,13 @@ export function useFetch<T>(url: string, options?: RequestInit) {
     setLoading(true);
 
     fetch(url, options)
-      .then((response) => {
+      .then(async (response) => {
+        console.log(response);
+        const json = await response.json();
         if (!response.ok) {
-          throw new Error('Bad Request');
+          throw new Error(json.error);
         }
-        return response.json();
+        return json;
       })
       .then((data) => {
         if (cancelRequest.current) return;
@@ -36,5 +38,9 @@ export function useFetch<T>(url: string, options?: RequestInit) {
     };
   };
 
-  return [{ data, error, loading }, execute] as const;
+  const resetError = () => {
+    setError(null);
+  };
+
+  return [{ data, error, loading }, execute, resetError] as const;
 }

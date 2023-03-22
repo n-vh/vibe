@@ -19,14 +19,6 @@ export function Login() {
     }),
   });
 
-  // if (data.error) {
-  //   return <div>Error: {data.error.message}</div>;
-  // } else if (data.loading) {
-  //   return <div>Loading...</div>;
-  // } else if (data.data) {
-  //   return <div>Login email sent!</div>;
-  // }
-
   return (
     <div className="flex h-screen flex-col">
       <div className="my-auto flex flex-col gap-8 md:w-5/6 md:self-center lg:w-3/6">
@@ -62,7 +54,7 @@ export function Login() {
             className="rounded-[16px]  border-opacity-60 bg-white bg-opacity-80  py-2 px-12 font-roboto text-xl font-bold tracking-wider text-blue shadow-md disabled:opacity-60"
             text="LOG IN"
             onClick={() => execute()}
-            disabled={!!data.data}
+            disabled={!!data.data || !email || !username}
           />
           <p className="text-md pl-2 pt-4 font-roboto font-medium tracking-wider text-blue">
             Did you mean to{' '}
