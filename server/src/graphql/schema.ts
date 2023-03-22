@@ -13,7 +13,7 @@ export const schema = constraintDirective()(
     resolvers: {
       ObjectID: GraphQLObjectID,
       Query: queryResolver,
-      // Mutation: mutationResolver,
+      Mutation: mutationResolver,
     },
   }),
 );

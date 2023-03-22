@@ -39,4 +39,10 @@ type Query {
   user(id: ObjectID!): User
   me: Me
 }
+
+type Mutation {
+  createVibe(message: String!): Vibe
+  smile(id: ObjectID!): Vibe
+  unsmile(id: ObjectID!): Vibe
+}
 `;

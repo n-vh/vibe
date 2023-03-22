@@ -1,4 +1,4 @@
-import type { User } from '~/shared/types';
+import type { Me } from '~/shared/types';
 import { ObjectId } from 'mongodb';
 
 export interface WithId {
@@ -10,5 +10,5 @@ export interface WithIds {
 }
 
 export interface ContextUser {
-  user: User | null;
+  user: Me | null;
 }
