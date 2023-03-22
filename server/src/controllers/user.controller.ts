@@ -60,12 +60,17 @@ export namespace UserController {
     return document;
   }
 
-  export async function push(id: ObjectId, field: string, value: ObjectId) {
+  export async function modifyArray(
+    id: ObjectId,
+    operation: '$addToSet' | '$pull',
+    field: string,
+    value: ObjectId,
+  ) {
     const document = await UserModel.findOneAndUpdate(
       {
         _id: id,
       },
-      { $push: { [field]: value } },
+      { [operation]: { [field]: value } },
       { new: true },
     );
 
@@ -76,19 +81,11 @@ export namespace UserController {
     return document;
   }
 
-  export async function pull(id: ObjectId, field: string, value: ObjectId) {
-    const document = await UserModel.findOneAndUpdate(
-      {
-        _id: id,
-      },
-      { $pull: { [field]: value } },
-      { new: true },
-    );
+  export function push(id: ObjectId, field: string, value: ObjectId) {
+    return UserController.modifyArray(id, '$addToSet', field, value);
+  }
 
-    if (!document) {
-      throw new GraphQLError('USER_NOT_FOUND');
-    }
-
-    return document;
+  export function pull(id: ObjectId, field: string, value: ObjectId) {
+    return UserController.modifyArray(id, '$pull', field, value);
   }
 }

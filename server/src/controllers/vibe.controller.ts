@@ -28,7 +28,7 @@ export namespace VibeController {
       $inc: {
         'smiles.count': 1,
       },
-      $push: {
+      $addToSet: {
         'smiles.users': userId,
       },
     });
