@@ -5,20 +5,22 @@ import { Vibe } from '~/shared/types';
 const Node = {
   count: {
     type: Number,
-    required: true,
     default: 0,
   },
-  users: {
-    type: [ObjectId],
-    required: true,
-    default: [],
-  },
+  users: [
+    {
+      type: ObjectId,
+      ref: 'User',
+      default: [],
+    },
+  ],
 };
 
 const schema = new Schema<Vibe>(
   {
     user: {
       type: ObjectId,
+      ref: 'User',
       required: true,
       index: true,
     },

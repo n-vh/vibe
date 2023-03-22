@@ -18,31 +18,41 @@ const schema = new Schema<User>(
       type: String,
       required: true,
     },
-    vibes: {
-      type: [ObjectId],
-      required: true,
-      default: [],
-    },
-    comments: {
-      type: [ObjectId],
-      required: true,
-      default: [],
-    },
-    smiles: {
-      type: [ObjectId],
-      required: true,
-      default: [],
-    },
-    followers: {
-      type: [ObjectId],
-      required: true,
-      default: [],
-    },
-    following: {
-      type: [ObjectId],
-      required: true,
-      default: [],
-    },
+    vibes: [
+      {
+        type: ObjectId,
+        ref: 'Vibe',
+        default: [],
+      },
+    ],
+    comments: [
+      {
+        type: ObjectId,
+        ref: 'Vibe',
+        default: [],
+      },
+    ],
+    smiles: [
+      {
+        type: ObjectId,
+        ref: 'User',
+        default: [],
+      },
+    ],
+    followers: [
+      {
+        type: ObjectId,
+        ref: 'User',
+        default: [],
+      },
+    ],
+    following: [
+      {
+        type: ObjectId,
+        ref: 'User',
+        default: [],
+      },
+    ],
   },
   {
     versionKey: false,

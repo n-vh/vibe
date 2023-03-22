@@ -1,5 +1,4 @@
-import type { ContextUser } from '~/graphql/types';
-import { ObjectId } from 'mongodb';
+import type { ContextUser, WithId, WithIds } from '~/graphql/types';
 import { UserController, VibeController } from '~/controllers';
 import { requireAuth } from './context';
 
@@ -16,12 +15,12 @@ export const mutationResolver = {
     return VibeController.create(i.message, c.user.id);
   },
 
-  smile: (_: any, i: { id: ObjectId }, c: ContextUser) => {
+  smile: (_: any, i: WithId, c: ContextUser) => {
     requireAuth(c);
     return VibeController.smile(i.id, c.user.id);
   },
 
-  unsmile: (_: any, i: { id: ObjectId }, c: ContextUser) => {
+  unsmile: (_: any, i: WithId, c: ContextUser) => {
     requireAuth(c);
     return VibeController.unsmile(i.id, c.user.id);
   },
