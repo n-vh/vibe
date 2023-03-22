@@ -35,6 +35,7 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
           rep.send({
             token: app.jwt.sign(
               {
+                id: user.id,
                 username: user.username,
                 email: user.email,
                 avatar: user.avatar,
@@ -51,6 +52,7 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
           rep.send({
             token: app.jwt.sign(
               {
+                id: user.id,
                 username: user.username,
                 email: user.email,
                 avatar: user.avatar,

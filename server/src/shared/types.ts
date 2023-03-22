@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb';
 import { TokenType } from './enums';
 
 export interface Me {
-  id?: ObjectId;
+  id: ObjectId;
   username: string;
   email: string;
   avatar: string;
