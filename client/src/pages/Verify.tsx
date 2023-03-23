@@ -6,13 +6,7 @@ export function Verify() {
   const { signIn } = useAuthContext();
   const [searchParams] = useSearchParams();
   const [data, execute] = useFetch<{ token: string }>('http://localhost:6543/verify', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      token: searchParams.get('token'),
-    }),
+    token: searchParams.get('token'),
   });
 
   useEffect(() => {

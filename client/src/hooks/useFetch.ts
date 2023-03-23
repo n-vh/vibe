@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-export function useFetch<T>(url: string, options?: RequestInit) {
+export function useFetch<T, U = {}>(url: string, body: U) {
   const cancelRequest = useRef<boolean>(false);
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<Error | null>(null);
@@ -10,14 +10,21 @@ export function useFetch<T>(url: string, options?: RequestInit) {
     cancelRequest.current = false;
     setLoading(true);
 
-    fetch(url, options)
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
       .then(async (response) => {
-        console.log(response);
-        const json = await response.json();
+        const data = await response.json();
+
         if (!response.ok) {
-          throw new Error(json.error);
+          throw new Error(data.error);
         }
-        return json;
+
+        return data;
       })
       .then((data) => {
         if (cancelRequest.current) return;
@@ -38,9 +45,15 @@ export function useFetch<T>(url: string, options?: RequestInit) {
     };
   };
 
-  const resetError = () => {
-    setError(null);
-  };
-
-  return [{ data, error, loading }, execute, resetError] as const;
+  return [
+    {
+      data,
+      error,
+      loading,
+      setData,
+      setError,
+      setLoading,
+    },
+    execute,
+  ] as const;
 }

@@ -1,5 +1,5 @@
-import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
+import Button from '../components/Button';
 
 export function Index() {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ export function Index() {
       <div className="my-auto flex flex-col gap-4 md:w-4/6 md:self-center lg:flex-row">
         <div className="mx-6 flex flex-col items-center rounded-[16px] bg-white bg-opacity-80 shadow-md lg:w-5/6">
           <img src="/bluesmiley.svg" className="mt-6 mb-3 h-[48px] w-full"></img>
-          <div className="m-2 mb-6 flex h-[55vh] w-64 overflow-scroll md:w-5/6">
+          <div className="m-2 mb-6 flex h-[55vh] w-64 overflow-auto md:w-5/6">
             <p className="justify-self-center text-justify font-gothic text-lg font-light tracking-wider text-blue">
               <p className="text-center font-gothic text-lg font-bold tracking-wider text-blue md:text-xl">
                 Welcome to Vibe, a social media platform dedicated to sharing positive and
