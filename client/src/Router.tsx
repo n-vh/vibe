@@ -6,8 +6,10 @@ import { Login } from './pages/Login';
 import { Profile } from './pages/Profile';
 import { Settings } from './pages/Settings';
 import { SignUp } from './pages/SignUp';
+import { Terms } from './pages/Terms';
 import { Verify } from './pages/Verify';
 import { Vibe } from './pages/Vibe';
+import Header from './components/Header';
 
 function Protected() {
   const { isAuthorized } = useAuthContext();
@@ -22,11 +24,13 @@ function Protected() {
 export function Router() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" index element={<Index />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/verify" element={<Verify />} />
+        <Route path="/terms" element={<Terms />} />
         <Route element={<Protected />}>
           <Route path="/home" element={<Home />} />
           <Route path="/vibe/:id" element={<Vibe />} />

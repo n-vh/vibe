@@ -88,11 +88,11 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
         });
 
         if (user) {
-          if (user.email === req.body.email) {
-            throw new Error('EMAIL_ALREADY_USED');
-          } else {
-            throw new Error('USERNAME_ALREADY_USED');
-          }
+          throw new Error(
+            user.email === req.body.email
+              ? 'EMAIL_ALREADY_USED'
+              : 'USERNAME_ALREADY_USED',
+          );
         }
 
         // sends an email with a token
