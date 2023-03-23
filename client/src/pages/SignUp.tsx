@@ -50,17 +50,16 @@ export function SignUp() {
 
   return (
     <div className="flex h-screen flex-col">
-      <Header />
-      <div className="my-auto flex flex-col gap-8 md:w-5/6 md:self-center lg:mt-44 lg:w-3/6">
+      <div className="my-auto flex flex-col gap-8 md:w-5/6 md:self-center lg:w-3/6 lg:pt-32">
         <Form title={data.data ? '' : 'Sign up'}>
           {data.data ? (
             <div className="text-md pl-2 pt-4 font-roboto font-medium tracking-wider text-blue">
               Sign up e-mail sent!
             </div>
           ) : (
-            <>
+            <div className="flex flex-col gap-4">
               <input
-                className="mt-4 mb-2 rounded-[8px] border-2 border-pink p-2"
+                className="rounded-[8px] border-2 border-pink p-2"
                 value={username}
                 onChange={(e) => onUserNameChange(e.target.value)}
                 placeholder="Choose a username"
@@ -70,12 +69,12 @@ export function SignUp() {
                 // title="Only letters, numbers, underscore; between 3 and 25 characters."
               />
               {usernameError && (
-                <div className="text-roboto pl-1 text-xs tracking-wider text-dark-pink">
+                <div className="text-roboto pl-1 text-xs tracking-wider text-red-600">
                   Username already used.
                 </div>
               )}
               <input
-                className="mt-4 rounded-[8px] border-2 border-pink p-2"
+                className="rounded-[8px] border-2 border-pink p-2"
                 value={email}
                 onChange={(e) => onEmailChange(e.target.value)}
                 placeholder="Email"
@@ -83,7 +82,7 @@ export function SignUp() {
                 required
               />
               {emailError && (
-                <div className="text-roboto pl-1 pt-2 text-xs tracking-wider text-dark-pink">
+                <div className="text-roboto pl-1 text-xs tracking-wider text-red-600">
                   Email already used.
                 </div>
               )}
@@ -101,15 +100,15 @@ export function SignUp() {
                   </Link>
                 </label>
               </div>
-              <div className="text-roboto flex flex-col gap-2 pt-6 text-xs tracking-wider text-dark-pink">
-                <p className={username && email ? 'hidden' : 'flex'}>
+              <div className="text-roboto flex flex-col gap-2 text-sm font-medium tracking-wider text-red-600">
+                <p className={username && password ? 'hidden' : 'flex'}>
                   Please fill in all the fields.
                 </p>
                 <p className={isChecked ? 'hidden' : 'flex'}>
                   Please accept the terms and conditions.
                 </p>
               </div>
-            </>
+            </div>
           )}
         </Form>
         <div className="mx-6 flex flex-col">
