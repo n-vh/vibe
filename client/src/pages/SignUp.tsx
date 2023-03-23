@@ -52,7 +52,7 @@ export function SignUp() {
                 // title="Only letters, numbers, underscore; between 3 and 25 characters."
               />
               {usernameError && (
-                <div className="text-roboto pl-1 text-xs tracking-wider text-red-600">
+                <div className="text-roboto pl-1 text-xs tracking-wider text-error">
                   Username already used.
                 </div>
               )}
@@ -67,7 +67,7 @@ export function SignUp() {
                 // title="Only letters, numbers, underscore; between 3 and 25 characters."
               />
               {emailError && (
-                <div className="text-roboto pl-1 text-xs tracking-wider text-red-600">
+                <div className="text-roboto pl-1 text-xs tracking-wider text-error">
                   Email already used.
                 </div>
               )}
@@ -90,12 +90,12 @@ export function SignUp() {
                 />
                 <label htmlFor="acceptTerms" className="text-sm text-blue">
                   I accept the{' '}
-                  <Link to="/terms" className="underline">
+                  <Link to="/terms" target="_blank" className="underline">
                     terms and conditions
                   </Link>
                 </label>
               </div>
-              <div className="text-roboto flex flex-col gap-2 text-sm font-medium tracking-wider text-red-600">
+              <div className="text-roboto flex flex-col gap-2 text-sm font-medium tracking-wider text-error">
                 <p className={username && password ? 'hidden' : 'flex'}>
                   Please fill in all the fields.
                 </p>

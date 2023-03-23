@@ -12,7 +12,7 @@ module.exports = {
       'dark-pink': '#C0A0A0',
       white: '#FFFFFF',
       black: '#000000',
-      red: colors.red,
+      error: '#CB6262',
     },
     fontFamily: {
       days: ['Days One', 'sans-serif'],

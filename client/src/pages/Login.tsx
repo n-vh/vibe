@@ -54,12 +54,12 @@ export function Login() {
               required
             />
             {usernameError && (
-              <div className="pl-1 text-sm font-medium tracking-wider text-red-600">
+              <div className="pl-1 text-sm font-medium tracking-wider text-error">
                 User not found.
               </div>
             )}
             {passwordError && (
-              <div className="pl-1 text-sm font-medium tracking-wider text-red-600">
+              <div className="pl-1 text-sm font-medium tracking-wider text-error">
                 Wrong password.
               </div>
             )}
@@ -70,7 +70,7 @@ export function Login() {
             className="rounded-[16px]  border-opacity-60 bg-white bg-opacity-80  py-2 px-12 font-roboto text-xl font-bold tracking-wider text-blue shadow-md disabled:opacity-60"
             text="LOG IN"
             onClick={() => execute()}
-            disabled={!!data.data || !username || !!password}
+            disabled={!username || !password}
           />
           <p className="text-md pl-2 pt-4 font-roboto font-medium tracking-wider text-blue">
             Did you mean to{' '}
