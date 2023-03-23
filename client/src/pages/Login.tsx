@@ -8,15 +8,9 @@ export function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [data, execute] = useFetch('http://localhost:6543/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username,
-      email,
-    }),
+  const [data, execute] = useFetch<{ token: string }>('http://localhost:6543/login', {
+    username,
+    password,
   });
 
   return (

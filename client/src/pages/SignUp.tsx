@@ -11,15 +11,9 @@ export function SignUp() {
   const [email, setEmail] = useState('');
   const [usernameError, setUsernameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
-  const [data, execute, resetError] = useFetch('http://localhost:6543/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username,
-      email,
-    }),
+  const [data, execute] = useFetch('http://localhost:6543/signup', {
+    username,
+    email,
   });
 
   useEffect(() => {
