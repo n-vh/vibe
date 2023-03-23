@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 
@@ -11,7 +10,7 @@ export function Terms() {
           <h2 className="pt-8 pb-4 font-gothic text-lg text-dark-pink">
             Terms & Conditions
           </h2>
-          <div className="m-2 mb-6 flex h-[55vh] w-64 overflow-scroll md:w-5/6">
+          <div className="m-2 mb-6 flex h-[55vh] w-64 overflow-auto md:w-5/6">
             <p className="text-md justify-self-center text-justify font-roboto font-light tracking-wider text-blue">
               <p className="text-md text-center font-roboto font-medium tracking-wider text-blue">
                 Welcome to Vibe, a social media platform dedicated to sharing positive and

@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -10,6 +12,7 @@ module.exports = {
       'dark-pink': '#C0A0A0',
       white: '#FFFFFF',
       black: '#000000',
+      red: colors.red,
     },
     fontFamily: {
       days: ['Days One', 'sans-serif'],
