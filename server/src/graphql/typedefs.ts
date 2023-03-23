@@ -27,7 +27,7 @@ type Node {
 
 type Vibe {
   id: ObjectID!
-  user: ObjectID!
+  user: User!
   message: String!
   comments: Node!
   smiles: Node!
@@ -38,6 +38,7 @@ type Query {
   users(ids: [ObjectID]!): [User]
   user(id: ObjectID!): User
   me: Me
+  timeline: [Vibe]
 }
 
 type Mutation {

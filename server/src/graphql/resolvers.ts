@@ -1,11 +1,17 @@
 import type { ContextUser, WithId, WithIds } from '~/graphql/types';
 import { UserController, VibeController } from '~/controllers';
 import { requireAuth } from './context';
+import { TimelineController } from '~/controllers/timeline.controller';
 
 export const queryResolver = {
   me: (_: any, __: any, c: ContextUser) => {
     requireAuth(c);
     return UserController.getSelf(c.user.id);
+  },
+
+  timeline: (_: any, __: any, c: ContextUser) => {
+    requireAuth(c);
+    return TimelineController.home(c.user.id);
   },
 };
 
