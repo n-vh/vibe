@@ -53,6 +53,11 @@ export function Login() {
               type="password"
               required
             />
+            {/* <p className="text-sm pl-2 pt-4 font-roboto font-medium tracking-wider text-blue">
+            <Link to="/forgot-password">
+              Forgot your password?
+            </Link>
+          </p> */}
             {usernameError && (
               <div className="pl-1 text-sm font-medium tracking-wider text-error">
                 User not found.

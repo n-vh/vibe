@@ -5,8 +5,9 @@ interface ButtonProps {
   className?: string;
   type?: 'button';
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  text?: string;
   disabled?: boolean;
+  text?: string;
+  children?: React.ReactNode;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -14,8 +15,9 @@ const Button: React.FC<ButtonProps> = ({
   className,
   type,
   onClick,
-  text,
   disabled = false,
+  text,
+  children,
 }) => {
   return (
     <button
@@ -26,6 +28,7 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
     >
       {text}
+      {children}
     </button>
   );
 };
