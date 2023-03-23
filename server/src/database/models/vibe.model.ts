@@ -2,10 +2,25 @@ import { model, Schema } from 'mongoose';
 import { ObjectId } from 'mongodb';
 import { Vibe } from '~/shared/types';
 
+const Node = {
+  count: {
+    type: Number,
+    default: 0,
+  },
+  users: [
+    {
+      type: ObjectId,
+      ref: 'User',
+      default: [],
+    },
+  ],
+};
+
 const schema = new Schema<Vibe>(
   {
     user: {
       type: ObjectId,
+      ref: 'User',
       required: true,
       index: true,
     },
@@ -13,24 +28,8 @@ const schema = new Schema<Vibe>(
       type: String,
       required: true,
     },
-    comments: {
-      count: {
-        type: Number,
-        required: true,
-      },
-      items: {
-        type: [ObjectId],
-        required: true,
-      },
-    },
-    smiles: {
-      type: Number,
-      required: true,
-    },
-    smiled: {
-      type: Boolean,
-      required: true,
-    },
+    comments: Node,
+    smiles: Node,
   },
   {
     versionKey: false,

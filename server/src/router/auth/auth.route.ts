@@ -1,14 +1,22 @@
 import type { FastifyPluginCallback, FastifyRequest } from 'fastify';
 import type { User } from '~/shared/types';
 import { MailVerifyController, UserController } from '~/controllers';
-import { RouteSchema } from './auth.schema';
-import { comparePassword } from '~/utils/password';
+import { ForgotPasswordRouteSchema, LoginRouteSchema, RouteSchema } from './auth.schema';
+import { comparePassword, hashPassword } from '~/utils/password';
 import { TokenType } from '~/shared/enums';
 import { UserModel } from '~/database/models';
 import { tokenPayload } from '~/utils/token';
 
 type SignUpRouteRequest = FastifyRequest<{
-  Body: Pick<User, 'username' | 'email'>;
+  Body: Pick<User, 'username' | 'email' | 'password'>;
+}>;
+
+type LoginRouteRequest = FastifyRequest<{
+  Body: Pick<User, 'username' | 'password'>;
+}>;
+
+type ForgotPasswordRouteRequest = FastifyRequest<{
+  Body: Pick<User, 'email'>;
 }>;
 
 type VerifyRouteRequest = FastifyRequest<{
@@ -35,6 +43,7 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
           rep.send({
             token: app.jwt.sign(
               {
+                id: user.id,
                 username: user.username,
                 email: user.email,
                 avatar: user.avatar,
@@ -51,9 +60,8 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
           rep.send({
             token: app.jwt.sign(
               {
+                id: user.id,
                 username: user.username,
-                email: user.email,
-                avatar: user.avatar,
                 type: TokenType.SIGNED,
               },
               { expiresIn: '7d' },
@@ -88,7 +96,10 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
         }
 
         // sends an email with a token
-        const token = app.mail.sendSignUp(req.body);
+        const token = app.mail.sendSignUp({
+          ...req.body,
+          password: await hashPassword(req.body.password),
+        });
 
         // save the token in the database
         await MailVerifyController.create({
@@ -112,28 +123,58 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
   app.route({
     url: '/login',
     method: 'POST',
-    schema: RouteSchema,
-    handler: async (req: SignUpRouteRequest, rep) => {
+    schema: LoginRouteSchema,
+    handler: async (req: LoginRouteRequest, rep) => {
       try {
         // if the user doesn't exist, throw an error
         const user = await UserController.findOne({
           username: req.body.username.toLowerCase(),
+        });
+
+        const samePassword = await comparePassword(req.body.password, user.password);
+
+        // if the password is wrong, throw an error
+        if (!samePassword) {
+          throw new Error('WRONG_PASSWORD');
+        }
+
+        const token = app.jwt.sign(
+          {
+            id: user.id,
+            username: user.username,
+            type: TokenType.SIGNED,
+          },
+          { expiresIn: '7d' },
+        );
+
+        rep.send({ token });
+      } catch (e) {
+        rep.status(400).send({
+          status: 400,
+          error: e.message,
+        });
+      }
+    },
+  });
+
+  app.route({
+    url: '/forgot-password',
+    method: 'POST',
+    schema: ForgotPasswordRouteSchema,
+    handler: async (req: ForgotPasswordRouteRequest, rep) => {
+      try {
+        // if the user doesn't exist, throw an error
+        const user = await UserController.findOne({
           email: req.body.email.toLowerCase(),
         });
 
-        const token = app.mail.sendLogin({
-          email: user.email,
-          username: user.username,
-        });
+        // sends an email with a token
+        const token = app.mail.sendForgotPassword(req.body);
 
+        // save the token in the database
         await MailVerifyController.create({
           token,
-          type: TokenType.LOGIN,
-        });
-
-        rep.send({
-          status: 200,
-          message: 'LOGIN_TOKEN_SENT',
+          type: TokenType.FORGOT_PASSWORD,
         });
       } catch (e) {
         rep.status(400).send({
@@ -143,6 +184,8 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
       }
     },
   });
+
+  // TODO password-change route
 
   next();
 };

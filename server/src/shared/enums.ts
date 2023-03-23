@@ -1,5 +1,6 @@
 export enum TokenType {
   SIGNUP = 'SIGNUP',
   LOGIN = 'LOGIN',
+  FORGOT_PASSWORD = 'FORGOT_PASSWORD',
   SIGNED = 'SIGNED',
 }
