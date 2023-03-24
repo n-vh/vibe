@@ -9,7 +9,7 @@ const client = createClient({
     if (token) {
       return {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token.replace('"', '')}`,
         },
       };
     }
