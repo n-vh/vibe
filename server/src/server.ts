@@ -7,16 +7,23 @@ import { fastifyApolloDrainPlugin, fastifyApolloHandler } from '@as-integrations
 import { mail } from '~/plugins';
 import { Database } from '~/database';
 import { authRouter } from '~/router';
-import { schema } from '~/graphql/schema';
-import { AuthContext } from './graphql/context';
+import { AuthContext } from '~/graphql/context';
+import { typeDefinitions } from '~/graphql/typedefs';
+import { GraphQLObjectID } from '~/graphql/scalars';
+import { mutationResolver, queryResolver } from '~/graphql/resolvers';
 
 const initServer = async (opts?: FastifyServerOptions) => {
   const app = fastify(opts);
 
   const apollo = new ApolloServer({
-    schema: schema,
     includeStacktraceInErrorResponses: import.meta.env.DEV,
     plugins: [fastifyApolloDrainPlugin(app)],
+    typeDefs: typeDefinitions,
+    resolvers: {
+      ObjectID: GraphQLObjectID,
+      Query: queryResolver,
+      Mutation: mutationResolver,
+    },
   });
 
   await apollo.start();

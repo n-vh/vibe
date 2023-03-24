@@ -27,22 +27,35 @@ type Node {
 
 type Vibe {
   id: ObjectID!
-  user: ObjectID!
+  user: User!
   message: String!
   comments: Node!
   smiles: Node!
   createdAt: String!
 }
 
+type PageInfo {
+  hasNext: Boolean!
+  cursor: String!
+}
+
+type PaginatedVibes {
+  vibes: [Vibe]!
+  pageInfo: PageInfo!
+}
+
 type Query {
   users(ids: [ObjectID]!): [User]
   user(id: ObjectID!): User
   me: Me
+  timeline(after: ObjectID): PaginatedVibes
 }
 
 type Mutation {
   createVibe(message: String!): Vibe
   smile(id: ObjectID!): Vibe
   unsmile(id: ObjectID!): Vibe
+  follow(id: ObjectID!): User
+  unfollow(id: ObjectID!): User
 }
 `;

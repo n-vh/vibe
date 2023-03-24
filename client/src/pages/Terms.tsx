@@ -11,7 +11,7 @@ export function Terms() {
             Terms & Conditions
           </h2>
           <div className="m-2 mb-6 flex h-[55vh] w-64 overflow-auto md:w-5/6">
-            <p className="text-md justify-self-center text-justify font-roboto font-light tracking-wider text-blue">
+            <p className="text-md justify-self-center pr-4 text-justify font-roboto font-light tracking-wider text-blue">
               <p className="text-md text-center font-roboto font-medium tracking-wider text-blue">
                 Welcome to Vibe, a social media platform dedicated to sharing positive and
                 uplifting news By using our service, you agree to the following terms and
@@ -85,13 +85,6 @@ export function Terms() {
               the courts of Belgium.
             </p>
           </div>
-        </div>
-        <div className="mx-6 mt-4 flex justify-center lg:flex-col lg:gap-4">
-          <Button
-            className="rounded-[16px] border-opacity-60 bg-white bg-opacity-80  py-3 px-10 font-roboto text-xl font-bold tracking-wider text-blue shadow-md"
-            text="BACK TO SIGN UP"
-            onClick={() => navigate('/signup')}
-          />
         </div>
       </div>
     </div>

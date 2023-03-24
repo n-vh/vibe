@@ -3,6 +3,8 @@ import type { User } from '~/shared/types';
 import { ObjectId } from 'mongodb';
 import { GraphQLError } from 'graphql';
 import { UserModel } from '~/database/models';
+import { randomInArray } from '~/utils/random';
+import { avatars } from '~/shared/constants';
 
 export namespace UserController {
   export async function create(user: User) {
@@ -18,7 +20,7 @@ export namespace UserController {
       ...user,
       username: user.username.toLowerCase(),
       email: user.email.toLowerCase(),
-      avatar: 'https://i.pravatar.cc/150',
+      avatar: randomInArray(avatars),
     });
   }
 
