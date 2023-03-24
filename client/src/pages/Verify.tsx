@@ -10,7 +10,9 @@ export function Verify() {
   });
 
   useEffect(() => {
-    execute();
+    if (!data.loading) {
+      execute();
+    }
   }, []);
 
   if (data.loading) {

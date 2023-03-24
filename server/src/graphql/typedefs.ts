@@ -2,6 +2,7 @@ export const typeDefinitions = `#graphql
 scalar ObjectID
 
 type Me {
+  id: ObjectID!
   username: String!
   email: String!
   avatar: String!
