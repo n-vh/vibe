@@ -2,6 +2,7 @@ import type { ContextUser, WithId } from '~/graphql/types';
 import { ObjectId } from 'mongodb';
 import { TimelineController, UserController, VibeController } from '~/controllers';
 import { requireAuth } from './context';
+import { FollowController } from '~/controllers';
 
 export const queryResolver = {
   me: (_: any, __: any, c: ContextUser) => {
@@ -29,5 +30,15 @@ export const mutationResolver = {
   unsmile: (_: any, i: WithId, c: ContextUser) => {
     requireAuth(c);
     return VibeController.unsmile(i.id, c.user.id);
+  },
+
+  follow: (_: any, i: WithId, c: ContextUser) => {
+    requireAuth(c);
+    return FollowController.follow(i.id, c.user.id);
+  },
+
+  unfollow: (_: any, i: WithId, c: ContextUser) => {
+    requireAuth(c);
+    return FollowController.unfollow(i.id, c.user.id);
   },
 };
