@@ -44,7 +44,7 @@ const VibeWrite: React.FC = () => {
         placeholder="send some positive vibes into the world..."
         className="w-[300px] resize-none bg-transparent font-roboto font-light tracking-wider sm:text-sm md:w-[375px] md:pt-3 md:text-base "
       ></textarea>
-      <div className="relative flex">
+      <div className="flex">
         <Button className="flex self-end" onClick={sendVibe}>
           <img src="/send.svg" alt="send" className="h-[30px] w-full md:h-[35px]"></img>
         </Button>
