@@ -42,6 +42,7 @@ export namespace UserController {
     }
 
     return {
+      id: doc._id,
       username: doc.username,
       email: doc.email,
       avatar: doc.avatar,

@@ -7,7 +7,7 @@ type Context = ApolloFastifyContextFunction<ContextUser>;
 
 export const AuthContext: Context = async (req, rep) => {
   try {
-    const token = await req.jwtVerify();
+    const token = await req.jwtVerify<{ id: string }>();
     const user = await UserController.findOne({ _id: token.id });
     return {
       user: user,
