@@ -16,7 +16,7 @@ const VibeWrite: React.FC = () => {
   }, [value]);
 
   return (
-    <div className="shadow-m w-[355px]flex-row mx-auto mt-12 flex min-h-[90px] rounded-[16px] bg-white bg-opacity-90 p-3 md:min-h-[110px] md:w-[500px] md:p-4">
+    <div className="mt-6 flex min-h-[90px] w-[355px] rounded-[16px] bg-white bg-opacity-90 p-3 shadow-md md:min-h-[110px] md:w-[500px] md:p-5">
       <div className="flex h-12 w-auto pr-3 md:h-14">
         <img src="/avatars/geisha.svg" alt="avatar"></img>
       </div>
@@ -25,7 +25,7 @@ const VibeWrite: React.FC = () => {
         ref={textareaRef}
         onChange={textAreaChange}
         placeholder="send some positive vibes into the world..."
-        className="w-[300px] resize-none bg-transparent font-roboto font-light tracking-wider md:w-[375px] md:text-lg "
+        className="w-[300px] resize-none bg-transparent font-roboto font-light tracking-wider sm:text-sm md:w-[375px] md:pt-3 md:text-base "
       ></textarea>
       <div className="relative flex">
         <Button className="flex self-end">

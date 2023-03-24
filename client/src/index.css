@@ -11,3 +11,9 @@ body {
   background: linear-gradient(180deg, #f1d3de 0%, #f5e9c1 100%);
   background-attachment: fixed;
 }
+
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: transparent;
+}
