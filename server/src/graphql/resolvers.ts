@@ -1,7 +1,7 @@
-import type { ContextUser, WithId, WithIds } from '~/graphql/types';
-import { UserController, VibeController } from '~/controllers';
+import type { ContextUser, WithId } from '~/graphql/types';
+import { ObjectId } from 'mongodb';
+import { TimelineController, UserController, VibeController } from '~/controllers';
 import { requireAuth } from './context';
-import { TimelineController } from '~/controllers/timeline.controller';
 
 export const queryResolver = {
   me: (_: any, __: any, c: ContextUser) => {
@@ -9,9 +9,9 @@ export const queryResolver = {
     return UserController.getSelf(c.user.id);
   },
 
-  timeline: (_: any, __: any, c: ContextUser) => {
+  timeline: (_: any, v: { after?: ObjectId }, c: ContextUser) => {
     requireAuth(c);
-    return TimelineController.home(c.user.id);
+    return TimelineController.home(c.user.id, v.after);
   },
 };
 

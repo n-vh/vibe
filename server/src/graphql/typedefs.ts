@@ -34,11 +34,21 @@ type Vibe {
   createdAt: String!
 }
 
+type PageInfo {
+  hasNext: Boolean!
+  cursor: String!
+}
+
+type PaginatedVibes {
+  vibes: [Vibe]!
+  pageInfo: PageInfo!
+}
+
 type Query {
   users(ids: [ObjectID]!): [User]
   user(id: ObjectID!): User
   me: Me
-  timeline: [Vibe]
+  timeline(after: ObjectID): PaginatedVibes
 }
 
 type Mutation {
