@@ -10,6 +10,17 @@ export const queryResolver = {
     return UserController.getSelf(c.user.id);
   },
 
+  user: (_: any, v: { id?: ObjectId; username?: string }, c: ContextUser) => {
+    requireAuth(c);
+    if (v.id) {
+      return UserController.findOne({ _id: v.id });
+    }
+    if (v.username) {
+      return UserController.findOne({ username: v.username.toLowerCase() });
+    }
+    return null;
+  },
+
   timeline: (_: any, v: { after?: ObjectId }, c: ContextUser) => {
     requireAuth(c);
     return TimelineController.home(c.user.id, v.after);

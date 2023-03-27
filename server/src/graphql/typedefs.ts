@@ -54,7 +54,7 @@ type PaginatedVibes {
 }
 
 type Query {
-  user(id: ObjectID!): User
+  user(id: ObjectID, username: String): User
   me: Me
   timeline(after: ObjectID): PaginatedVibes
 }
