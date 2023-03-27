@@ -29,6 +29,22 @@ export namespace VibeController {
 
     await Promise.allSettled([
       vibe.deleteOne(),
+      VibeModel.deleteMany({
+        reply: vibe._id,
+      }),
+      VibeModel.updateOne(
+        {
+          _id: vibe.reply,
+        },
+        {
+          $inc: {
+            'replies.count': -1,
+          },
+          $pull: {
+            'replies.vibes': vibe._id,
+          },
+        },
+      ),
       UserModel.updateMany(
         {
           _id: {
