@@ -9,8 +9,15 @@ export interface Me {
   avatar: string;
 }
 
-export interface Node {
+export interface ReplyNode {
   count: number;
+  hasReplied: boolean;
+  vibes: ObjectId[];
+}
+
+export interface SmileNode {
+  count: number;
+  hasSmiled: boolean;
   users: ObjectId[];
 }
 
@@ -26,8 +33,8 @@ export interface Vibe {
   id: ObjectId;
   user: ObjectId;
   message: string;
-  replies: Node;
-  smiles: Node;
+  replies: ReplyNode;
+  smiles: SmileNode;
   reply: ObjectId;
 }
 

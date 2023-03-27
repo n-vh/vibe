@@ -23,7 +23,7 @@ const schema = new Schema<Vibe>(
         type: Boolean,
         default: false,
       },
-      users: [
+      vibes: [
         {
           type: ObjectId,
           ref: 'Vibe',

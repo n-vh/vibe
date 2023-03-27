@@ -57,6 +57,11 @@ type Query {
   user(id: ObjectID, username: String): User
   me: Me
   timeline(after: ObjectID): PaginatedVibes
+  vibe(id: ObjectID!): Vibe
+  vibeReplies(id: ObjectID!): [Vibe!]!
+  userVibes(id: ObjectID!): [Vibe!]!
+  userReplies(id: ObjectID!): [Vibe!]!
+  userSmiles(id: ObjectID!): [Vibe!]!
 }
 
 type Mutation {

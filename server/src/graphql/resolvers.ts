@@ -25,6 +25,31 @@ export const queryResolver = {
     requireAuth(c);
     return TimelineController.home(c.user.id, v.after);
   },
+
+  vibe: (_: any, v: WithId, c: ContextUser) => {
+    requireAuth(c);
+    return VibeController.getVibe(v.id);
+  },
+
+  vibeReplies: (_: any, v: WithId, c: ContextUser) => {
+    requireAuth(c);
+    return VibeController.getReplies(v.id);
+  },
+
+  userVibes: (_: any, v: WithId, c: ContextUser) => {
+    requireAuth(c);
+    return UserController.getVibes(v.id);
+  },
+
+  userReplies: (_: any, v: WithId, c: ContextUser) => {
+    requireAuth(c);
+    return UserController.getReplies(v.id);
+  },
+
+  userSmiles: (_: any, v: WithId, c: ContextUser) => {
+    requireAuth(c);
+    return UserController.getSmiles(v.id);
+  },
 };
 
 export const mutationResolver = {

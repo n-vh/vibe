@@ -4,6 +4,26 @@ import { UserModel, VibeModel } from '~/database/models';
 import { UserController } from './user.controller';
 
 export namespace VibeController {
+  export async function getVibe(id: ObjectId) {
+    const vibe = await VibeModel.findById(id).populate('user');
+
+    if (!vibe) {
+      throw new GraphQLError('VIBE_NOT_FOUND');
+    }
+
+    return vibe;
+  }
+
+  export async function getReplies(id: ObjectId) {
+    const vibe = await VibeModel.findById(id);
+
+    if (!vibe) {
+      throw new GraphQLError('VIBE_NOT_FOUND');
+    }
+
+    return VibeModel.find({ _id: { $in: vibe.replies.vibes } }).populate('user');
+  }
+
   export async function createOne(
     message: string,
     userId: ObjectId,
@@ -48,7 +68,7 @@ export namespace VibeController {
       UserModel.updateMany(
         {
           _id: {
-            $in: [...vibe.replies.users, ...vibe.smiles.users],
+            $in: [...vibe.replies.vibes, ...vibe.smiles.users],
           },
         },
         {
@@ -130,17 +150,18 @@ export namespace VibeController {
       throw new GraphQLError('VIBE_NOT_FOUND');
     }
 
+    const reply = await VibeController.createOne(message, userId, vibe._id);
+
     await Promise.allSettled([
       vibe.updateOne({
         $inc: {
           'replies.count': 1,
         },
         $addToSet: {
-          'replies.vibes': vibe._id,
+          'replies.vibes': reply._id,
         },
       }),
-      UserController.push(userId, 'replies', vibe._id),
-      VibeController.createOne(message, userId, vibe._id),
+      UserController.push(userId, 'replies', reply._id),
     ]);
 
     return vibe;
