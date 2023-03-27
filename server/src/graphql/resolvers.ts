@@ -1,4 +1,5 @@
 import type { ContextUser, WithId } from '~/graphql/types';
+import { VibeType } from '~/graphql/types';
 import { ObjectId } from 'mongodb';
 import { TimelineController, UserController, VibeController } from '~/controllers';
 import { FollowController } from '~/controllers';
@@ -26,6 +27,19 @@ export const queryResolver = {
     return TimelineController.home(c.user.id, v.after);
   },
 
+  vibes: (_: any, v: { id: ObjectId; type: VibeType }, c: ContextUser) => {
+    requireAuth(c);
+
+    switch (v.type) {
+      case VibeType.VIBES:
+        return UserController.getVibes(v.id);
+      case VibeType.REPLIES:
+        return UserController.getReplies(v.id);
+      case VibeType.SMILES:
+        return UserController.getSmiles(v.id);
+    }
+  },
+
   vibe: (_: any, v: WithId, c: ContextUser) => {
     requireAuth(c);
     return VibeController.getVibe(v.id);
@@ -34,21 +48,6 @@ export const queryResolver = {
   vibeReplies: (_: any, v: WithId, c: ContextUser) => {
     requireAuth(c);
     return VibeController.getReplies(v.id);
-  },
-
-  userVibes: (_: any, v: WithId, c: ContextUser) => {
-    requireAuth(c);
-    return UserController.getVibes(v.id);
-  },
-
-  userReplies: (_: any, v: WithId, c: ContextUser) => {
-    requireAuth(c);
-    return UserController.getReplies(v.id);
-  },
-
-  userSmiles: (_: any, v: WithId, c: ContextUser) => {
-    requireAuth(c);
-    return UserController.getSmiles(v.id);
   },
 };
 

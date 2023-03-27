@@ -96,16 +96,22 @@ export namespace UserController {
 
   export async function getVibes(id: ObjectId) {
     const user = await UserController.findOne({ _id: id });
-    return VibeModel.find({ _id: { $in: user.vibes } }).populate('user');
+    return VibeModel.find({ _id: { $in: user.vibes } })
+      .sort({ _id: -1 })
+      .populate('user');
   }
 
   export async function getReplies(id: ObjectId) {
     const user = await UserController.findOne({ _id: id });
-    return VibeModel.find({ _id: { $in: user.replies } }).populate('user');
+    return VibeModel.find({ _id: { $in: user.replies } })
+      .sort({ _id: -1 })
+      .populate('user');
   }
 
   export async function getSmiles(id: ObjectId) {
     const user = await UserController.findOne({ _id: id });
-    return VibeModel.find({ _id: { $in: user.smiles } }).populate('user');
+    return VibeModel.find({ _id: { $in: user.smiles } }, null, { _id: -1 })
+      .sort({ _id: -1 })
+      .populate('user');
   }
 }
