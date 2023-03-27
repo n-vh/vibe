@@ -13,17 +13,17 @@ type User {
   username: String!
   email: String!
   avatar: String!
-  vibes: [ObjectID]!
-  comments: [ObjectID]!
-  smiles: [ObjectID]!
-  followers: [ObjectID]!
-  following: [ObjectID]!
+  vibes: [ObjectID!]!
+  comments: [ObjectID!]!
+  smiles: [ObjectID!]!
+  followers: [ObjectID!]!
+  following: [ObjectID!]!
   createdAt: String!
 }
 
 type Node {
   count: Int!
-  users: [ObjectID]!
+  users: [ObjectID!]!
 }
 
 type Vibe {
@@ -41,12 +41,11 @@ type PageInfo {
 }
 
 type PaginatedVibes {
-  vibes: [Vibe]!
+  vibes: [Vibe!]!
   pageInfo: PageInfo!
 }
 
 type Query {
-  users(ids: [ObjectID]!): [User]
   user(id: ObjectID!): User
   me: Me
   timeline(after: ObjectID): PaginatedVibes

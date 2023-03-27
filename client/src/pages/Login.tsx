@@ -26,7 +26,7 @@ export function Login() {
   useEffect(() => {
     if (data.data && data.data.token) {
       signIn(data.data.token);
-      return navigate('/home');
+      return navigate('/');
     }
   }, [data]);
 

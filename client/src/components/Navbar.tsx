@@ -1,27 +1,26 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../hooks';
 import Button from './Button';
 
 const Navbar: React.FC = () => {
+  const { user } = useAuthContext();
   const navigate = useNavigate();
+
   return (
     <div className="fixed bottom-0 flex h-[7vh] w-full flex-nowrap justify-around bg-light-yellow lg:hidden ">
-      <Button onClick={() => navigate('/home')}>
-        <img src="/home.svg" alt="home" className="h-[45px] w-full md:h-[60px]"></img>
+      <Button onClick={() => navigate('/')}>
+        <img src="/home.svg" alt="home" className="h-[45px] w-full md:h-[60px]" />
       </Button>
       <Button>
-        <img
-          src="/searchfull.svg"
-          alt="search"
-          className="h-[50px] w-full md:h-[65px]"
-        ></img>
+        <img src="/searchfull.svg" alt="search" className="h-[50px] w-full md:h-[65px]" />
       </Button>
-      <Button onClick={() => navigate('/profile')}>
+      <Button onClick={() => navigate(`/profile/${user.username}`)}>
         <img
-          src="/avatars/geisha.svg"
+          src={`/avatars/${user.avatar}.svg`}
           alt="profile"
           className="h-[45px] w-full md:h-[60px]"
-        ></img>
+        />
       </Button>
     </div>
   );

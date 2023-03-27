@@ -12,7 +12,7 @@ const Search: React.FC = () => {
       ></input>
       <div className="ml-auto flex pr-1">
         <Button>
-          <img src="/searchoutline.svg" alt="search" className="h-8 pr-2"></img>
+          <img src="/searchoutline.svg" alt="search" className="h-8 pr-2" />
         </Button>
       </div>
     </div>
