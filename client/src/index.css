@@ -12,8 +12,8 @@ body {
   background-attachment: fixed;
 }
 
-input:focus-visible,
-textarea:focus-visible {
+#inputs input:focus-visible,
+#inputs textarea:focus-visible {
   outline: none;
   border-color: transparent;
 }
