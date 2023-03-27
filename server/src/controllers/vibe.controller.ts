@@ -54,7 +54,7 @@ export namespace VibeController {
     return vibe;
   }
 
-  export async function smile(id: ObjectId, userId: ObjectId) {
+  export async function smileVibe(id: ObjectId, userId: ObjectId) {
     const vibe = await VibeModel.findOne({
       $and: [{ _id: id }, { 'smiles.users': { $nin: [userId] } }],
     });
@@ -77,7 +77,7 @@ export namespace VibeController {
     return vibe;
   }
 
-  export async function unsmile(id: ObjectId, userId: ObjectId) {
+  export async function unsmileVibe(id: ObjectId, userId: ObjectId) {
     const vibe = await VibeModel.findOne({
       $and: [{ _id: id }, { 'smiles.users': { $in: [userId] } }],
     });

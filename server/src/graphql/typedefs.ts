@@ -21,8 +21,15 @@ type User {
   createdAt: String!
 }
 
-type Node {
+type CommentsNode {
   count: Int!
+  hasCommented: Boolean!
+  vibes: [ObjectID!]!
+}
+
+type SmilesNode {
+  count: Int!
+  hasSmiled: Boolean!
   users: [ObjectID!]!
 }
 
@@ -30,8 +37,8 @@ type Vibe {
   id: ObjectID!
   user: User!
   message: String!
-  comments: Node!
-  smiles: Node!
+  comments: CommentsNode!
+  smiles: SmilesNode!
   createdAt: String!
 }
 
@@ -54,8 +61,8 @@ type Query {
 type Mutation {
   createVibe(message: String!): Vibe
   deleteVibe(id: ObjectID!): Vibe
-  smile(id: ObjectID!): Vibe
-  unsmile(id: ObjectID!): Vibe
+  smileVibe(id: ObjectID!): Vibe
+  unsmileVibe(id: ObjectID!): Vibe
   follow(id: ObjectID!): User
   unfollow(id: ObjectID!): User
 }

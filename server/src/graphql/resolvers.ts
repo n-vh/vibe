@@ -27,14 +27,14 @@ export const mutationResolver = {
     return VibeController.deleteOne(i.id, c.user.id);
   },
 
-  smile: (_: any, i: WithId, c: ContextUser) => {
-    return VibeController.smile(i.id, c.user.id);
+  smileVibe: (_: any, i: WithId, c: ContextUser) => {
     requireAuth(c);
+    return VibeController.smileVibe(i.id, c.user.id);
   },
 
-  unsmile: (_: any, i: WithId, c: ContextUser) => {
-    return VibeController.unsmile(i.id, c.user.id);
+  unsmileVibe: (_: any, i: WithId, c: ContextUser) => {
     requireAuth(c);
+    return VibeController.unsmileVibe(i.id, c.user.id);
   },
 
   follow: (_: any, i: WithId, c: ContextUser) => {
