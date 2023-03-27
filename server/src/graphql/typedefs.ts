@@ -53,6 +53,7 @@ type Query {
 
 type Mutation {
   createVibe(message: String!): Vibe
+  deleteVibe(id: ObjectID!): Vibe
   smile(id: ObjectID!): Vibe
   unsmile(id: ObjectID!): Vibe
   follow(id: ObjectID!): User

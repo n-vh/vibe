@@ -15,7 +15,11 @@ export const queryResolver = {
 
 export const mutationResolver = {
   createVibe: (_: any, i: { message: string }, c: ContextUser) => {
-    return VibeController.create(i.message, c.user.id);
+    return VibeController.createOne(i.message, c.user.id);
+  },
+
+  deleteVibe: (_: any, i: WithId, c: ContextUser) => {
+    return VibeController.deleteOne(i.id, c.user.id);
   },
 
   smile: (_: any, i: WithId, c: ContextUser) => {
