@@ -64,6 +64,7 @@ type Mutation {
   deleteVibe(id: ObjectID!): Vibe
   smileVibe(id: ObjectID!): Vibe
   unsmileVibe(id: ObjectID!): Vibe
+  replyVibe(id: ObjectID!, message: String!): Vibe
   follow(id: ObjectID!): User
   unfollow(id: ObjectID!): User
 }

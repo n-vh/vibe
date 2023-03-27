@@ -4,10 +4,15 @@ import { UserModel, VibeModel } from '~/database/models';
 import { UserController } from './user.controller';
 
 export namespace VibeController {
-  export async function createOne(message: string, userId: ObjectId) {
+  export async function createOne(
+    message: string,
+    userId: ObjectId,
+    reply: ObjectId = null,
+  ) {
     const vibe = await VibeModel.create({
       user: userId,
       message,
+      reply,
     });
 
     await UserController.push(userId, 'vibes', vibe._id);
@@ -96,6 +101,31 @@ export namespace VibeController {
     });
 
     await UserController.pull(userId, 'smiles', vibe._id);
+
+    return vibe;
+  }
+
+  export async function replyVibe(id: ObjectId, userId: ObjectId, message: string) {
+    const vibe = await VibeModel.findOne({
+      $and: [{ _id: id }, { 'replies.vibes': { $nin: [id] } }],
+    });
+
+    if (!vibe) {
+      throw new GraphQLError('VIBE_NOT_FOUND');
+    }
+
+    await Promise.allSettled([
+      vibe.updateOne({
+        $inc: {
+          'replies.count': 1,
+        },
+        $addToSet: {
+          'replies.vibes': vibe._id,
+        },
+      }),
+      UserController.push(userId, 'replies', vibe._id),
+      VibeController.createOne(message, userId, vibe._id),
+    ]);
 
     return vibe;
   }

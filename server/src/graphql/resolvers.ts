@@ -37,6 +37,11 @@ export const mutationResolver = {
     return VibeController.unsmileVibe(i.id, c.user.id);
   },
 
+  replyVibe: (_: any, i: { id: ObjectId; message: string }, c: ContextUser) => {
+    requireAuth(c);
+    return VibeController.replyVibe(i.id, c.user.id, i.message);
+  },
+
   follow: (_: any, i: WithId, c: ContextUser) => {
     requireAuth(c);
     return FollowController.follow(i.id, c.user.id);
