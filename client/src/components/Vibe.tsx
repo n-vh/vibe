@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from './Button';
 import { getTimeString, pluralString } from '../utils/format';
+import { Link } from 'react-router-dom';
 
 interface VibeProps {
   avatar: string;
