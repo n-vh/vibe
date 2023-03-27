@@ -13,11 +13,14 @@ export const AuthContext: Context = async (req, rep) => {
       user: user,
     };
   } catch {
-    throw new GraphQLError('UNAUTHORIZED', {
-      extensions: {
-        code: 'UNAUTHORIZED',
-        http: { status: 401 },
-      },
-    });
+    return {
+      user: null,
+    };
+  }
+};
+
+export const requireAuth = (context: ContextUser) => {
+  if (!context.user) {
+    throw new GraphQLError('UNAUTHORIZED');
   }
 };
