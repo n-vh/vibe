@@ -31,27 +31,22 @@ export function Home() {
       }`,
   });
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   return (
     <div className="flex pb-20 pt-28 md:pb-28 lg:pb-6">
       <LeftSidebar />
-      <div className="mx-auto flex flex-col">
+      <div id="inputs" className="mx-auto flex flex-col">
         <Search />
         <VibeWrite />
-        {data.data &&
-          data.data.timeline.vibes.map((vibe) => (
-            <Vibe
-              avatar={vibe.user.avatar}
-              username={vibe.user.username}
-              date={vibe.createdAt}
-              smileCount={vibe.smiles.count}
-              message={vibe.message}
-              commentCount={vibe.comments.count}
-            />
-          ))}
+        {data.data?.timeline.vibes.map((vibe: any) => (
+          <Vibe
+            avatar={vibe.user.avatar}
+            username={vibe.user.username}
+            date={vibe.createdAt}
+            smileCount={vibe.smiles.count}
+            message={vibe.message}
+            commentCount={vibe.comments.count}
+          />
+        ))}
       </div>
       <RightSidebar />
       <Navbar />

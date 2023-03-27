@@ -6,7 +6,7 @@ import Button from './Button';
 const LeftSidebar: React.FC = () => {
   const { signOut } = useAuthContext();
   const navigate = useNavigate();
-
+  const { user } = useAuthContext();
   return (
     <div className="fixed mt-14 hidden w-[333px] flex-col rounded-r-[16px] bg-white bg-opacity-90 shadow-md lg:block">
       <div className="flex flex-col items-start pl-12 pt-10">
@@ -21,7 +21,11 @@ const LeftSidebar: React.FC = () => {
 
         <Button onClick={() => navigate('/profile')}>
           <div className="flex flex-row items-center pb-3">
-            <img src="/avatars/geisha.svg" alt="profile" className="h-[40px]" />
+            <img
+              src={`/avatars/${user.avatar}.svg`}
+              alt="profile"
+              className="h-[40px]"
+            ></img>
             <p className="pl-4 font-roboto text-xl font-bold tracking-wider text-blue">
               PROFILE
             </p>

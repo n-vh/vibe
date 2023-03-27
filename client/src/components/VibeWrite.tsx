@@ -4,26 +4,10 @@ import { useAuthContext } from '../hooks';
 import Button from './Button';
 
 const VibeWrite: React.FC = () => {
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [value, setValue] = useState<string>('');
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const textAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(event.target.value);
-  };
-
-  const { user } = useAuthContext();
-  const [data, execute] = useMutation(`
-  mutation CreateVibe($message: String!){
-    createVibe(message: $message) {
-      id
-      message
-      createdAt
-    }
-  }
-  `);
-
-  const sendVibe = () => {
-    execute({ message: value });
-    setValue('');
   };
 
   useEffect(() => {
@@ -34,19 +18,37 @@ const VibeWrite: React.FC = () => {
     }
   }, [value]);
 
+  const { user } = useAuthContext();
+  const [data, execute] = useMutation(`
+    mutation CreateVibe($message: String!){
+      createVibe(message: $message) {
+        id
+        message
+        createdAt
+      }
+    }
+  `);
+
+  const sendVibe = () => {
+    execute({ message: value });
+    setValue('');
+  };
+
   return (
-    <div className="mt-6 flex min-h-[90px] w-[355px] rounded-[16px] bg-white bg-opacity-90 p-3 shadow-md md:min-h-[110px] md:w-[500px] md:p-5">
+    <div className="mt-6 flex min-h-[90px] w-[355px] gap-4 rounded-[16px] bg-white bg-opacity-90 p-3 shadow-md md:min-h-[110px] md:w-[500px] md:p-5">
       <div className="flex h-12 w-auto pr-3 md:h-14">
         <img src={`/avatars/${user.avatar}.svg`} alt="avatar" />
       </div>
-      <textarea
-        id="vibe"
-        ref={textareaRef}
-        onChange={textAreaChange}
-        value={value}
-        placeholder="send some positive vibes into the world..."
-        className="w-[300px] resize-none bg-transparent font-roboto font-light tracking-wider sm:text-sm md:w-[375px] md:pt-3 md:text-base "
-      ></textarea>
+      <div className="flex flex-grow pt-1">
+        <textarea
+          id="vibe"
+          ref={textareaRef}
+          onChange={textAreaChange}
+          value={value}
+          placeholder="send some positive vibes into the world..."
+          className="w-full resize-none bg-transparent font-roboto font-light tracking-wider sm:text-sm md:text-base "
+        ></textarea>
+      </div>
       <div className="flex">
         <Button className="flex self-end" onClick={sendVibe}>
           <img src="/send.svg" alt="send" className="h-[30px] w-full md:h-[35px]" />
