@@ -6,7 +6,7 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
   return (
     <div className="fixed bottom-0 flex h-[7vh] w-full flex-nowrap justify-around bg-light-yellow lg:hidden ">
-      <Button onClick={() => navigate('/home')}>
+      <Button onClick={() => navigate('/')}>
         <img src="/home.svg" alt="home" className="h-[45px] w-full md:h-[60px]" />
       </Button>
       <Button>

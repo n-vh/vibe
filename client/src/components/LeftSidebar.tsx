@@ -7,7 +7,7 @@ const LeftSidebar: React.FC = () => {
   return (
     <div className="fixed mt-14 hidden w-[333px] flex-col rounded-r-[16px] bg-white bg-opacity-90 shadow-md lg:block">
       <div className="flex flex-col items-start pl-12 pt-10">
-        <Button onClick={() => navigate('/home')}>
+        <Button onClick={() => navigate('/')}>
           <div className="flex flex-row items-center py-3">
             <img src="/bluehome.svg" alt="home" className="h-[40px]" />
             <p className="pl-4 font-roboto text-xl font-bold tracking-wider text-blue">

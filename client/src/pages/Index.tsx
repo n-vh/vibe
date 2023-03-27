@@ -1,8 +1,15 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../hooks';
+import { Home } from './Home';
 import Button from '../components/Button';
 
 export function Index() {
   const navigate = useNavigate();
+  const { isAuthorized, user } = useAuthContext();
+
+  if (isAuthorized && user?.id) {
+    return <Home />;
+  }
 
   return (
     <div className="flex h-screen flex-col pt-28">

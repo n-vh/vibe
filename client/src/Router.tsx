@@ -32,7 +32,6 @@ export function Router() {
         <Route path="/verify" element={<Verify />} />
         <Route path="/terms" element={<Terms />} />
         <Route element={<Protected />}>
-          <Route path="/home" element={<Home />} />
           <Route path="/vibe/:id" element={<Vibe />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
