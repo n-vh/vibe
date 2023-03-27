@@ -46,7 +46,7 @@ const VibeWrite: React.FC = () => {
       ></textarea>
       <div className="flex">
         <Button className="flex self-end" onClick={sendVibe}>
-          <img src="/send.svg" alt="send" className="h-[30px] w-full md:h-[35px]"></img>
+          <img src="/send.svg" alt="send" className="h-[30px] w-full md:h-[35px]" />
         </Button>
       </div>
     </div>
