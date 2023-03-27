@@ -10,14 +10,16 @@ export function Verify() {
   });
 
   useEffect(() => {
-    execute();
+    if (!data.loading) {
+      execute();
+    }
   }, []);
 
   if (data.loading) {
     return <div>Loading...</div>;
   } else if (data.data) {
     signIn(data.data.token || '');
-    return <Navigate to="/home" replace />;
+    return <Navigate to="/" replace />;
   } else if (data.error) {
     return <Navigate to="/" replace />;
   }

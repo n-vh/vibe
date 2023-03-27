@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "schema": "graphql-codegen --config ./src/graphql/config.ts"
   },
   "dependencies": {
     "graphql": "^16.6.0",
@@ -16,10 +17,12 @@
     "urql": "^3.0.4"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^3.2.2",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react-swc": "^3.0.0",
     "autoprefixer": "^10.4.14",
+    "mongodb": "^5.1.0",
     "postcss": "^8.4.21",
     "prettier": "^2.8.4",
     "prettier-plugin-tailwindcss": "^0.2.4",

@@ -29,12 +29,18 @@ const Vibe: React.FC<VibeProps> = ({
         ></img>
 
         <div className="my-auto flex flex-col pl-4">
-          <h1 className="font-roboto text-[18px] tracking-wider text-dark-grey md:text-xl lg:text-lg">
+          <Link
+            to={`/profile/${username}`}
+            className="font-roboto text-[18px] tracking-wider text-dark-grey md:text-xl lg:text-lg"
+          >
             {username}
-          </h1>
-          <h2 className="font-gothic text-dark-pink md:text-lg lg:text-base">
+          </Link>
+          <time
+            className="font-gothic text-dark-pink md:text-lg lg:text-base"
+            title={new Date(date).toString()}
+          >
             {getTimeString(+date)}
-          </h2>
+          </time>
         </div>
 
         <div className="ml-auto flex pt-1">
@@ -47,7 +53,7 @@ const Vibe: React.FC<VibeProps> = ({
                 src="/pinksmiley.svg"
                 alt="like"
                 className="h-[30px] w-full md:h-[35px]"
-              ></img>
+              />
             </Button>
           </div>
         </div>

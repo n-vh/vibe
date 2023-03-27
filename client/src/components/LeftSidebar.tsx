@@ -4,14 +4,15 @@ import { useAuthContext } from '../hooks';
 import Button from './Button';
 
 const LeftSidebar: React.FC = () => {
+  const { signOut } = useAuthContext();
   const navigate = useNavigate();
   const { user } = useAuthContext();
   return (
     <div className="fixed mt-14 hidden w-[333px] flex-col rounded-r-[16px] bg-white bg-opacity-90 shadow-md lg:block">
       <div className="flex flex-col items-start pl-12 pt-10">
-        <Button onClick={() => navigate('/home')}>
+        <Button onClick={() => navigate('/')}>
           <div className="flex flex-row items-center py-3">
-            <img src="/bluehome.svg" alt="home" className="h-[40px]"></img>
+            <img src="/bluehome.svg" alt="home" className="h-[40px]" />
             <p className="pl-4 font-roboto text-xl font-bold tracking-wider text-blue">
               HOME
             </p>
@@ -31,18 +32,18 @@ const LeftSidebar: React.FC = () => {
           </div>
         </Button>
 
-        <Button onClick={() => navigate('/home')}>
+        <Button onClick={() => navigate('/')}>
           <div className="flex flex-row items-center pb-3">
-            <img src="/settings.svg" alt="home" className="h-[40px]"></img>
+            <img src="/settings.svg" alt="home" className="h-[40px]" />
             <p className="pl-4 font-roboto text-xl font-bold tracking-wider text-blue">
               SETTINGS
             </p>
           </div>
         </Button>
 
-        <Button onClick={() => navigate('/home')}>
+        <Button onClick={() => signOut()}>
           <div className="flex flex-row items-center">
-            <img src="/logout.svg" alt="home" className="h-[40px]"></img>
+            <img src="/logout.svg" alt="home" className="h-[40px]" />
             <p className="pl-4 font-roboto text-xl font-bold tracking-wider text-blue">
               LOG OUT
             </p>
@@ -51,7 +52,7 @@ const LeftSidebar: React.FC = () => {
       </div>
 
       <div className="flex pt-8">
-        <img src="/bluesmiley.svg" alt="smile" className="mx-auto h-[44px]"></img>
+        <img src="/bluesmiley.svg" alt="smile" className="mx-auto h-[44px]" />
       </div>
 
       <div className="flex px-6 text-center">
