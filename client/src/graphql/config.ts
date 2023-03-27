@@ -1,4 +1,3 @@
-import { CodegenConfig } from '@graphql-codegen/cli';
 import { Query } from './schema';
 import { useQuery as urqlQuery } from 'urql';
 
@@ -23,4 +22,4 @@ export default {
       ObjectID: 'ObjectId',
     },
   },
-} satisfies CodegenConfig;
+};

@@ -10,6 +10,8 @@ import { Terms } from './pages/Terms';
 import { Verify } from './pages/Verify';
 import { Vibe } from './pages/Vibe';
 import Header from './components/Header';
+import { useSearchContext } from './hooks/useSearchContext';
+import Search from './components/Search';
 
 function Protected() {
   const { isAuthorized } = useAuthContext();
@@ -22,9 +24,12 @@ function Protected() {
 }
 
 export function Router() {
+  const { showSearch, setShowSearch } = useSearchContext();
+
   return (
     <BrowserRouter>
       <Header />
+      {showSearch && <Search />}
       <Routes>
         <Route path="/" index element={<Index />} />
         <Route path="/login" element={<Login />} />

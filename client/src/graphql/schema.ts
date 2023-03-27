@@ -79,6 +79,7 @@ export type Query = {
   me?: Maybe<Me>;
   timeline?: Maybe<PaginatedVibes>;
   user?: Maybe<User>;
+  vibe?: Maybe<Vibe>;
 };
 
 
@@ -88,6 +89,11 @@ export type QueryTimelineArgs = {
 
 
 export type QueryUserArgs = {
+  id: Scalars['ObjectID'];
+};
+
+
+export type QueryVibeArgs = {
   id: Scalars['ObjectID'];
 };
 
