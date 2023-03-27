@@ -1,9 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../hooks';
 import Button from './Button';
 
 const LeftSidebar: React.FC = () => {
+  const { signOut } = useAuthContext();
   const navigate = useNavigate();
+
   return (
     <div className="fixed mt-14 hidden w-[333px] flex-col rounded-r-[16px] bg-white bg-opacity-90 shadow-md lg:block">
       <div className="flex flex-col items-start pl-12 pt-10">
@@ -34,7 +37,7 @@ const LeftSidebar: React.FC = () => {
           </div>
         </Button>
 
-        <Button onClick={() => navigate('/home')}>
+        <Button onClick={() => signOut()}>
           <div className="flex flex-row items-center">
             <img src="/logout.svg" alt="home" className="h-[40px]" />
             <p className="pl-4 font-roboto text-xl font-bold tracking-wider text-blue">

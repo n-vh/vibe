@@ -33,7 +33,7 @@ export function Router() {
         <Route path="/terms" element={<Terms />} />
         <Route element={<Protected />}>
           <Route path="/vibe/:id" element={<Vibe />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:username" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />

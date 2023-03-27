@@ -17,7 +17,7 @@ export namespace TimelineController {
     };
 
     const options = {
-      sort: { createdAt: -1 },
+      sort: { _id: -1 },
       limit: LIMIT,
     };
 
@@ -29,7 +29,7 @@ export namespace TimelineController {
     return {
       vibes,
       pageInfo: {
-        cursor: vibes[vibes.length - 1]?._id || '',
+        cursor: vibes.at(-1)?._id || '',
         hasNext: vibes.length === LIMIT,
       },
     };

@@ -24,6 +24,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   const signOut = () => {
     setToken('');
+    setUser({ id: '', username: '', avatar: '' });
   };
 
   useEffect(() => {
