@@ -14,16 +14,16 @@ type User {
   email: String!
   avatar: String!
   vibes: [ObjectID!]!
-  comments: [ObjectID!]!
+  replies: [ObjectID!]!
   smiles: [ObjectID!]!
   followers: [ObjectID!]!
   following: [ObjectID!]!
   createdAt: String!
 }
 
-type CommentsNode {
+type RepliesNode {
   count: Int!
-  hasCommented: Boolean!
+  hasReplied: Boolean!
   vibes: [ObjectID!]!
 }
 
@@ -37,8 +37,9 @@ type Vibe {
   id: ObjectID!
   user: User!
   message: String!
-  comments: CommentsNode!
+  replies: RepliesNode!
   smiles: SmilesNode!
+  reply: Vibe
   createdAt: String!
 }
 

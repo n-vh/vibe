@@ -27,12 +27,12 @@ export namespace VibeController {
       UserModel.updateMany(
         {
           _id: {
-            $in: [...vibe.comments.users, ...vibe.smiles.users],
+            $in: [...vibe.replies.users, ...vibe.smiles.users],
           },
         },
         {
           $pull: {
-            comments: vibe._id,
+            replies: vibe._id,
             smiles: vibe._id,
           },
         },
@@ -43,7 +43,7 @@ export namespace VibeController {
         },
         {
           $pull: {
-            comments: vibe._id,
+            replies: vibe._id,
             vibes: vibe._id,
             smiles: vibe._id,
           },

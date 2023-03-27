@@ -16,7 +16,7 @@ export interface Node {
 
 export interface User extends Me {
   vibes: ObjectId[];
-  comments: ObjectId[];
+  replies: ObjectId[];
   smiles: ObjectId[];
   followers: ObjectId[];
   following: ObjectId[];
@@ -26,8 +26,9 @@ export interface Vibe {
   id: ObjectId;
   user: ObjectId;
   message: string;
-  comments: Node;
+  replies: Node;
   smiles: Node;
+  reply: ObjectId;
 }
 
 export interface IMailVerify {

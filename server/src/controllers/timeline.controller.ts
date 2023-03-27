@@ -22,7 +22,7 @@ export namespace TimelineController {
     };
 
     const vibes = await VibeModel.find(query, null, options).populate({
-      path: 'comments smiles user message createdAt',
+      path: 'replies smiles user message createdAt',
       select: 'username avatar',
     });
 

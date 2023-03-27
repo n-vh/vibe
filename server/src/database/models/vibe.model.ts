@@ -14,12 +14,12 @@ const schema = new Schema<Vibe>(
       type: String,
       required: true,
     },
-    comments: {
+    replies: {
       count: {
         type: Number,
         default: 0,
       },
-      hasCommented: {
+      hasReplied: {
         type: Boolean,
         default: false,
       },
@@ -47,6 +47,11 @@ const schema = new Schema<Vibe>(
           default: [],
         },
       ],
+    },
+    reply: {
+      type: ObjectId,
+      ref: 'Vibe',
+      default: null,
     },
   },
   {
