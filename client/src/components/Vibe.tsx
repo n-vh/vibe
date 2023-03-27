@@ -1,7 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Button from './Button';
 import { getTimeString, pluralString } from '../utils/format';
-import { Link } from 'react-router-dom';
 
 interface VibeProps {
   avatar: string;
@@ -21,7 +21,7 @@ const Vibe: React.FC<VibeProps> = ({
   commentCount,
 }) => {
   return (
-    <div className="mt-6 flex min-h-[90px] w-[355px] flex-shrink-0 flex-col gap-4 rounded-[16px] bg-white bg-opacity-90 p-5 shadow-md md:min-h-[190px] md:w-[500px] md:p-6">
+    <div className="flex w-[355px] flex-shrink-0 flex-col gap-4 rounded-[16px] bg-white bg-opacity-90 p-5 shadow-md md:w-[500px] md:p-6">
       <div className="flex">
         <img
           src={`/avatars/${avatar}.svg`}

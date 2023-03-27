@@ -4,9 +4,8 @@ import { useAuthContext } from '../hooks';
 import Button from './Button';
 
 const LeftSidebar: React.FC = () => {
-  const { signOut } = useAuthContext();
+  const { signOut, user } = useAuthContext();
   const navigate = useNavigate();
-  const { user } = useAuthContext();
   return (
     <div className="fixed mt-14 hidden w-[333px] flex-col rounded-r-[16px] bg-white bg-opacity-90 shadow-md lg:block">
       <div className="flex flex-col items-start pl-12 pt-10">
