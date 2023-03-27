@@ -1,19 +1,33 @@
 import React from 'react';
 import Button from './Button';
+import { useRef } from 'react';
+import { useClickOutside } from '../hooks/useClickOutside';
+import { useSearchContext } from '../hooks/useSearchContext';
 
 const Search: React.FC = () => {
+  const ref = useRef(null);
+  const { setShowSearch } = useSearchContext();
+
+  useClickOutside(ref, () => setShowSearch(false));
+
   return (
-    <div className="mt-14 hidden min-h-[10px] w-[500px] rounded-[16px] bg-white bg-opacity-90 p-2 shadow-md lg:flex">
-      <input
-        type="text"
-        size={55}
-        className="text-md bg-transparent pl-3 font-roboto font-light tracking-wider focus:border-transparent"
-        placeholder="Search vibe"
-      ></input>
-      <div className="ml-auto flex h-full">
-        <Button>
-          <img src="/searchoutline.svg" alt="search" className="min-h-[32px] pr-2"></img>
-        </Button>
+    <div className="fixed z-40 flex h-screen w-screen items-center justify-center overflow-hidden bg-dark-grey bg-opacity-50">
+      <div className="flex h-12 w-[90%] rounded-[16px] bg-white p-2 shadow-md md:h-14 md:w-[80%] lg:w-[40%]">
+        <input
+          type="text"
+          className="text-md w-full bg-transparent pl-3 font-roboto font-light tracking-wider focus:border-transparent md:text-lg"
+          placeholder="Search vibe"
+          ref={ref}
+        ></input>
+        <div className="ml-auto flex h-full">
+          <Button>
+            <img
+              src="/searchoutline.svg"
+              alt="search"
+              className="min-h-[32px] px-2"
+            ></img>
+          </Button>
+        </div>
       </div>
     </div>
   );

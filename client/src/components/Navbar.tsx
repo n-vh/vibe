@@ -1,20 +1,28 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../hooks';
+import { useSearchContext } from '../hooks/useSearchContext';
 import Button from './Button';
 
 const Navbar: React.FC = () => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
+  const { setShowSearch } = useSearchContext();
+
+  const handleSearch = () => {
+    setShowSearch(true);
+  };
 
   return (
     <div className="fixed bottom-0 flex h-[7vh] w-full flex-nowrap justify-around bg-light-yellow lg:hidden ">
       <Button onClick={() => navigate('/')}>
         <img src="/home.svg" alt="home" className="h-[45px] w-full md:h-[60px]" />
       </Button>
-      <Button>
-        <img src="/searchfull.svg" alt="search" className="h-[50px] w-full md:h-[65px]" />
+
+      <Button onClick={handleSearch}>
+        <img src="/searchfull.svg" alt="search" className="h-[45px] w-full md:h-[60px]" />
       </Button>
+
       <Button onClick={() => navigate(`/profile/${user.username}`)}>
         <img
           src={`/avatars/${user.avatar}.svg`}
