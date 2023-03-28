@@ -23,7 +23,11 @@ module.exports = {
       mincho: ['Sawarabi Mincho', 'serif'],
       hubballi: ['Hubballi', 'cursive'],
     },
-    extend: {},
+    extend: {
+      boxShadow: {
+        custom: '0 4px 0px 0px rgba(209, 178, 178, 0.8)',
+      },
+    },
   },
   plugins: [],
 };
