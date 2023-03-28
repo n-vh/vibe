@@ -58,8 +58,24 @@ mutation smileVibe($smileVibeId: ObjectID!) {
     }
   };
 
+  /* scroll to top */
+
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  /* delete */
+
+  const [, executeDelete] = useMutation(
+    `mutation deleteVibe($id: ObjectID!) {
+          deleteVibe(id: $id) {
+            id
+          }
+        }`,
+  );
+
+  const handleDelete = () => {
+    executeDelete({ id: id });
   };
 
   return (
@@ -129,6 +145,7 @@ mutation smileVibe($smileVibeId: ObjectID!) {
             <Button
               className="font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-error md:text-lg lg:text-sm"
               text="delete"
+              onClick={handleDelete}
             />
           </>
         )}
