@@ -14,6 +14,7 @@ export namespace TimelineController {
     const query = {
       ...(cursor && { _id: { $lt: cursor } }),
       user: { $in: [user.id, ...user.following] },
+      reply: null,
     };
 
     const options = {

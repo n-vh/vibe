@@ -23,9 +23,9 @@ export namespace VibeController {
       throw new GraphQLError('VIBE_NOT_FOUND');
     }
 
-    const vibes = await VibeModel.find({ _id: { $in: vibe.replies.vibes } }).populate(
-      'user',
-    );
+    const vibes = await VibeModel.find({ _id: { $in: vibe.replies.vibes } })
+      .sort({ _id: -1 })
+      .populate('user');
 
     return vibes.map((vibe) => {
       vibe.smiles.hasSmiled = vibe.smiles.users.includes(userId);
