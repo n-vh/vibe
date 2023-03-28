@@ -22,9 +22,9 @@ export function getTimeString(timestamp: number): string {
 }
 
 export function pluralString(count: number, word: string): string {
-  if (count > 1) {
-    return word + 's';
-  } else {
+  if (count === 1) {
     return word;
+  } else {
+    return word + 's';
   }
 }

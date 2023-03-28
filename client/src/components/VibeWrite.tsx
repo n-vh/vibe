@@ -46,12 +46,16 @@ const VibeWrite: React.FC = () => {
           onChange={textAreaChange}
           value={value}
           placeholder="send some positive vibes into the world..."
-          className="w-full resize-none bg-transparent font-roboto font-light tracking-wider sm:text-sm md:text-base "
+          className="w-full resize-none overflow-hidden bg-transparent font-roboto font-light tracking-wider sm:text-sm md:text-base"
         ></textarea>
       </div>
       <div className="flex">
         <Button className="flex self-end" onClick={sendVibe}>
-          <img src="/send.svg" alt="send" className="h-[30px] w-full md:h-[35px]" />
+          <img
+            src="/send.svg"
+            alt="send"
+            className="h-[30px] w-full md:h-[35px] lg:h-[30px]"
+          />
         </Button>
       </div>
     </div>

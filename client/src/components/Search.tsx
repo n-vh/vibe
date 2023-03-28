@@ -12,12 +12,16 @@ const Search: React.FC = () => {
 
   return (
     <div className="fixed z-40 flex h-screen w-screen items-center justify-center overflow-hidden bg-dark-grey bg-opacity-50">
-      <div className="flex h-12 w-[90%] rounded-[16px] bg-white p-2 shadow-md md:h-14 md:w-[80%] lg:w-[40%]">
+      <div
+        id="inputs"
+        className="flex h-12 w-[90%] rounded-[16px] bg-white p-2 shadow-md md:h-14 md:w-[80%] lg:w-[40%]"
+        ref={ref}
+      >
         <input
           type="text"
           className="text-md w-full bg-transparent pl-3 font-roboto font-light tracking-wider focus:border-transparent md:text-lg"
-          placeholder="Search vibe"
-          ref={ref}
+          placeholder="Search vibe users"
+          autoFocus={true}
         ></input>
         <div className="ml-auto flex h-full">
           <Button>

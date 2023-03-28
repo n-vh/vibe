@@ -44,6 +44,11 @@ const Vibe: React.FC<VibeProps> = ({
     setReplying(!replying);
   };
 
+  const handleSendReply = () => {
+    setValue('');
+    setReplying(false);
+  };
+
   return (
     <div className="flex w-[355px] flex-shrink-0 flex-col gap-4 rounded-[16px] bg-white bg-opacity-90 p-5 shadow-md md:w-[500px] md:p-6">
       {/* HEADER */}
@@ -60,12 +65,12 @@ const Vibe: React.FC<VibeProps> = ({
         <div className="my-auto flex flex-col pl-4">
           <Link
             to={`/profile/${username}`}
-            className="font-roboto text-[18px] tracking-wider text-dark-grey text-opacity-80 md:text-xl lg:text-lg"
+            className="font-roboto text-lg tracking-wider text-dark-grey text-opacity-80 md:text-xl lg:text-base"
           >
             {username}
           </Link>
           <time
-            className="font-gothic text-dark-pink md:text-lg lg:text-base"
+            className="font-gothic text-dark-pink md:text-lg lg:text-sm"
             title={new Date(+date).toString()}
           >
             {getTimeString(+date)}
@@ -73,7 +78,7 @@ const Vibe: React.FC<VibeProps> = ({
         </div>
 
         <div className="ml-auto flex pt-1">
-          <p className="pr-2 font-gothic text-[16px] leading-7 text-dark-grey text-opacity-70 md:text-lg md:leading-8 lg:text-base lg:leading-9">
+          <p className="pr-2 font-gothic leading-7 text-dark-grey text-opacity-70 md:text-lg md:leading-8 lg:text-sm lg:leading-9">
             {smileCount}
           </p>
           <div className="flex">
@@ -81,7 +86,7 @@ const Vibe: React.FC<VibeProps> = ({
               <img
                 src="/pinksmiley.svg"
                 alt="like"
-                className="h-[30px] w-full md:h-[35px]"
+                className="h-[30px] w-full md:h-[35px] lg:h-[30px]"
               />
             </Button>
           </div>
@@ -91,7 +96,7 @@ const Vibe: React.FC<VibeProps> = ({
       {/* MESSAGE */}
 
       <div className="flex flex-wrap px-4">
-        <p className="max-w-full break-words text-left font-roboto font-light tracking-wider md:text-lg lg:text-base">
+        <p className="max-w-full whitespace-pre-wrap break-words text-left font-roboto font-light tracking-wider md:text-lg lg:text-sm">
           {message}
         </p>
       </div>
@@ -100,15 +105,15 @@ const Vibe: React.FC<VibeProps> = ({
 
       <div className="flex items-center gap-4 px-4">
         <Button
-          className=" font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-dark-pink md:text-lg lg:text-base"
-          text={`${commentCount} ${pluralString(commentCount, 'message')}`}
+          className=" font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-dark-pink md:text-lg lg:text-sm"
+          text={`${commentCount} ${pluralString(commentCount, 'comment')}`}
         />
 
         {!openReplying && (
           <>
             <div className="mx-2 h-4 w-[1px] bg-dark-grey bg-opacity-50"></div>
             <Button
-              className="font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-dark-pink md:text-lg lg:text-base"
+              className="font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-dark-pink md:text-lg lg:text-sm"
               text="reply"
               onClick={toggleReply}
             />
@@ -119,7 +124,7 @@ const Vibe: React.FC<VibeProps> = ({
           <>
             <div className="mx-2 h-4 w-[1px] bg-dark-grey bg-opacity-50"></div>
             <Button
-              className="font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-error md:text-lg lg:text-base"
+              className="font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-error md:text-lg lg:text-sm"
               text="delete"
             />
           </>
@@ -140,15 +145,16 @@ const Vibe: React.FC<VibeProps> = ({
                 onChange={textAreaChange}
                 value={value}
                 placeholder="reply..."
-                className="w-full resize-none bg-transparent font-roboto font-light tracking-wider sm:text-sm md:text-base "
+                className="w-full resize-none bg-transparent font-roboto font-light tracking-wider sm:text-sm md:text-base lg:text-sm "
               ></textarea>
             </div>
             <div className="flex">
-              <Button
-                className="flex self-end"
-                // onClick={}
-              >
-                <img src="/send.svg" alt="send" className="h-[30px] w-full md:h-[35px]" />
+              <Button className="flex self-end" onClick={handleSendReply}>
+                <img
+                  src="/send.svg"
+                  alt="send"
+                  className="h-[30px] w-full md:h-[35px] lg:h-[30px]"
+                />
               </Button>
             </div>
           </div>
