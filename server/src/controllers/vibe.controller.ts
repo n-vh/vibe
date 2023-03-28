@@ -4,24 +4,33 @@ import { UserModel, VibeModel } from '~/database/models';
 import { UserController } from './user.controller';
 
 export namespace VibeController {
-  export async function getVibe(vibeId: ObjectId) {
+  export async function getVibe(vibeId: ObjectId, userId: ObjectId) {
     const vibe = await VibeModel.findById(vibeId).populate('user');
 
     if (!vibe) {
       throw new GraphQLError('VIBE_NOT_FOUND');
     }
 
+    vibe.smiles.hasSmiled = vibe.smiles.users.includes(userId);
+
     return vibe;
   }
 
-  export async function getReplies(vibeId: ObjectId) {
+  export async function getReplies(vibeId: ObjectId, userId: ObjectId) {
     const vibe = await VibeModel.findById(vibeId);
 
     if (!vibe) {
       throw new GraphQLError('VIBE_NOT_FOUND');
     }
 
-    return VibeModel.find({ _id: { $in: vibe.replies.vibes } }).populate('user');
+    const vibes = await VibeModel.find({ _id: { $in: vibe.replies.vibes } }).populate(
+      'user',
+    );
+
+    return vibes.map((vibe) => {
+      vibe.smiles.hasSmiled = vibe.smiles.users.includes(userId);
+      return vibe;
+    });
   }
 
   export async function createOne(

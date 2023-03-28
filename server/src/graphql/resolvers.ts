@@ -42,12 +42,12 @@ export const queryResolver = {
 
   vibe: (_: any, v: WithId, c: ContextUser) => {
     requireAuth(c);
-    return VibeController.getVibe(v.id);
+    return VibeController.getVibe(v.id, c.user.id);
   },
 
   vibeReplies: (_: any, v: WithId, c: ContextUser) => {
     requireAuth(c);
-    return VibeController.getReplies(v.id);
+    return VibeController.getReplies(v.id, c.user.id);
   },
 };
 
