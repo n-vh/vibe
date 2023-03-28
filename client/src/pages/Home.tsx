@@ -13,13 +13,14 @@ export function Home() {
         timeline {
           vibes {
             id
-            comments {
+            replies {
               count
             }
             createdAt
             message
             smiles {
               count
+              hasSmiled
             }
             user {
               username
@@ -36,15 +37,17 @@ export function Home() {
       <div id="inputs" className="mx-auto flex flex-col gap-6">
         <VibeWrite />
         <div className="flex flex-col gap-6">
-          {data.data?.timeline?.vibes.map((vibe, i) => (
+          {data.data?.timeline?.vibes.map((vibe) => (
             <Vibe
-              key={i}
+              id={vibe.id}
+              key={`${vibe.id}`}
               avatar={vibe.user.avatar}
               username={vibe.user.username}
               date={vibe.createdAt}
               smileCount={vibe.smiles.count}
+              hasSmiled={vibe.smiles.hasSmiled}
               message={vibe.message}
-              commentCount={vibe.comments.count}
+              commentCount={vibe.replies.count}
             />
           ))}
         </div>

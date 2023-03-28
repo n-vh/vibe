@@ -6,69 +6,30 @@ import { useAuthContext } from '../hooks';
 import { useMutation } from '../graphql';
 import { ObjectId } from 'mongodb';
 
-interface VibeProps {
+interface CommentProps {
   id: ObjectId;
+  idOP: string | undefined;
   avatar: string;
   username: string;
+  usernameAuthor?: string;
   date: string;
   smileCount: number;
   hasSmiled: boolean;
   message: string;
-  commentCount: number;
-  openReplying?: boolean;
 }
 
-const Vibe: React.FC<VibeProps> = ({
+const Comment: React.FC<CommentProps> = ({
   id,
+  idOP,
   avatar,
   username,
+  usernameAuthor,
   date,
   smileCount,
   hasSmiled,
   message,
-  commentCount,
-  openReplying = false,
 }) => {
   const { user } = useAuthContext();
-  const [replyMessage, setReplyMessage] = useState<string>('');
-
-  /* text area */
-
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const textAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setReplyMessage(event.target.value);
-  };
-
-  useEffect(() => {
-    if (textareaRef && textareaRef.current) {
-      textareaRef.current.style.height = '0px';
-      const scrollHeight = textareaRef.current.scrollHeight;
-      textareaRef.current.style.height = scrollHeight + 'px';
-    }
-  }, [replyMessage]);
-
-  /* reply */
-
-  const [replying, setReplying] = useState(openReplying);
-
-  const toggleReply = () => {
-    setReplying(!replying);
-  };
-
-  const [, executeReply] = useMutation(
-    `mutation replyVibe($replyVibeId: ObjectID!, $message: String!) {
-      replyVibe(id: $replyVibeId, message: $message) {
-        id
-      }
-    }
-    `,
-  );
-
-  const handleSendReply = () => {
-    setReplyMessage('');
-    setReplying(false);
-    executeReply({ replyVibeId: id, message: replyMessage });
-  };
 
   /* smile */
 
@@ -94,6 +55,10 @@ mutation smileVibe($smileVibeId: ObjectID!) {
     } else {
       executeSmile({ smileVibeId: id });
     }
+  };
+
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -122,6 +87,13 @@ mutation smileVibe($smileVibeId: ObjectID!) {
           >
             {getTimeString(+date)}
           </time>
+          <Link
+            to={`/vibe/${idOP}`}
+            className="font-roboto text-sm tracking-wider text-dark-grey text-opacity-60 md:text-base lg:text-sm"
+            onClick={handleScrollToTop}
+          >
+            <p>replying to @{usernameAuthor}</p>
+          </Link>
         </div>
 
         <div className="ml-auto flex pt-1">
@@ -151,27 +123,8 @@ mutation smileVibe($smileVibeId: ObjectID!) {
       {/* BUTTONS */}
 
       <div className="flex items-center gap-4 px-4">
-        <Link to={`/vibe/${id}`}>
-          <Button
-            className=" font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-dark-pink md:text-lg lg:text-sm"
-            text={`${commentCount} ${pluralString(commentCount, 'comment')}`}
-          />
-        </Link>
-
-        {!openReplying && (
-          <>
-            <div className="mx-2 h-4 w-[1px] bg-dark-grey bg-opacity-50"></div>
-            <Button
-              className="font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-dark-pink md:text-lg lg:text-sm"
-              text="reply"
-              onClick={toggleReply}
-            />
-          </>
-        )}
-
         {user.username === username && (
           <>
-            <div className="mx-2 h-4 w-[1px] bg-dark-grey bg-opacity-50"></div>
             <Button
               className="font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-error md:text-lg lg:text-sm"
               text="delete"
@@ -179,38 +132,8 @@ mutation smileVibe($smileVibeId: ObjectID!) {
           </>
         )}
       </div>
-
-      {(replying || openReplying) && (
-        <div>
-          <div className="my-2 h-[1px] w-full bg-dark-grey bg-opacity-30"></div>
-          <div className="mt-4 flex">
-            <div className="flex h-12 w-auto pr-3 md:h-14">
-              <img src={`/avatars/${user.avatar}.svg`} alt="avatar" />
-            </div>
-            <div className="flex flex-grow pt-1">
-              <textarea
-                id="vibe"
-                ref={textareaRef}
-                onChange={textAreaChange}
-                value={replyMessage}
-                placeholder="reply..."
-                className="w-full resize-none bg-transparent font-roboto font-light tracking-wider sm:text-sm md:text-base lg:text-sm "
-              ></textarea>
-            </div>
-            <div className="flex">
-              <Button className="flex self-end" onClick={handleSendReply}>
-                <img
-                  src="/send.svg"
-                  alt="send"
-                  className="h-[30px] w-full md:h-[35px] lg:h-[30px]"
-                />
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
-export default Vibe;
+export default Comment;
