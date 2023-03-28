@@ -14,7 +14,7 @@ const LeftSidebar: React.FC = () => {
   };
 
   return (
-    <div className="fixed mt-8 hidden w-[333px] flex-col rounded-r-[16px] bg-white bg-opacity-90 shadow-md lg:block">
+    <div className="fixed mt-8 hidden w-[333px] flex-col rounded-r-[16px] bg-white bg-opacity-90 shadow-custom lg:block">
       <div className="flex flex-col items-start pl-12 pt-10">
         <Button onClick={() => navigate('/')}>
           <div className="flex flex-row items-center py-3">

@@ -13,7 +13,7 @@ export function Profile() {
       <LeftSidebar />
 
       <div className="mx-auto flex">
-        <div className="mt-8 flex w-[355px] flex-shrink-0 flex-col rounded-[16px] bg-white bg-opacity-90 p-5 shadow-md md:w-[600px] md:p-6">
+        <div className="mt-8 flex w-[355px] flex-shrink-0 flex-col rounded-[16px] bg-white bg-opacity-90 p-5 shadow-custom md:w-[600px] md:p-6">
           {/* HEADER */}
 
           <div className="flex">
@@ -35,7 +35,7 @@ export function Profile() {
 
             <div className="hidden self-start md:flex">
               <Button
-                className="rounded-lg border-2 border-blue border-opacity-70 px-4 py-2 font-roboto text-sm font-bold tracking-wider text-blue shadow-md hover:bg-gradient-to-r hover:from-pink hover:to-yellow md:text-lg lg:text-base"
+                className="rounded-lg border-2 border-dark-pink border-opacity-70 px-4 py-2 font-roboto text-sm font-bold tracking-wider text-dark-pink shadow-custom hover:bg-gradient-to-r hover:from-pink hover:to-yellow md:text-lg lg:text-base"
                 text="FOLLOW"
               ></Button>
             </div>
@@ -46,7 +46,7 @@ export function Profile() {
           <div className="flex flex-row items-center gap-4 pb-4 pl-1 md:pl-2 md:pt-4">
             <div className="mt-2 flex self-start md:hidden">
               <Button
-                className="rounded-lg border-2 border-blue border-opacity-70 px-4 py-2 font-roboto text-sm font-bold tracking-wider text-blue shadow-md hover:bg-gradient-to-r hover:from-pink hover:to-yellow md:text-lg lg:text-base"
+                className="rounded-lg border-2 border-dark-pink border-opacity-70 px-4 py-2 font-roboto text-sm font-bold tracking-wider text-dark-pink shadow-custom hover:bg-gradient-to-r hover:from-pink hover:to-yellow md:text-lg lg:text-base"
                 text="FOLLOW"
               ></Button>
             </div>

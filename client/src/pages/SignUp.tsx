@@ -108,7 +108,7 @@ export function SignUp() {
         </Form>
         <div className="mx-6 flex flex-col">
           <Button
-            className="rounded-[16px]  border-opacity-60 bg-white bg-opacity-80  py-2 px-12 font-roboto text-xl font-bold tracking-wider text-blue shadow-md disabled:opacity-60"
+            className="rounded-[16px]  border-opacity-60 bg-white bg-opacity-80  py-2 px-12 font-roboto text-xl font-bold tracking-wider text-blue shadow-custom disabled:opacity-60"
             text="SIGN UP"
             onClick={() => execute()}
             disabled={!!data.data || !username || !email || !password || !isChecked}
