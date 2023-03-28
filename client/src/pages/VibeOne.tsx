@@ -6,6 +6,7 @@ import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
 import { useQuery } from '../graphql';
 import { ObjectId } from 'mongodb';
+import { useEffect } from 'react';
 
 export function VibeOne() {
   const { id } = useParams();
@@ -35,7 +36,7 @@ export function VibeOne() {
     variables: { id: id },
   });
 
-  const [queryComments] = useQuery({
+  const [queryComments, executeComments] = useQuery({
     query: `
   query QueryComments($id: ObjectID!) {
     vibeReplies(id: $id) {
@@ -58,7 +59,12 @@ export function VibeOne() {
     variables: {
       id: id,
     },
+    requestPolicy: 'network-only',
   });
+
+  useEffect(() => {
+    executeComments();
+  }, [queryVibe.data]);
 
   return (
     <div className="flex pb-20 pt-28 md:pb-28 lg:pb-6">

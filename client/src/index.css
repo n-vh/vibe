@@ -9,6 +9,7 @@ body {
   height: 100vh;
   background: linear-gradient(180deg, #f1d3de 0%, #f5e9c1 100%);
   background-attachment: fixed;
+  overflow-y: scroll;
 }
 
 #inputs input:focus-visible,
