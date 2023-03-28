@@ -6,9 +6,9 @@ module.exports = {
   theme: {
     colors: {
       'dark-grey': '#100E0E',
-      yellow: '#FDF0C7',
+      yellow: '#FBEACA',
       'light-yellow': '#FDFAF0',
-      pink: '#F1D3DEB2',
+      pink: '#F1D7D7',
       blue: '#9D9BBE',
       'dark-pink': '#C0A0A0',
       white: '#FFFFFF',
