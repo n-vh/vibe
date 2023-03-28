@@ -8,7 +8,7 @@ import { Settings } from './pages/Settings';
 import { SignUp } from './pages/SignUp';
 import { Terms } from './pages/Terms';
 import { Verify } from './pages/Verify';
-import { Vibe } from './pages/Vibe';
+import { VibeOne } from './pages/VibeOne';
 import Header from './components/Header';
 import { useSearchContext } from './hooks/useSearchContext';
 import Search from './components/Search';
@@ -37,7 +37,7 @@ export function Router() {
         <Route path="/verify" element={<Verify />} />
         <Route path="/terms" element={<Terms />} />
         <Route element={<Protected />}>
-          <Route path="/vibe/:id" element={<Vibe />} />
+          <Route path="/vibe/:id" element={<VibeOne />} />
           <Route path="/profile/:username" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
         </Route>

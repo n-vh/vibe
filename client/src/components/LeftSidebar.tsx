@@ -71,7 +71,7 @@ const LeftSidebar: React.FC = () => {
       </div>
 
       <div className="flex px-6 text-center">
-        <p className="py-8 font-hubballi text-lg tracking-wider text-blue">
+        <p className="py-8 font-hubballi text-lg tracking-wide text-blue">
           Welcome to Vibe, a social media platform dedicated to sharing positive and
           uplifting news from around the world. Share stories, inspire one another, and
           spread joy.
