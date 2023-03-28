@@ -4,24 +4,33 @@ import { UserModel, VibeModel } from '~/database/models';
 import { UserController } from './user.controller';
 
 export namespace VibeController {
-  export async function getVibe(id: ObjectId) {
-    const vibe = await VibeModel.findById(id).populate('user');
+  export async function getVibe(vibeId: ObjectId, userId: ObjectId) {
+    const vibe = await VibeModel.findById(vibeId).populate('user');
 
     if (!vibe) {
       throw new GraphQLError('VIBE_NOT_FOUND');
     }
+
+    vibe.smiles.hasSmiled = vibe.smiles.users.includes(userId);
 
     return vibe;
   }
 
-  export async function getReplies(id: ObjectId) {
-    const vibe = await VibeModel.findById(id);
+  export async function getReplies(vibeId: ObjectId, userId: ObjectId) {
+    const vibe = await VibeModel.findById(vibeId);
 
     if (!vibe) {
       throw new GraphQLError('VIBE_NOT_FOUND');
     }
 
-    return VibeModel.find({ _id: { $in: vibe.replies.vibes } }).populate('user');
+    const vibes = await VibeModel.find({ _id: { $in: vibe.replies.vibes } })
+      .sort({ _id: -1 })
+      .populate('user');
+
+    return vibes.map((vibe) => {
+      vibe.smiles.hasSmiled = vibe.smiles.users.includes(userId);
+      return vibe;
+    });
   }
 
   export async function createOne(
@@ -40,8 +49,8 @@ export namespace VibeController {
     return vibe;
   }
 
-  export async function deleteOne(id: ObjectId, userId: ObjectId) {
-    const vibe = await VibeModel.findOne({ _id: id, user: userId });
+  export async function deleteOne(vibeId: ObjectId, userId: ObjectId) {
+    const vibe = await VibeModel.findOne({ _id: vibeId, user: userId });
 
     if (!vibe) {
       throw new GraphQLError('VIBE_NOT_FOUND');
@@ -95,9 +104,9 @@ export namespace VibeController {
     return vibe;
   }
 
-  export async function smileVibe(id: ObjectId, userId: ObjectId) {
+  export async function smileVibe(vibeId: ObjectId, userId: ObjectId) {
     const vibe = await VibeModel.findOne({
-      $and: [{ _id: id }, { 'smiles.users': { $nin: [userId] } }],
+      $and: [{ _id: vibeId }, { 'smiles.users': { $nin: [userId] } }],
     });
 
     if (!vibe) {
@@ -118,9 +127,9 @@ export namespace VibeController {
     return vibe;
   }
 
-  export async function unsmileVibe(id: ObjectId, userId: ObjectId) {
+  export async function unsmileVibe(vibeId: ObjectId, userId: ObjectId) {
     const vibe = await VibeModel.findOne({
-      $and: [{ _id: id }, { 'smiles.users': { $in: [userId] } }],
+      $and: [{ _id: vibeId }, { 'smiles.users': { $in: [userId] } }],
     });
 
     if (!vibe) {
@@ -141,9 +150,9 @@ export namespace VibeController {
     return vibe;
   }
 
-  export async function replyVibe(id: ObjectId, userId: ObjectId, message: string) {
+  export async function replyVibe(vibeId: ObjectId, userId: ObjectId, message: string) {
     const vibe = await VibeModel.findOne({
-      $and: [{ _id: id }, { 'replies.vibes': { $nin: [id] } }],
+      $and: [{ _id: vibeId }, { 'replies.vibes': { $nin: [vibeId] } }],
     });
 
     if (!vibe) {

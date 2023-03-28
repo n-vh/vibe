@@ -49,10 +49,10 @@ export namespace UserController {
     };
   }
 
-  export async function updateOne(id: ObjectId, user: Partial<User>) {
+  export async function updateOne(userId: ObjectId, user: Partial<User>) {
     const document = await UserModel.findOneAndUpdate(
       {
-        _id: id,
+        _id: userId,
       },
       { $set: user },
       { new: true },
@@ -66,14 +66,14 @@ export namespace UserController {
   }
 
   export async function modifyArray(
-    id: ObjectId,
+    userId: ObjectId,
     operation: '$addToSet' | '$pull',
     field: string,
     value: ObjectId,
   ) {
     const document = await UserModel.findOneAndUpdate(
       {
-        _id: id,
+        _id: userId,
       },
       { [operation]: { [field]: value } },
       { new: true },
@@ -86,30 +86,30 @@ export namespace UserController {
     return document;
   }
 
-  export function push(id: ObjectId, field: string, value: ObjectId) {
-    return UserController.modifyArray(id, '$addToSet', field, value);
+  export function push(userId: ObjectId, field: string, value: ObjectId) {
+    return UserController.modifyArray(userId, '$addToSet', field, value);
   }
 
-  export function pull(id: ObjectId, field: string, value: ObjectId) {
-    return UserController.modifyArray(id, '$pull', field, value);
+  export function pull(userId: ObjectId, field: string, value: ObjectId) {
+    return UserController.modifyArray(userId, '$pull', field, value);
   }
 
-  export async function getVibes(id: ObjectId) {
-    const user = await UserController.findOne({ _id: id });
+  export async function getVibes(userId: ObjectId) {
+    const user = await UserController.findOne({ _id: userId });
     return VibeModel.find({ _id: { $in: user.vibes } })
       .sort({ _id: -1 })
       .populate('user');
   }
 
-  export async function getReplies(id: ObjectId) {
-    const user = await UserController.findOne({ _id: id });
+  export async function getReplies(userId: ObjectId) {
+    const user = await UserController.findOne({ _id: userId });
     return VibeModel.find({ _id: { $in: user.replies } })
       .sort({ _id: -1 })
       .populate('user');
   }
 
-  export async function getSmiles(id: ObjectId) {
-    const user = await UserController.findOne({ _id: id });
+  export async function getSmiles(userId: ObjectId) {
+    const user = await UserController.findOne({ _id: userId });
     return VibeModel.find({ _id: { $in: user.smiles } }, null, { _id: -1 })
       .sort({ _id: -1 })
       .populate('user');

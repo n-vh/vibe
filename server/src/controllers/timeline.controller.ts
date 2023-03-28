@@ -2,8 +2,8 @@ import { ObjectId } from 'mongodb';
 import { UserModel, VibeModel } from '~/database/models';
 
 export namespace TimelineController {
-  export async function home(id: ObjectId, cursor?: ObjectId) {
-    const user = await UserModel.findOne({ _id: id });
+  export async function home(userId: ObjectId, cursor?: ObjectId) {
+    const user = await UserModel.findOne({ _id: userId });
 
     if (!user) {
       throw new Error('USER_NOT_FOUND');
@@ -14,6 +14,7 @@ export namespace TimelineController {
     const query = {
       ...(cursor && { _id: { $lt: cursor } }),
       user: { $in: [user.id, ...user.following] },
+      reply: null,
     };
 
     const options = {
@@ -27,14 +28,10 @@ export namespace TimelineController {
     });
 
     return {
-      vibes: vibes.map((vibe) => ({
-        ...vibe.toObject(),
-        id: vibe._id,
-        smiles: {
-          ...vibe.smiles,
-          hasSmiled: vibe.smiles.users.includes(id),
-        },
-      })),
+      vibes: vibes.map((vibe) => {
+        vibe.smiles.hasSmiled = vibe.smiles.users.includes(userId);
+        return vibe;
+      }),
       pageInfo: {
         cursor: vibes.at(-1)?._id || '',
         hasNext: vibes.length === LIMIT,
