@@ -9,14 +9,21 @@ export interface Me {
   avatar: string;
 }
 
-export interface Node {
+export interface ReplyNode {
   count: number;
+  hasReplied: boolean;
+  vibes: ObjectId[];
+}
+
+export interface SmileNode {
+  count: number;
+  hasSmiled: boolean;
   users: ObjectId[];
 }
 
 export interface User extends Me {
   vibes: ObjectId[];
-  comments: ObjectId[];
+  replies: ObjectId[];
   smiles: ObjectId[];
   followers: ObjectId[];
   following: ObjectId[];
@@ -26,8 +33,9 @@ export interface Vibe {
   id: ObjectId;
   user: ObjectId;
   message: string;
-  comments: Node;
-  smiles: Node;
+  replies: ReplyNode;
+  smiles: SmileNode;
+  reply: ObjectId;
 }
 
 export interface IMailVerify {

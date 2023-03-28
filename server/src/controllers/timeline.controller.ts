@@ -22,12 +22,19 @@ export namespace TimelineController {
     };
 
     const vibes = await VibeModel.find(query, null, options).populate({
-      path: 'comments smiles user message createdAt',
+      path: 'replies smiles user message createdAt',
       select: 'username avatar',
     });
 
     return {
-      vibes,
+      vibes: vibes.map((vibe) => ({
+        ...vibe.toObject(),
+        id: vibe._id,
+        smiles: {
+          ...vibe.smiles,
+          hasSmiled: vibe.smiles.users.includes(id),
+        },
+      })),
       pageInfo: {
         cursor: vibes.at(-1)?._id || '',
         hasNext: vibes.length === LIMIT,
