@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Button from './Button';
+import Message from './Message';
 import { getTimeString, pluralString } from '../utils/format';
 import { useAuthContext } from '../hooks';
 import { useMutation } from '../graphql';
@@ -57,8 +58,24 @@ mutation smileVibe($smileVibeId: ObjectID!) {
     }
   };
 
+  /* scroll to top */
+
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  /* delete */
+
+  const [, executeDelete] = useMutation(
+    `mutation deleteVibe($id: ObjectID!) {
+          deleteVibe(id: $id) {
+            id
+          }
+        }`,
+  );
+
+  const handleDelete = () => {
+    executeDelete({ id: id });
   };
 
   return (
@@ -116,7 +133,7 @@ mutation smileVibe($smileVibeId: ObjectID!) {
 
       <div className="flex flex-wrap px-4">
         <p className="max-w-full whitespace-pre-wrap break-words text-left font-roboto font-light tracking-wider md:text-lg lg:text-sm">
-          {message}
+          <Message text={message} />
         </p>
       </div>
 
@@ -128,6 +145,7 @@ mutation smileVibe($smileVibeId: ObjectID!) {
             <Button
               className="font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-error md:text-lg lg:text-sm"
               text="delete"
+              onClick={handleDelete}
             />
           </>
         )}

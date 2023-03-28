@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Button from './Button';
+import Message from './Message';
 import { getTimeString, pluralString } from '../utils/format';
 import { useAuthContext } from '../hooks';
 import { useMutation } from '../graphql';
@@ -47,6 +48,32 @@ const Vibe: React.FC<VibeProps> = ({
     }
   }, [replyMessage]);
 
+  /* smile */
+
+  const [, executeSmile] = useMutation(`
+    mutation smileVibe($smileVibeId: ObjectID!) {
+      smileVibe(id: $smileVibeId) {
+        id
+      }
+    }
+  `);
+
+  const [, executeUnsmile] = useMutation(`
+  mutation smileVibe($smileVibeId: ObjectID!) {
+    unsmileVibe(id: $smileVibeId) {
+      id
+    }
+  }
+  `);
+
+  const handleSmile = () => {
+    if (hasSmiled) {
+      executeUnsmile({ smileVibeId: id });
+    } else {
+      executeSmile({ smileVibeId: id });
+    }
+  };
+
   /* reply */
 
   const [replying, setReplying] = useState(openReplying);
@@ -70,30 +97,18 @@ const Vibe: React.FC<VibeProps> = ({
     executeReply({ replyVibeId: id, message: replyMessage });
   };
 
-  /* smile */
+  /* delete */
 
-  const [, executeSmile] = useMutation(`
-  mutation smileVibe($smileVibeId: ObjectID!) {
-    smileVibe(id: $smileVibeId) {
-      id
-    }
-  }
-`);
+  const [, executeDelete] = useMutation(
+    `mutation deleteVibe($id: ObjectID!) {
+      deleteVibe(id: $id) {
+        id
+      }
+    }`,
+  );
 
-  const [, executeUnsmile] = useMutation(`
-mutation smileVibe($smileVibeId: ObjectID!) {
-  unsmileVibe(id: $smileVibeId) {
-    id
-  }
-}
-`);
-
-  const handleSmile = () => {
-    if (hasSmiled) {
-      executeUnsmile({ smileVibeId: id });
-    } else {
-      executeSmile({ smileVibeId: id });
-    }
+  const handleDelete = () => {
+    executeDelete({ id: id });
   };
 
   return (
@@ -116,12 +131,14 @@ mutation smileVibe($smileVibeId: ObjectID!) {
           >
             {username}
           </Link>
-          <time
-            className="font-gothic text-dark-pink md:text-lg lg:text-sm"
-            title={new Date(+date).toString()}
-          >
-            {getTimeString(+date)}
-          </time>
+          <Link to={`/vibe/${id}`}>
+            <time
+              className="font-gothic text-dark-pink md:text-lg lg:text-sm"
+              title={new Date(+date).toString()}
+            >
+              {getTimeString(+date)}
+            </time>
+          </Link>
         </div>
 
         <div className="ml-auto flex pt-1">
@@ -144,7 +161,7 @@ mutation smileVibe($smileVibeId: ObjectID!) {
 
       <div className="flex flex-wrap px-4">
         <p className="max-w-full whitespace-pre-wrap break-words text-left font-roboto font-light tracking-wider md:text-lg lg:text-sm">
-          {message}
+          <Message text={message} />
         </p>
       </div>
 
@@ -175,6 +192,7 @@ mutation smileVibe($smileVibeId: ObjectID!) {
             <Button
               className="font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-error md:text-lg lg:text-sm"
               text="delete"
+              onClick={handleDelete}
             />
           </>
         )}
@@ -195,6 +213,7 @@ mutation smileVibe($smileVibeId: ObjectID!) {
                 value={replyMessage}
                 placeholder="reply..."
                 className="w-full resize-none bg-transparent font-roboto font-light tracking-wider sm:text-sm md:text-base lg:text-sm "
+                autoFocus={true}
               ></textarea>
             </div>
             <div className="flex">
