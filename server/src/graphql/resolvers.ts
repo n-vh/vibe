@@ -1,8 +1,9 @@
 import type { ContextUser, WithId } from '~/graphql/types';
+import { VibeType } from '~/graphql/types';
 import { ObjectId } from 'mongodb';
 import { TimelineController, UserController, VibeController } from '~/controllers';
-import { requireAuth } from './context';
 import { FollowController } from '~/controllers';
+import { requireAuth } from './context';
 
 export const queryResolver = {
   me: (_: any, __: any, c: ContextUser) => {
@@ -10,26 +11,70 @@ export const queryResolver = {
     return UserController.getSelf(c.user.id);
   },
 
+  user: (_: any, v: { id?: ObjectId; username?: string }, c: ContextUser) => {
+    requireAuth(c);
+    if (v.id) {
+      return UserController.findOne({ _id: v.id });
+    }
+    if (v.username) {
+      return UserController.findOne({ username: v.username.toLowerCase() });
+    }
+    return null;
+  },
+
   timeline: (_: any, v: { after?: ObjectId }, c: ContextUser) => {
     requireAuth(c);
     return TimelineController.home(c.user.id, v.after);
+  },
+
+  vibes: (_: any, v: { id: ObjectId; type: VibeType }, c: ContextUser) => {
+    requireAuth(c);
+
+    switch (v.type) {
+      case VibeType.VIBES:
+        return UserController.getVibes(v.id);
+      case VibeType.REPLIES:
+        return UserController.getReplies(v.id);
+      case VibeType.SMILES:
+        return UserController.getSmiles(v.id);
+    }
+  },
+
+  vibe: (_: any, v: WithId, c: ContextUser) => {
+    requireAuth(c);
+    return VibeController.getVibe(v.id);
+  },
+
+  vibeReplies: (_: any, v: WithId, c: ContextUser) => {
+    requireAuth(c);
+    return VibeController.getReplies(v.id);
   },
 };
 
 export const mutationResolver = {
   createVibe: (_: any, i: { message: string }, c: ContextUser) => {
     requireAuth(c);
-    return VibeController.create(i.message, c.user.id);
+    return VibeController.createOne(i.message, c.user.id);
   },
 
-  smile: (_: any, i: WithId, c: ContextUser) => {
+  deleteVibe: (_: any, i: WithId, c: ContextUser) => {
     requireAuth(c);
-    return VibeController.smile(i.id, c.user.id);
+    return VibeController.deleteOne(i.id, c.user.id);
   },
 
-  unsmile: (_: any, i: WithId, c: ContextUser) => {
+  smileVibe: (_: any, i: WithId, c: ContextUser) => {
     requireAuth(c);
-    return VibeController.unsmile(i.id, c.user.id);
+    return VibeController.smileVibe(i.id, c.user.id);
+  },
+
+  unsmileVibe: (_: any, i: WithId, c: ContextUser) => {
+    requireAuth(c);
+    return VibeController.unsmileVibe(i.id, c.user.id);
+  },
+
+  replyVibe: (_: any, i: { id: ObjectId; message: string }, c: ContextUser) => {
+    requireAuth(c);
+    return VibeController.replyVibe(i.id, c.user.id, i.message);
   },
 
   follow: (_: any, i: WithId, c: ContextUser) => {

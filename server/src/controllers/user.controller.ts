@@ -2,7 +2,7 @@ import type { FilterQuery } from 'mongoose';
 import type { User } from '~/shared/types';
 import { ObjectId } from 'mongodb';
 import { GraphQLError } from 'graphql';
-import { UserModel } from '~/database/models';
+import { UserModel, VibeModel } from '~/database/models';
 import { randomInArray } from '~/utils/random';
 import { avatars } from '~/shared/constants';
 
@@ -92,5 +92,26 @@ export namespace UserController {
 
   export function pull(id: ObjectId, field: string, value: ObjectId) {
     return UserController.modifyArray(id, '$pull', field, value);
+  }
+
+  export async function getVibes(id: ObjectId) {
+    const user = await UserController.findOne({ _id: id });
+    return VibeModel.find({ _id: { $in: user.vibes } })
+      .sort({ _id: -1 })
+      .populate('user');
+  }
+
+  export async function getReplies(id: ObjectId) {
+    const user = await UserController.findOne({ _id: id });
+    return VibeModel.find({ _id: { $in: user.replies } })
+      .sort({ _id: -1 })
+      .populate('user');
+  }
+
+  export async function getSmiles(id: ObjectId) {
+    const user = await UserController.findOne({ _id: id });
+    return VibeModel.find({ _id: { $in: user.smiles } }, null, { _id: -1 })
+      .sort({ _id: -1 })
+      .populate('user');
   }
 }
