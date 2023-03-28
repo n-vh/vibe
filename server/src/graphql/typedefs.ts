@@ -60,8 +60,9 @@ enum VibeType {
 }
 
 type Query {
-  user(id: ObjectID, username: String): User
   me: Me
+  user(id: ObjectID, username: String): User
+  searchUsers(query: String!): [User!]!
   timeline(after: ObjectID): PaginatedVibes
   vibes(id: ObjectID!, type: VibeType!): [Vibe!]!
   vibe(id: ObjectID!): Vibe

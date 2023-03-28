@@ -34,6 +34,12 @@ export namespace UserController {
     return doc;
   }
 
+  export async function searchUsers(query: string) {
+    return UserModel.find({
+      username: { $regex: '^' + query, $options: 'i' },
+    });
+  }
+
   export async function getSelf(userId: ObjectId) {
     const doc = await UserModel.findById(userId);
 
