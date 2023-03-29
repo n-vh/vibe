@@ -9,6 +9,7 @@ import { getFullDate, pluralString } from '../utils/format';
 import { useAuthContext } from '../hooks';
 import { useEffect, useMemo, useState } from 'react';
 import Vibe from '../components/Vibe';
+import Comment from '../components/Comment';
 
 export function Profile() {
   const { username, tab } = useParams();
@@ -83,6 +84,12 @@ export function Profile() {
       message
       replies {
         count
+      }
+      reply {
+        id
+        user {
+          username
+        }
       }
       smiles {
         hasSmiled
@@ -215,19 +222,37 @@ export function Profile() {
           </div>
 
           <div id="inputs" className="flex flex-col gap-6">
-            {vibeQuery.data?.vibes?.map((vibe) => (
-              <Vibe
-                id={vibe.id}
-                key={`${vibe.id}`}
-                avatar={vibe.user.avatar}
-                username={vibe.user.username}
-                date={vibe.createdAt}
-                smileCount={vibe.smiles.count}
-                hasSmiled={vibe.smiles.hasSmiled}
-                message={vibe.message}
-                commentCount={vibe.replies.count}
-              />
-            ))}
+            {vibeQuery.data?.vibes?.map((vibe) => {
+              if (vibeTab === 'COMMENTS' && vibe.reply?.id) {
+                return (
+                  <Comment
+                    id={vibe.id}
+                    idOP={`${vibe.reply!.id}`}
+                    avatar={vibe.user.avatar}
+                    username={vibe.user.username}
+                    usernameAuthor={vibe.reply?.user.username}
+                    date={vibe.createdAt}
+                    smileCount={vibe.smiles.count}
+                    hasSmiled={vibe.smiles.hasSmiled}
+                    message={vibe.message}
+                  />
+                );
+              }
+
+              return (
+                <Vibe
+                  id={vibe.id}
+                  key={`${vibe.id}`}
+                  avatar={vibe.user.avatar}
+                  username={vibe.user.username}
+                  date={vibe.createdAt}
+                  smileCount={vibe.smiles.count}
+                  hasSmiled={vibe.smiles.hasSmiled}
+                  message={vibe.message}
+                  commentCount={vibe.replies.count}
+                />
+              );
+            })}
           </div>
         </div>
       )}
