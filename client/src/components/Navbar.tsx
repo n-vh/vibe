@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
         <img src="/searchfull.svg" alt="search" className="h-[45px] w-full md:h-[60px]" />
       </Button>
 
-      <Button onClick={() => navigate(`/profile/${user.username}`)}>
+      <Button onClick={() => navigate(`/profile/${user.username}/vibes`)}>
         <img
           src={`/avatars/${user.avatar}.svg`}
           alt="profile"

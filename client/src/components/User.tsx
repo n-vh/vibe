@@ -16,7 +16,7 @@ const User: React.FC<UserProps> = ({ avatar, username }) => {
 
   return (
     <div className="flex p-2">
-      <Link to={`/profile/${username}`} onClick={handleOnClick}>
+      <Link to={`/profile/${username}/vibes`} onClick={handleOnClick}>
         <img
           src={`/avatars/${avatar}.svg`}
           alt="avatar"
@@ -26,7 +26,7 @@ const User: React.FC<UserProps> = ({ avatar, username }) => {
 
       <div className="my-auto flex flex-col pl-4">
         <Link
-          to={`/profile/${username}`}
+          to={`/profile/${username}/vibes`}
           className="font-roboto text-lg tracking-wider text-dark-grey text-opacity-80 md:text-xl lg:text-base"
           onClick={handleOnClick}
         >

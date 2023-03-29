@@ -73,7 +73,7 @@ mutation smileVibe($smileVibeId: ObjectID!) {
       {/* HEADER */}
 
       <div className="flex">
-        <Link to={`/profile/${username}`}>
+        <Link to={`/profile/${username}/vibes`}>
           <img
             src={`/avatars/${avatar}.svg`}
             alt="avatar"
@@ -83,7 +83,7 @@ mutation smileVibe($smileVibeId: ObjectID!) {
 
         <div className="my-auto flex flex-col pl-4">
           <Link
-            to={`/profile/${username}`}
+            to={`/profile/${username}/vibes`}
             className="font-roboto text-lg tracking-wider text-dark-grey text-opacity-80 md:text-xl lg:text-base"
           >
             {username}

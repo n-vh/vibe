@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Vibe from '../components/Vibe';
 
 export function Profile() {
-  const { username } = useParams();
+  const { username, tab } = useParams();
   const { user } = useAuthContext();
 
   const [queryUser] = useQuery({
@@ -73,7 +73,7 @@ export function Profile() {
 
   //* VIBES / COMMENTS / VIBES *//
 
-  const [vibeTab, setVibeTab] = useState('VIBES');
+  const [vibeTab, setVibeTab] = useState(tab?.toUpperCase() || 'VIBES');
 
   const [vibeQuery, executeVibeQuery] = useQuery({
     query: `query QueryVibes($userId: ObjectID!, $type: VibeType!) {
@@ -105,6 +105,15 @@ export function Profile() {
       executeVibeQuery();
     }
   }, [profileUser, vibeTab]);
+
+  const handleTabClick = (tab: string) => {
+    setVibeTab(tab);
+    window.history.pushState(
+      {},
+      '',
+      `/profile/${profileUser?.username}/${tab.toLowerCase()}`,
+    );
+  };
 
   return (
     <div className="flex pb-20 pt-28 md:pb-28 lg:pb-6">
@@ -180,7 +189,7 @@ export function Profile() {
                   vibeTab === 'VIBES' && 'text-dark-pink'
                 }`}
                 text="vibes"
-                onClick={() => setVibeTab('VIBES')}
+                onClick={() => handleTabClick('VIBES')}
               />
 
               <div className="mx-4 h-4 w-[1px] bg-dark-grey bg-opacity-50"></div>
@@ -190,7 +199,7 @@ export function Profile() {
                   vibeTab === 'COMMENTS' && 'text-dark-pink'
                 }`}
                 text="comments"
-                onClick={() => setVibeTab('COMMENTS')}
+                onClick={() => handleTabClick('COMMENTS')}
               />
 
               <div className="mx-2 h-4 w-[1px] bg-dark-grey bg-opacity-50"></div>
@@ -200,7 +209,7 @@ export function Profile() {
                   vibeTab === 'SMILES' && 'text-dark-pink'
                 }`}
                 text="smiles"
-                onClick={() => setVibeTab('SMILES')}
+                onClick={() => handleTabClick('SMILES')}
               />
             </div>
           </div>

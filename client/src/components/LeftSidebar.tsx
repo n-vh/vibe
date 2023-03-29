@@ -32,7 +32,7 @@ const LeftSidebar: React.FC = () => {
             </div>
           </Button>
 
-          <Button onClick={() => navigate(`/profile/${user.username}`)}>
+          <Button onClick={() => navigate(`/profile/${user.username}/vibes`)}>
             <div className="flex flex-row items-center pb-3">
               <img
                 src={`/avatars/${user.avatar}.svg`}
