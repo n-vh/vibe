@@ -4,6 +4,7 @@ import { GraphQLProvider } from './providers/GraphQLProvider';
 import { SearchProvider } from './providers/SearchProvider';
 import { Router } from './Router';
 import './index.css';
+import 'animate.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <GraphQLProvider>
