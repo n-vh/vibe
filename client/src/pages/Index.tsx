@@ -41,14 +41,14 @@ export function Index() {
             </p>
           </div>
         </div>
-        <div className="mx-6 mt-4 flex flex-row justify-between lg:w-1/4 lg:flex-col lg:justify-center lg:gap-4">
+        <div className="mx-6 mt-4 flex flex-row justify-between lg:w-1/4 lg:flex-col lg:justify-center lg:gap-6">
           <Button
-            className="rounded-[16px] border-opacity-60 bg-white bg-opacity-80  py-3 px-10 font-roboto text-lg font-bold tracking-wider text-blue shadow-custom"
+            className="rounded-[16px] border-[2.5px] border-dark-pink border-opacity-40 bg-pink py-3 px-10 font-roboto text-2xl font-extrabold tracking-wider text-white  shadow-custom"
             text="LOG IN"
             onClick={() => navigate('/login')}
           />
           <Button
-            className="rounded-[16px] border-opacity-60 bg-white bg-opacity-80  py-3 px-10 font-roboto text-lg font-bold tracking-wider text-blue shadow-custom"
+            className="rounded-[16px] border-[2.5px] border-dark-pink border-opacity-40 bg-pink py-3 px-10 font-roboto text-2xl font-extrabold tracking-wider text-white  shadow-custom"
             text="SIGN UP"
             onClick={() => navigate('/signup')}
           />
