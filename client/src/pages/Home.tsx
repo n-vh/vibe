@@ -5,6 +5,7 @@ import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
 import Search from '../components/Search';
 import { useQuery } from '../graphql';
+import { Link } from 'react-router-dom';
 
 export function Home() {
   const [data] = useQuery({
@@ -52,6 +53,7 @@ export function Home() {
           ))}
         </div>
       </div>
+
       <RightSidebar />
       <Navbar />
     </div>

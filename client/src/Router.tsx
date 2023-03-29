@@ -12,6 +12,9 @@ import { VibeOne } from './pages/VibeOne';
 import Header from './components/Header';
 import { useSearchContext } from './hooks/useSearchContext';
 import Search from './components/Search';
+import { useDeleteContext } from './hooks/useDeleteContext';
+import DeleteModal from './components/DeleteModal';
+import { useEffect } from 'react';
 
 function Protected() {
   const { isAuthorized } = useAuthContext();
@@ -24,11 +27,13 @@ function Protected() {
 }
 
 export function Router() {
-  const { showSearch, setShowSearch } = useSearchContext();
+  const { showDelete } = useDeleteContext();
+  const { showSearch } = useSearchContext();
 
   return (
     <BrowserRouter>
       <Header />
+      {showDelete && <DeleteModal />}
       {showSearch && <Search />}
       <Routes>
         <Route path="/" index element={<Index />} />
