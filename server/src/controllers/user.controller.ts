@@ -100,16 +100,21 @@ export namespace UserController {
     return UserController.modifyArray(userId, '$pull', field, value);
   }
 
-  export async function getVibes(userId: ObjectId) {
+  export async function getVibes(userId: ObjectId, selfId: ObjectId) {
     const user = await UserController.findOne({ _id: userId });
-    return VibeModel.find({ _id: { $in: user.vibes }, reply: null })
+    const vibes = await VibeModel.find({ _id: { $in: user.vibes }, reply: null })
       .sort({ _id: -1 })
       .populate('user');
+
+    return vibes.map((vibe) => {
+      vibe.smiles.hasSmiled = vibe.smiles.users.includes(selfId);
+      return vibe;
+    });
   }
 
-  export async function getReplies(userId: ObjectId) {
+  export async function getReplies(userId: ObjectId, selfId: ObjectId) {
     const user = await UserController.findOne({ _id: userId });
-    return VibeModel.find({ _id: { $in: user.replies } })
+    const vibes = await VibeModel.find({ _id: { $in: user.replies } })
       .sort({ _id: -1 })
       .populate({
         path: 'user reply',
@@ -119,12 +124,22 @@ export namespace UserController {
         },
         strictPopulate: false,
       });
+
+    return vibes.map((vibe) => {
+      vibe.smiles.hasSmiled = vibe.smiles.users.includes(selfId);
+      return vibe;
+    });
   }
 
-  export async function getSmiles(userId: ObjectId) {
+  export async function getSmiles(userId: ObjectId, selfId: ObjectId) {
     const user = await UserController.findOne({ _id: userId });
-    return VibeModel.find({ _id: { $in: user.smiles } }, null, { _id: -1 })
+    const vibes = await VibeModel.find({ _id: { $in: user.smiles } }, null, { _id: -1 })
       .sort({ _id: -1 })
       .populate('user');
+
+    return vibes.map((vibe) => {
+      vibe.smiles.hasSmiled = vibe.smiles.users.includes(selfId);
+      return vibe;
+    });
   }
 }
