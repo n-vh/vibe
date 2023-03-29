@@ -22,6 +22,11 @@ export const queryResolver = {
     return null;
   },
 
+  searchUsers: (_: any, v: { query: string }, c: ContextUser) => {
+    requireAuth(c);
+    return UserController.searchUsers(v.query);
+  },
+
   timeline: (_: any, v: { after?: ObjectId }, c: ContextUser) => {
     requireAuth(c);
     return TimelineController.home(c.user.id, v.after);
