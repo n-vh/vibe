@@ -84,11 +84,17 @@ export type PaginatedVibes = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<Me>;
+  searchUsers: Array<User>;
   timeline?: Maybe<PaginatedVibes>;
   user?: Maybe<User>;
   vibe?: Maybe<Vibe>;
   vibeReplies: Array<Vibe>;
   vibes: Array<Vibe>;
+};
+
+
+export type QuerySearchUsersArgs = {
+  query: Scalars['String'];
 };
 
 
@@ -158,7 +164,7 @@ export type Vibe = {
 };
 
 export enum VibeType {
-  Replies = 'REPLIES',
+  Comments = 'COMMENTS',
   Smiles = 'SMILES',
   Vibes = 'VIBES'
 }

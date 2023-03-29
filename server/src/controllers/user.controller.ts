@@ -36,7 +36,7 @@ export namespace UserController {
 
   export async function searchUsers(query: string) {
     return UserModel.find({
-      username: { $regex: '^' + query, $options: 'i' },
+      username: { $regex: query, $options: 'i' },
     });
   }
 
@@ -102,7 +102,7 @@ export namespace UserController {
 
   export async function getVibes(userId: ObjectId) {
     const user = await UserController.findOne({ _id: userId });
-    return VibeModel.find({ _id: { $in: user.vibes } })
+    return VibeModel.find({ _id: { $in: user.vibes }, reply: null })
       .sort({ _id: -1 })
       .populate('user');
   }

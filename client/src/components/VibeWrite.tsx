@@ -35,9 +35,13 @@ const VibeWrite: React.FC = () => {
   };
 
   return (
-    <div className="mt-8 flex min-h-[90px] w-[355px] gap-4 rounded-[16px] bg-white bg-opacity-90 p-3 shadow-custom md:min-h-[110px] md:w-[500px] md:p-5">
+    <div className="mt-8 flex min-h-[90px] gap-4 rounded-[16px] bg-white bg-opacity-90 p-3 shadow-custom md:min-h-[110px] md:p-5">
       <div className="flex h-12 w-auto pr-3 md:h-14">
-        <img src={`/avatars/${user.avatar}.svg`} alt="avatar" />
+        <img
+          className="h-12 w-12 md:h-14 md:w-14"
+          src={`/avatars/${user.avatar}.svg`}
+          alt="avatar"
+        />
       </div>
       <div className="flex flex-grow pt-1">
         <textarea

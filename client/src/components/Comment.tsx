@@ -7,6 +7,7 @@ import { useAuthContext } from '../hooks';
 import { useMutation } from '../graphql';
 import { ObjectId } from 'mongodb';
 import { useDeleteContext } from '../hooks/useDeleteContext';
+import { handleScrollToTop } from '../utils/scroll';
 
 interface CommentProps {
   id: ObjectId;
@@ -57,12 +58,6 @@ mutation smileVibe($smileVibeId: ObjectID!) {
     } else {
       executeSmile({ smileVibeId: id });
     }
-  };
-
-  /* scroll to top */
-
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   /* delete */

@@ -38,7 +38,7 @@ export const queryResolver = {
     switch (v.type) {
       case VibeType.VIBES:
         return UserController.getVibes(v.id);
-      case VibeType.REPLIES:
+      case VibeType.COMMENTS:
         return UserController.getReplies(v.id);
       case VibeType.SMILES:
         return UserController.getSmiles(v.id);

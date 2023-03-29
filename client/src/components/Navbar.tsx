@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../hooks';
 import { useSearchContext } from '../hooks/useSearchContext';
 import Button from './Button';
+import { handleScrollToTop } from '../utils/scroll';
 
 const Navbar: React.FC = () => {
   const { user } = useAuthContext();
@@ -13,9 +14,14 @@ const Navbar: React.FC = () => {
     setShowSearch(true);
   };
 
+  const handleHome = () => {
+    navigate('/');
+    handleScrollToTop();
+  };
+
   return (
     <div className="fixed bottom-0 flex h-[7vh] w-full flex-nowrap justify-around bg-light-yellow lg:hidden ">
-      <Button onClick={() => navigate('/')}>
+      <Button onClick={handleHome}>
         <img src="/home.svg" alt="home" className="h-[45px] w-full md:h-[60px]" />
       </Button>
 
