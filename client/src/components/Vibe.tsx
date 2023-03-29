@@ -6,6 +6,7 @@ import { getTimeString, pluralString } from '../utils/format';
 import { useAuthContext } from '../hooks';
 import { useMutation } from '../graphql';
 import { ObjectId } from 'mongodb';
+import { useDeleteContext } from '../hooks/useDeleteContext';
 
 interface VibeProps {
   id: ObjectId;
@@ -99,16 +100,10 @@ const Vibe: React.FC<VibeProps> = ({
 
   /* delete */
 
-  const [, executeDelete] = useMutation(
-    `mutation deleteVibe($id: ObjectID!) {
-      deleteVibe(id: $id) {
-        id
-      }
-    }`,
-  );
+  const { setDeleteID } = useDeleteContext();
 
   const handleDelete = () => {
-    executeDelete({ id: id });
+    setDeleteID(`${id}`);
   };
 
   return (
