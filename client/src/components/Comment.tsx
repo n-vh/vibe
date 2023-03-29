@@ -69,7 +69,7 @@ mutation smileVibe($smileVibeId: ObjectID!) {
   };
 
   return (
-    <div className="flex w-[355px] flex-shrink-0 flex-col gap-4 rounded-[16px] bg-white bg-opacity-90 p-5 shadow-custom md:w-[500px] md:p-6">
+    <div className="flex flex-shrink-0 flex-col gap-4 rounded-[16px] bg-white bg-opacity-90 p-5 shadow-custom md:p-6">
       {/* HEADER */}
 
       <div className="flex">

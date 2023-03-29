@@ -69,7 +69,10 @@ export function VibeOne() {
   return (
     <div className="flex pb-20 pt-28 md:pb-28 lg:pb-6">
       <LeftSidebar />
-      <div id="inputs" className="mx-auto mt-8 flex flex-col gap-6">
+      <div
+        id="inputs"
+        className="mx-auto mt-8 flex w-[355px] flex-col gap-6 md:w-[500px]"
+      >
         <div className="flex flex-col gap-6">
           {queryVibe.data?.vibe && (
             <VibeComponent
