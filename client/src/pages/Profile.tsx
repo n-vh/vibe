@@ -205,7 +205,7 @@ export function Profile() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-6">
+          <div id="inputs" className="flex flex-col gap-6">
             {vibeQuery.data?.vibes?.map((vibe) => (
               <Vibe
                 id={vibe.id}

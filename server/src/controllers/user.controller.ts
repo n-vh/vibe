@@ -36,7 +36,7 @@ export namespace UserController {
 
   export async function searchUsers(query: string) {
     return UserModel.find({
-      username: { $regex: '^' + query, $options: 'i' },
+      username: { $regex: query, $options: 'i' },
     });
   }
 
