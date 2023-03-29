@@ -15,6 +15,6 @@ export interface ContextUser {
 
 export enum VibeType {
   VIBES = 'VIBES',
-  REPLIES = 'REPLIES',
+  COMMENTS = 'COMMENTS',
   SMILES = 'SMILES',
 }

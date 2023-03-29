@@ -1,87 +1,227 @@
 import Navbar from '../components/Navbar';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
-import { useQuery } from '../graphql';
+import { useMutation, useQuery } from '../graphql';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
+import { useParams } from 'react-router-dom';
+import { getFullDate, pluralString } from '../utils/format';
 import { useAuthContext } from '../hooks';
+import { useEffect, useMemo, useState } from 'react';
+import Vibe from '../components/Vibe';
 
 export function Profile() {
+  const { username } = useParams();
   const { user } = useAuthContext();
+
+  const [queryUser] = useQuery({
+    query: `query QueryUser($username: String) {
+      user(username: $username) {
+        avatar
+        createdAt
+        followers
+        following
+        id
+        username
+      }
+    }
+    `,
+    variables: { username: username },
+  });
+
+  const profileUser = useMemo(() => {
+    const dataUser = queryUser.data?.user;
+
+    if (dataUser) {
+      return {
+        id: dataUser.id,
+        username: dataUser.username,
+        avatar: dataUser.avatar,
+        createdAt: dataUser.createdAt,
+        followersCount: dataUser.followers.length,
+        followingCount: dataUser.following.length,
+        isFollowing: dataUser.followers.map((f) => `${f}`).includes(user.id),
+      };
+    }
+  }, [queryUser]);
+
+  //* FOLLOW *//
+
+  const [followMutation, executeFollow] = useMutation(
+    `mutation MutationFollow($followId: ObjectID!) {
+      follow(id: $followId) {
+        id
+      }
+    }`,
+  );
+
+  const [unFollowMutation, executeUnFollow] = useMutation(
+    `mutation Mutation($unfollowId: ObjectID!) {
+      unfollow(id: $unfollowId) {
+        id
+      }
+    }`,
+  );
+
+  const handleFollow = () => {
+    if (profileUser?.isFollowing) {
+      executeUnFollow({ unfollowId: profileUser?.id });
+    } else {
+      executeFollow({ followId: profileUser?.id });
+    }
+  };
+
+  //* VIBES / COMMENTS / VIBES *//
+
+  const [vibeTab, setVibeTab] = useState('VIBES');
+
+  const [vibeQuery, executeVibeQuery] = useQuery({
+    query: `query QueryVibes($userId: ObjectID!, $type: VibeType!) {
+    vibes(id: $userId, type: $type) {
+      id
+      createdAt
+      message
+      replies {
+        count
+      }
+      smiles {
+        hasSmiled
+        count
+      }
+      user {
+        avatar
+        id
+        username
+      }
+    }
+  }`,
+    pause: true,
+    variables: { userId: profileUser?.id, type: vibeTab },
+    requestPolicy: 'network-only',
+  });
+
+  useEffect(() => {
+    if (profileUser) {
+      executeVibeQuery();
+    }
+  }, [profileUser, vibeTab]);
+
   return (
     <div className="flex pb-20 pt-28 md:pb-28 lg:pb-6">
       <LeftSidebar />
 
-      <div className="mx-auto flex">
-        <div className="mt-8 flex w-[355px] flex-shrink-0 flex-col rounded-[16px] bg-white bg-opacity-90 p-5 shadow-custom md:w-[600px] md:p-6">
-          {/* HEADER */}
+      {profileUser && (
+        <div
+          id="centerDiv"
+          className="mx-auto flex w-[355px] flex-col gap-6 md:w-[600px]  "
+        >
+          <div
+            id="profileDiv"
+            className="mt-8 flex flex-shrink-0 flex-col rounded-[16px] bg-white bg-opacity-90 p-5 shadow-custom md:p-6"
+          >
+            {/* HEADER */}
 
-          <div className="flex">
-            <img
-              src={`/avatars/${user.avatar}.svg`}
-              alt="avatar"
-              className="h-16 w-16 md:h-20 md:w-20"
-            ></img>
+            <div className="flex">
+              <img
+                src={`/avatars/${profileUser.avatar}.svg`}
+                alt="avatar"
+                className="h-16 w-16 md:h-20 md:w-20"
+              ></img>
 
-            <div className="my-auto flex w-[90%] flex-col pt-2 pl-4 md:w-[65%]">
-              <p className="font-roboto text-lg tracking-wider text-dark-grey text-opacity-80 md:text-xl lg:text-lg">
-                littlemango
+              <div className="my-auto flex w-[90%] flex-col pt-2 pl-4 md:w-[65%]">
+                <p className="font-roboto text-lg tracking-wider text-dark-grey text-opacity-80 md:text-xl lg:text-lg">
+                  {profileUser.username}
+                </p>
+                <time className="font-roboto tracking-wider text-dark-pink md:text-lg lg:text-sm">
+                  Member since {getFullDate(profileUser.createdAt)}
+                </time>
+                <br />
+              </div>
+
+              {username != user.username && (
+                <div className="hidden self-start md:flex">
+                  <Button
+                    className="rounded-lg border-2 border-dark-pink border-opacity-70 px-4 py-2 font-roboto text-sm font-bold tracking-wider text-dark-pink shadow-custom hover:bg-gradient-to-r hover:from-pink hover:to-yellow md:text-lg lg:text-base"
+                    text={profileUser.isFollowing ? 'UNFOLLOW' : 'FOLLOW'}
+                    onClick={handleFollow}
+                    disabled={followMutation.fetching || unFollowMutation.fetching}
+                  ></Button>
+                </div>
+              )}
+            </div>
+
+            {/* FOLLOW */}
+
+            <div className="flex flex-row items-center gap-4 pb-4 pl-1 md:pl-2 md:pt-4">
+              {username != user.username && (
+                <div className="mt-2 flex self-start md:hidden">
+                  <Button
+                    className="rounded-lg border-2 border-dark-pink border-opacity-70 px-4 py-2 font-roboto text-sm font-bold tracking-wider text-dark-pink shadow-custom hover:bg-gradient-to-r hover:from-pink hover:to-yellow md:text-lg lg:text-base"
+                    text={profileUser.isFollowing ? 'UNFOLLOW' : 'FOLLOW'}
+                    onClick={handleFollow}
+                    disabled={followMutation.fetching || unFollowMutation.fetching}
+                  ></Button>
+                </div>
+              )}
+              <p className="pt-2 font-roboto text-sm tracking-wider text-dark-grey text-opacity-60 md:pt-0 md:text-lg lg:text-sm ">
+                <b className="font-medium">{profileUser.followersCount}</b>{' '}
+                {pluralString(profileUser.followersCount, 'follower')}
               </p>
-              <time className="font-roboto tracking-wider text-dark-pink md:text-lg lg:text-sm">
-                Member since 16/03/2023
-              </time>
-              <br />
+              <p className="pt-2 font-roboto text-sm tracking-wider text-dark-grey text-opacity-60 md:pt-0 md:text-lg lg:text-sm">
+                <b className="font-medium">{profileUser.followingCount}</b> following
+              </p>
             </div>
 
-            <div className="hidden self-start md:flex">
+            {/* BUTTONS */}
+
+            <div className="flex items-center gap-4 px-2">
               <Button
-                className="rounded-lg border-2 border-dark-pink border-opacity-70 px-4 py-2 font-roboto text-sm font-bold tracking-wider text-dark-pink shadow-custom hover:bg-gradient-to-r hover:from-pink hover:to-yellow md:text-lg lg:text-base"
-                text="FOLLOW"
-              ></Button>
+                className={`font-mincho text-dark-grey text-opacity-70 duration-100 hover:text-dark-pink md:text-xl lg:text-base ${
+                  vibeTab === 'VIBES' && 'text-dark-pink'
+                }`}
+                text="vibes"
+                onClick={() => setVibeTab('VIBES')}
+              />
+
+              <div className="mx-4 h-4 w-[1px] bg-dark-grey bg-opacity-50"></div>
+
+              <Button
+                className={`font-mincho text-dark-grey text-opacity-70 duration-100 hover:text-dark-pink md:text-xl lg:text-base ${
+                  vibeTab === 'COMMENTS' && 'text-dark-pink'
+                }`}
+                text="comments"
+                onClick={() => setVibeTab('COMMENTS')}
+              />
+
+              <div className="mx-2 h-4 w-[1px] bg-dark-grey bg-opacity-50"></div>
+
+              <Button
+                className={`font-mincho text-dark-grey text-opacity-70 duration-100 hover:text-dark-pink md:text-xl lg:text-base ${
+                  vibeTab === 'SMILES' && 'text-dark-pink'
+                }`}
+                text="smiles"
+                onClick={() => setVibeTab('SMILES')}
+              />
             </div>
           </div>
 
-          {/* FOLLOW */}
-
-          <div className="flex flex-row items-center gap-4 pb-4 pl-1 md:pl-2 md:pt-4">
-            <div className="mt-2 flex self-start md:hidden">
-              <Button
-                className="rounded-lg border-2 border-dark-pink border-opacity-70 px-4 py-2 font-roboto text-sm font-bold tracking-wider text-dark-pink shadow-custom hover:bg-gradient-to-r hover:from-pink hover:to-yellow md:text-lg lg:text-base"
-                text="FOLLOW"
-              ></Button>
-            </div>
-            <p className="pt-2 font-roboto text-sm tracking-wider text-dark-grey text-opacity-60 md:pt-0 md:text-lg lg:text-sm ">
-              <b className="font-medium">30</b> followers
-            </p>
-            <p className="pt-2 font-roboto text-sm tracking-wider text-dark-grey text-opacity-60 md:pt-0 md:text-lg lg:text-sm">
-              <b className="font-medium">23</b> following
-            </p>
-          </div>
-
-          {/* BUTTONS */}
-
-          <div className="flex items-center gap-4 px-2">
-            <Button
-              className="font-mincho text-dark-grey text-opacity-70 duration-100 hover:text-dark-pink md:text-xl lg:text-base "
-              text="vibes"
-            />
-
-            <div className="mx-4 h-4 w-[1px] bg-dark-grey bg-opacity-50"></div>
-
-            <Button
-              className=" font-mincho text-dark-grey text-opacity-70 duration-100 hover:text-dark-pink md:text-xl lg:text-base"
-              text="comments"
-            />
-
-            <div className="mx-2 h-4 w-[1px] bg-dark-grey bg-opacity-50"></div>
-
-            <Button
-              className=" font-mincho text-dark-grey text-opacity-70 duration-100 hover:text-dark-pink md:text-xl lg:text-base"
-              text="smiles"
-            />
+          <div className="flex flex-col gap-6">
+            {vibeQuery.data?.vibes?.map((vibe) => (
+              <Vibe
+                id={vibe.id}
+                key={`${vibe.id}`}
+                avatar={vibe.user.avatar}
+                username={vibe.user.username}
+                date={vibe.createdAt}
+                smileCount={vibe.smiles.count}
+                hasSmiled={vibe.smiles.hasSmiled}
+                message={vibe.message}
+                commentCount={vibe.replies.count}
+              />
+            ))}
           </div>
         </div>
-      </div>
+      )}
 
       <RightSidebar />
       <Navbar />

@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuthContext } from '../hooks';
 import { useSearchContext } from '../hooks/useSearchContext';
 import Button from './Button';
+import { handleScrollToTop } from '../utils/scroll';
 
 const LeftSidebar: React.FC = () => {
   const { signOut, user } = useAuthContext();
@@ -13,11 +14,16 @@ const LeftSidebar: React.FC = () => {
     setShowSearch(true);
   };
 
+  const handleHome = () => {
+    navigate('/');
+    handleScrollToTop();
+  };
+
   return (
     <div className="fixed mt-8 hidden w-[333px] flex-col lg:flex">
       <div className="w-[333px] rounded-r-[16px] bg-white bg-opacity-90 shadow-custom">
         <div className="flex flex-col items-start pl-12 pt-10">
-          <Button onClick={() => navigate('/')}>
+          <Button onClick={handleHome}>
             <div className="flex flex-row items-center py-3">
               <img src="/bluehome.svg" alt="home" className="h-[35px]" />
               <p className="pl-4 font-roboto text-lg font-bold tracking-wider text-blue">
@@ -79,12 +85,17 @@ const LeftSidebar: React.FC = () => {
           </p>
         </div>
       </div>
-      <div className="py-4 pl-4 font-roboto text-[10px] tracking-wider text-dark-pink">
-        © 2023 VIBE &nbsp; |
+      <div className="pt-3">
+        <a
+          className="pl-4 font-roboto text-[10px] tracking-wider text-dark-pink hover:underline"
+          href="https://github.com/n-vh/vibe"
+        >
+          © 2023 VIBE &nbsp; |
+        </a>
         <Link
           to="/terms"
           target="_blank"
-          className="py-4 pl-2 font-roboto text-[10px] tracking-wider text-dark-pink hover:underline"
+          className="pl-2 font-roboto text-[10px] tracking-wider text-dark-pink hover:underline"
         >
           Terms and conditions
         </Link>

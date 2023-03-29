@@ -55,7 +55,7 @@ type PaginatedVibes {
 
 enum VibeType {
   VIBES
-  REPLIES
+  COMMENTS
   SMILES
 }
 
