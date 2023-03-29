@@ -9,9 +9,10 @@ import { getFullDate, pluralString } from '../utils/format';
 import { useAuthContext } from '../hooks';
 import { useEffect, useMemo, useState } from 'react';
 import Vibe from '../components/Vibe';
+import Comment from '../components/Comment';
 
 export function Profile() {
-  const { username } = useParams();
+  const { username, tab } = useParams();
   const { user } = useAuthContext();
 
   const [queryUser] = useQuery({
@@ -73,7 +74,7 @@ export function Profile() {
 
   //* VIBES / COMMENTS / VIBES *//
 
-  const [vibeTab, setVibeTab] = useState('VIBES');
+  const [vibeTab, setVibeTab] = useState(tab?.toUpperCase() || 'VIBES');
 
   const [vibeQuery, executeVibeQuery] = useQuery({
     query: `query QueryVibes($userId: ObjectID!, $type: VibeType!) {
@@ -83,6 +84,12 @@ export function Profile() {
       message
       replies {
         count
+      }
+      reply {
+        id
+        user {
+          username
+        }
       }
       smiles {
         hasSmiled
@@ -105,6 +112,15 @@ export function Profile() {
       executeVibeQuery();
     }
   }, [profileUser, vibeTab]);
+
+  const handleTabClick = (tab: string) => {
+    setVibeTab(tab);
+    window.history.pushState(
+      {},
+      '',
+      `/profile/${profileUser?.username}/${tab.toLowerCase()}`,
+    );
+  };
 
   return (
     <div className="flex pb-20 pt-28 md:pb-28 lg:pb-6">
@@ -180,7 +196,7 @@ export function Profile() {
                   vibeTab === 'VIBES' && 'text-dark-pink'
                 }`}
                 text="vibes"
-                onClick={() => setVibeTab('VIBES')}
+                onClick={() => handleTabClick('VIBES')}
               />
 
               <div className="mx-4 h-4 w-[1px] bg-dark-grey bg-opacity-50"></div>
@@ -190,7 +206,7 @@ export function Profile() {
                   vibeTab === 'COMMENTS' && 'text-dark-pink'
                 }`}
                 text="comments"
-                onClick={() => setVibeTab('COMMENTS')}
+                onClick={() => handleTabClick('COMMENTS')}
               />
 
               <div className="mx-2 h-4 w-[1px] bg-dark-grey bg-opacity-50"></div>
@@ -200,25 +216,44 @@ export function Profile() {
                   vibeTab === 'SMILES' && 'text-dark-pink'
                 }`}
                 text="smiles"
-                onClick={() => setVibeTab('SMILES')}
+                onClick={() => handleTabClick('SMILES')}
               />
             </div>
           </div>
 
           <div id="inputs" className="flex flex-col gap-6">
-            {vibeQuery.data?.vibes?.map((vibe) => (
-              <Vibe
-                id={vibe.id}
-                key={`${vibe.id}`}
-                avatar={vibe.user.avatar}
-                username={vibe.user.username}
-                date={vibe.createdAt}
-                smileCount={vibe.smiles.count}
-                hasSmiled={vibe.smiles.hasSmiled}
-                message={vibe.message}
-                commentCount={vibe.replies.count}
-              />
-            ))}
+            {!vibeQuery.fetching &&
+              vibeQuery.data?.vibes?.map((vibe) => {
+                if (vibeTab === 'COMMENTS' && vibe.reply?.id) {
+                  return (
+                    <Comment
+                      id={vibe.id}
+                      idOP={`${vibe.reply!.id}`}
+                      avatar={vibe.user.avatar}
+                      username={vibe.user.username}
+                      usernameAuthor={vibe.reply?.user.username}
+                      date={vibe.createdAt}
+                      smileCount={vibe.smiles.count}
+                      hasSmiled={vibe.smiles.hasSmiled}
+                      message={vibe.message}
+                    />
+                  );
+                }
+
+                return (
+                  <Vibe
+                    id={vibe.id}
+                    key={`${vibe.id}`}
+                    avatar={vibe.user.avatar}
+                    username={vibe.user.username}
+                    date={vibe.createdAt}
+                    smileCount={vibe.smiles.count}
+                    hasSmiled={vibe.smiles.hasSmiled}
+                    message={vibe.message}
+                    commentCount={vibe.replies.count}
+                  />
+                );
+              })}
           </div>
         </div>
       )}

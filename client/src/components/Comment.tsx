@@ -69,11 +69,11 @@ mutation smileVibe($smileVibeId: ObjectID!) {
   };
 
   return (
-    <div className="flex w-[355px] flex-shrink-0 flex-col gap-4 rounded-[16px] bg-white bg-opacity-90 p-5 shadow-custom md:w-[500px] md:p-6">
+    <div className="flex flex-shrink-0 flex-col gap-4 rounded-[16px] bg-white bg-opacity-90 p-5 shadow-custom md:p-6">
       {/* HEADER */}
 
       <div className="flex">
-        <Link to={`/profile/${username}`}>
+        <Link to={`/profile/${username}/vibes`}>
           <img
             src={`/avatars/${avatar}.svg`}
             alt="avatar"
@@ -83,7 +83,7 @@ mutation smileVibe($smileVibeId: ObjectID!) {
 
         <div className="my-auto flex flex-col pl-4">
           <Link
-            to={`/profile/${username}`}
+            to={`/profile/${username}/vibes`}
             className="font-roboto text-lg tracking-wider text-dark-grey text-opacity-80 md:text-xl lg:text-base"
           >
             {username}

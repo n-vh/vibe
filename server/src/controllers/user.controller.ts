@@ -116,7 +116,14 @@ export namespace UserController {
     const user = await UserController.findOne({ _id: userId });
     const vibes = await VibeModel.find({ _id: { $in: user.replies } })
       .sort({ _id: -1 })
-      .populate('user');
+      .populate({
+        path: 'user reply',
+        populate: {
+          path: 'user',
+          strictPopulate: false,
+        },
+        strictPopulate: false,
+      });
 
     return vibes.map((vibe) => {
       vibe.smiles.hasSmiled = vibe.smiles.users.includes(selfId);
