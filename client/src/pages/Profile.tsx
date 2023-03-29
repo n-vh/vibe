@@ -10,6 +10,7 @@ import { useAuthContext } from '../hooks';
 import { useEffect, useMemo, useState } from 'react';
 import Vibe from '../components/Vibe';
 import Comment from '../components/Comment';
+import Nothing from '../components/Nothing';
 
 export function Profile() {
   const { username, tab } = useParams();
@@ -222,7 +223,7 @@ export function Profile() {
           </div>
 
           <div id="inputs" className="flex flex-col gap-6">
-            {!vibeQuery.fetching &&
+            {!vibeQuery.fetching && vibeQuery.data?.vibes.length ? (
               vibeQuery.data?.vibes?.map((vibe) => {
                 if (vibeTab === 'COMMENTS' && vibe.reply?.id) {
                   return (
@@ -253,7 +254,10 @@ export function Profile() {
                     commentCount={vibe.replies.count}
                   />
                 );
-              })}
+              })
+            ) : (
+              <Nothing />
+            )}
           </div>
         </div>
       )}
