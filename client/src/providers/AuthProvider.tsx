@@ -13,7 +13,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [token, setToken] = useLocalStorage('token', '');
   const [user, setUser] = useLocalStorage('user', { id: '', username: '', avatar: '' });
   const [data, execute] = useQuery({
-    query: 'query { me { id username avatar } }',
+    query: 'query Me { me { id username avatar } }',
     requestPolicy: 'network-only',
     pause: true,
   });
