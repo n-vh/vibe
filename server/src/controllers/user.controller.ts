@@ -1,10 +1,11 @@
 import type { FilterQuery } from 'mongoose';
-import type { User } from '~/shared/types';
+import type { Me, User } from '~/shared/types';
 import { ObjectId } from 'mongodb';
 import { GraphQLError } from 'graphql';
 import { UserModel, VibeModel } from '~/database/models';
 import { randomInArray } from '~/utils/random';
 import { avatars } from '~/shared/constants';
+import { comparePassword, hashPassword } from '~/utils/password';
 
 export namespace UserController {
   export async function create(user: User) {
@@ -141,5 +142,37 @@ export namespace UserController {
       vibe.smiles.hasSmiled = vibe.smiles.users.includes(selfId);
       return vibe;
     });
+  }
+
+  export async function modifySettings(payload: Partial<Me>, selfId: ObjectId) {
+    const user = await UserController.findOne({ _id: selfId });
+
+    if (payload.avatar) {
+      if (user.avatar !== payload.avatar) {
+        return await UserController.updateOne(selfId, { avatar: payload.avatar });
+      } else {
+        throw new GraphQLError('SAME_AVATAR');
+      }
+    }
+
+    if (payload.email) {
+      console.log(payload.email);
+      if (user.email !== payload.email) {
+        return await UserController.updateOne(selfId, { email: payload.email });
+      } else {
+        throw new GraphQLError('SAME_EMAIL');
+      }
+    }
+
+    if (payload.password) {
+      const isSamePassword = comparePassword(payload.password, user.password);
+      const newPasswordHashed = await hashPassword(payload.password);
+
+      if (!isSamePassword) {
+        return await UserController.updateOne(selfId, { password: newPasswordHashed });
+      } else {
+        throw new GraphQLError('SAME_PASSWORD');
+      }
+    }
   }
 }

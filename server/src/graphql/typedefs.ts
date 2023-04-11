@@ -53,6 +53,12 @@ type PaginatedVibes {
   pageInfo: PageInfo!
 }
 
+input ModifySettingsInput {
+  email: String
+  avatar: String
+  password: String
+}
+
 enum VibeType {
   VIBES
   COMMENTS
@@ -77,5 +83,6 @@ type Mutation {
   replyVibe(id: ObjectID!, message: String!): Vibe
   follow(id: ObjectID!): User
   unfollow(id: ObjectID!): User
+  modifySettings(input: ModifySettingsInput!): User
 }
 `;
