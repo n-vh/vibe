@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import Button from './Button';
 import { useRef, useState } from 'react';
 import { useClickOutside } from '../hooks/useClickOutside';
@@ -26,14 +26,19 @@ const Search: React.FC = () => {
     pause: true,
   });
 
-  const handleSearch = () => {
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
     executeQueryUsers();
   };
 
   return (
     <div className="fixed z-40 flex h-screen w-screen items-center justify-center overflow-hidden bg-dark-grey bg-opacity-50">
       <div className="flex w-[90%] flex-col gap-4 md:w-[80%] lg:w-[40%]" ref={ref}>
-        <div id="inputs" className="flex h-12 rounded-[16px] bg-white p-2 md:h-14">
+        <form
+          id="inputs"
+          className="flex h-12 rounded-[16px] bg-white p-2 md:h-14"
+          onSubmit={handleSearch}
+        >
           <input
             type="text"
             className="text-md w-full bg-transparent pl-3 font-roboto font-light tracking-wider focus:border-transparent md:text-lg"
@@ -43,7 +48,7 @@ const Search: React.FC = () => {
             onChange={(e) => setInputValue(e.target.value)}
           ></input>
           <div className="ml-auto flex h-full">
-            <Button onClick={handleSearch}>
+            <Button type="submit">
               <img
                 src="/searchoutline.svg"
                 alt="search"
@@ -51,7 +56,7 @@ const Search: React.FC = () => {
               ></img>
             </Button>
           </div>
-        </div>
+        </form>
 
         <div className="flex flex-col gap-4 ">
           {queryUsers.data?.searchUsers.map((vibe) => (
