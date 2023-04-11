@@ -8,8 +8,13 @@ import { Settings } from './pages/Settings';
 import { SignUp } from './pages/SignUp';
 import { Terms } from './pages/Terms';
 import { Verify } from './pages/Verify';
-import { Vibe } from './pages/Vibe';
+import { VibeOne } from './pages/VibeOne';
 import Header from './components/Header';
+import { useSearchContext } from './hooks/useSearchContext';
+import Search from './components/Search';
+import { useDeleteContext } from './hooks/useDeleteContext';
+import DeleteModal from './components/DeleteModal';
+import { useEffect } from 'react';
 
 function Protected() {
   const { isAuthorized } = useAuthContext();
@@ -22,9 +27,14 @@ function Protected() {
 }
 
 export function Router() {
+  const { showDelete } = useDeleteContext();
+  const { showSearch } = useSearchContext();
+
   return (
     <BrowserRouter>
       <Header />
+      {showDelete && <DeleteModal />}
+      {showSearch && <Search />}
       <Routes>
         <Route path="/" index element={<Index />} />
         <Route path="/login" element={<Login />} />
@@ -32,8 +42,8 @@ export function Router() {
         <Route path="/verify" element={<Verify />} />
         <Route path="/terms" element={<Terms />} />
         <Route element={<Protected />}>
-          <Route path="/vibe/:id" element={<Vibe />} />
-          <Route path="/profile/:username" element={<Profile />} />
+          <Route path="/vibe/:id" element={<VibeOne />} />
+          <Route path="/profile/:username/:tab" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -14,7 +14,7 @@ export function Index() {
   return (
     <div className="flex h-screen flex-col pt-28">
       <div className="my-auto flex flex-col gap-4 md:w-4/6 md:self-center lg:flex-row">
-        <div className="mx-6 flex flex-col items-center rounded-[16px] bg-white bg-opacity-80 shadow-md lg:w-5/6">
+        <div className="mx-6 flex flex-col items-center rounded-[16px] bg-white bg-opacity-80 shadow-custom lg:w-5/6">
           <img src="/bluesmiley.svg" className="mt-6 mb-3 h-[48px] w-full" />
           <div className="m-2 mb-6 flex h-[55vh] w-64 overflow-auto md:w-5/6">
             <p className="justify-self-center text-justify font-gothic text-lg font-light tracking-wider text-blue">
@@ -41,14 +41,14 @@ export function Index() {
             </p>
           </div>
         </div>
-        <div className="mx-6 mt-4 flex flex-row justify-between lg:w-1/4 lg:flex-col lg:justify-center lg:gap-4">
+        <div className="mx-6 mt-4 flex flex-row justify-between lg:w-1/4 lg:flex-col lg:justify-center lg:gap-6">
           <Button
-            className="rounded-[16px] border-opacity-60 bg-white bg-opacity-80  py-3 px-10 font-roboto text-lg font-bold tracking-wider text-blue shadow-md"
+            className="rounded-[16px] border-[2.5px] border-dark-pink border-opacity-40 bg-pink py-3 px-10 font-roboto text-2xl font-extrabold tracking-wider text-white  shadow-custom"
             text="LOG IN"
             onClick={() => navigate('/login')}
           />
           <Button
-            className="rounded-[16px] border-opacity-60 bg-white bg-opacity-80  py-3 px-10 font-roboto text-lg font-bold tracking-wider text-blue shadow-md"
+            className="rounded-[16px] border-[2.5px] border-dark-pink border-opacity-40 bg-pink py-3 px-10 font-roboto text-2xl font-extrabold tracking-wider text-white  shadow-custom"
             text="SIGN UP"
             onClick={() => navigate('/signup')}
           />

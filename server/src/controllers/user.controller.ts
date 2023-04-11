@@ -2,7 +2,7 @@ import type { FilterQuery } from 'mongoose';
 import type { User } from '~/shared/types';
 import { ObjectId } from 'mongodb';
 import { GraphQLError } from 'graphql';
-import { UserModel } from '~/database/models';
+import { UserModel, VibeModel } from '~/database/models';
 import { randomInArray } from '~/utils/random';
 import { avatars } from '~/shared/constants';
 
@@ -34,6 +34,12 @@ export namespace UserController {
     return doc;
   }
 
+  export async function searchUsers(query: string) {
+    return UserModel.find({
+      username: { $regex: query, $options: 'i' },
+    });
+  }
+
   export async function getSelf(userId: ObjectId) {
     const doc = await UserModel.findById(userId);
 
@@ -49,10 +55,10 @@ export namespace UserController {
     };
   }
 
-  export async function updateOne(id: ObjectId, user: Partial<User>) {
+  export async function updateOne(userId: ObjectId, user: Partial<User>) {
     const document = await UserModel.findOneAndUpdate(
       {
-        _id: id,
+        _id: userId,
       },
       { $set: user },
       { new: true },
@@ -66,14 +72,14 @@ export namespace UserController {
   }
 
   export async function modifyArray(
-    id: ObjectId,
+    userId: ObjectId,
     operation: '$addToSet' | '$pull',
     field: string,
     value: ObjectId,
   ) {
     const document = await UserModel.findOneAndUpdate(
       {
-        _id: id,
+        _id: userId,
       },
       { [operation]: { [field]: value } },
       { new: true },
@@ -86,11 +92,54 @@ export namespace UserController {
     return document;
   }
 
-  export function push(id: ObjectId, field: string, value: ObjectId) {
-    return UserController.modifyArray(id, '$addToSet', field, value);
+  export function push(userId: ObjectId, field: string, value: ObjectId) {
+    return UserController.modifyArray(userId, '$addToSet', field, value);
   }
 
-  export function pull(id: ObjectId, field: string, value: ObjectId) {
-    return UserController.modifyArray(id, '$pull', field, value);
+  export function pull(userId: ObjectId, field: string, value: ObjectId) {
+    return UserController.modifyArray(userId, '$pull', field, value);
+  }
+
+  export async function getVibes(userId: ObjectId, selfId: ObjectId) {
+    const user = await UserController.findOne({ _id: userId });
+    const vibes = await VibeModel.find({ _id: { $in: user.vibes }, reply: null })
+      .sort({ _id: -1 })
+      .populate('user');
+
+    return vibes.map((vibe) => {
+      vibe.smiles.hasSmiled = vibe.smiles.users.includes(selfId);
+      return vibe;
+    });
+  }
+
+  export async function getReplies(userId: ObjectId, selfId: ObjectId) {
+    const user = await UserController.findOne({ _id: userId });
+    const vibes = await VibeModel.find({ _id: { $in: user.replies } })
+      .sort({ _id: -1 })
+      .populate({
+        path: 'user reply',
+        populate: {
+          path: 'user',
+          strictPopulate: false,
+        },
+        strictPopulate: false,
+      });
+
+    return vibes.map((vibe) => {
+      vibe.smiles.hasSmiled = vibe.smiles.users.includes(selfId);
+      return vibe;
+    });
+  }
+
+  export async function getSmiles(userId: ObjectId, selfId: ObjectId) {
+    const user = await UserController.findOne({ _id: userId });
+    const vibes = await VibeModel.find({ _id: { $in: user.smiles } }, null, { _id: -1 })
+      .sort({ _id: -1 })
+      .populate('user');
+
+    return vibes.map((vibe) => {
+      vibe.smiles.hasSmiled = vibe.smiles.users.includes(selfId);
+      return vibe;
+    });
   }
 }

@@ -12,3 +12,9 @@ export interface WithIds {
 export interface ContextUser {
   user: Me | null;
 }
+
+export enum VibeType {
+  VIBES = 'VIBES',
+  COMMENTS = 'COMMENTS',
+  SMILES = 'SMILES',
+}

@@ -25,10 +25,12 @@ export type Me = {
 export type Mutation = {
   __typename?: 'Mutation';
   createVibe?: Maybe<Vibe>;
+  deleteVibe?: Maybe<Vibe>;
   follow?: Maybe<User>;
-  smile?: Maybe<Vibe>;
+  replyVibe?: Maybe<Vibe>;
+  smileVibe?: Maybe<Vibe>;
   unfollow?: Maybe<User>;
-  unsmile?: Maybe<Vibe>;
+  unsmileVibe?: Maybe<Vibe>;
 };
 
 
@@ -37,12 +39,23 @@ export type MutationCreateVibeArgs = {
 };
 
 
+export type MutationDeleteVibeArgs = {
+  id: Scalars['ObjectID'];
+};
+
+
 export type MutationFollowArgs = {
   id: Scalars['ObjectID'];
 };
 
 
-export type MutationSmileArgs = {
+export type MutationReplyVibeArgs = {
+  id: Scalars['ObjectID'];
+  message: Scalars['String'];
+};
+
+
+export type MutationSmileVibeArgs = {
   id: Scalars['ObjectID'];
 };
 
@@ -52,14 +65,8 @@ export type MutationUnfollowArgs = {
 };
 
 
-export type MutationUnsmileArgs = {
+export type MutationUnsmileVibeArgs = {
   id: Scalars['ObjectID'];
-};
-
-export type Node = {
-  __typename?: 'Node';
-  count: Scalars['Int'];
-  users: Array<Scalars['ObjectID']>;
 };
 
 export type PageInfo = {
@@ -77,8 +84,17 @@ export type PaginatedVibes = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<Me>;
+  searchUsers: Array<User>;
   timeline?: Maybe<PaginatedVibes>;
   user?: Maybe<User>;
+  vibe?: Maybe<Vibe>;
+  vibeReplies: Array<Vibe>;
+  vibes: Array<Vibe>;
+};
+
+
+export type QuerySearchUsersArgs = {
+  query: Scalars['String'];
 };
 
 
@@ -88,18 +104,49 @@ export type QueryTimelineArgs = {
 
 
 export type QueryUserArgs = {
+  id?: InputMaybe<Scalars['ObjectID']>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryVibeArgs = {
   id: Scalars['ObjectID'];
+};
+
+
+export type QueryVibeRepliesArgs = {
+  id: Scalars['ObjectID'];
+};
+
+
+export type QueryVibesArgs = {
+  id: Scalars['ObjectID'];
+  type: VibeType;
+};
+
+export type RepliesNode = {
+  __typename?: 'RepliesNode';
+  count: Scalars['Int'];
+  hasReplied: Scalars['Boolean'];
+  vibes: Array<Scalars['ObjectID']>;
+};
+
+export type SmilesNode = {
+  __typename?: 'SmilesNode';
+  count: Scalars['Int'];
+  hasSmiled: Scalars['Boolean'];
+  users: Array<Scalars['ObjectID']>;
 };
 
 export type User = {
   __typename?: 'User';
   avatar: Scalars['String'];
-  comments: Array<Scalars['ObjectID']>;
   createdAt: Scalars['String'];
   email: Scalars['String'];
   followers: Array<Scalars['ObjectID']>;
   following: Array<Scalars['ObjectID']>;
   id: Scalars['ObjectID'];
+  replies: Array<Scalars['ObjectID']>;
   smiles: Array<Scalars['ObjectID']>;
   username: Scalars['String'];
   vibes: Array<Scalars['ObjectID']>;
@@ -107,10 +154,17 @@ export type User = {
 
 export type Vibe = {
   __typename?: 'Vibe';
-  comments: Node;
   createdAt: Scalars['String'];
   id: Scalars['ObjectID'];
   message: Scalars['String'];
-  smiles: Node;
+  replies: RepliesNode;
+  reply?: Maybe<Vibe>;
+  smiles: SmilesNode;
   user: User;
 };
+
+export enum VibeType {
+  Comments = 'COMMENTS',
+  Smiles = 'SMILES',
+  Vibes = 'VIBES'
+}

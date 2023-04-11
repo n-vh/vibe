@@ -6,9 +6,9 @@ module.exports = {
   theme: {
     colors: {
       'dark-grey': '#100E0E',
-      yellow: '#FDF0C7',
+      yellow: '#FBEACA',
       'light-yellow': '#FDFAF0',
-      pink: '#F1D3DEB2',
+      pink: '#F1D7D7',
       blue: '#9D9BBE',
       'dark-pink': '#C0A0A0',
       white: '#FFFFFF',
@@ -23,7 +23,11 @@ module.exports = {
       mincho: ['Sawarabi Mincho', 'serif'],
       hubballi: ['Hubballi', 'cursive'],
     },
-    extend: {},
+    extend: {
+      boxShadow: {
+        custom: '0 4px 0px 0px rgba(209, 178, 178, 0.8)',
+      },
+    },
   },
   plugins: [],
 };

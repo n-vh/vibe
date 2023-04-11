@@ -6,7 +6,7 @@ export function Terms() {
   return (
     <div className="flex h-screen flex-col pt-28">
       <div className="my-auto flex flex-col items-center gap-4 md:w-4/6 md:self-center">
-        <div className="mx-6 flex flex-col items-center rounded-[16px] bg-white bg-opacity-80 shadow-md lg:w-5/6">
+        <div className="mx-6 flex flex-col items-center rounded-[16px] bg-white bg-opacity-80 shadow-custom lg:w-5/6">
           <h2 className="pt-8 pb-4 font-gothic text-lg text-dark-pink">
             Terms & Conditions
           </h2>

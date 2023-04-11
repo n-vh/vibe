@@ -1,4 +1,12 @@
-<?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg id="Layer_1" style="enable-background:new 0 0 64 64;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><style type="text/css">
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 128 128" style="enable-background:new 0 0 128 128;" xml:space="preserve">
+<style type="text/css">
 	.st0{fill:#C0A0A0;}
-</style><g><g id="Icon-Search" transform="translate(30.000000, 230.000000)"><path class="st0" d="M-2.3-182.9c-10.7,0-19.5-8.7-19.5-19.5c0-10.7,8.7-19.5,19.5-19.5s19.5,8.7,19.5,19.5     C17.1-191.6,8.4-182.9-2.3-182.9L-2.3-182.9z M-2.3-219c-9.2,0-16.7,7.5-16.7,16.7c0,9.2,7.5,16.7,16.7,16.7s16.7-7.5,16.7-16.7     C14.3-211.5,6.8-219-2.3-219L-2.3-219z" id="Fill-1"/><polyline class="st0" id="Fill-2" points="23.7,-174.2 10.1,-187.7 12.3,-189.9 25.8,-176.3 23.7,-174.2    "/></g></g></svg>
-
+</style>
+<path id="Fill-1" class="st0" d="M52.6,104.7c-28.7,0-52.3-23.3-52.3-52.3C0.2,23.6,23.6,0,52.6,0s52.3,23.3,52.3,52.3
+	C104.6,81.3,81.3,104.7,52.6,104.7L52.6,104.7z M52.6,7.8C27.9,7.8,7.8,27.9,7.8,52.6s20.1,44.8,44.8,44.8s44.8-20.1,44.8-44.8
+	C97.1,27.9,77,7.8,52.6,7.8L52.6,7.8z"/>
+<polyline id="Fill-2" class="st0" points="122.3,128 85.8,91.8 91.7,85.9 128,122.4 122.3,128 "/>
+</svg>

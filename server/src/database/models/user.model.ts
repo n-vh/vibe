@@ -29,7 +29,7 @@ const schema = new Schema<User>(
         default: [],
       },
     ],
-    comments: [
+    replies: [
       {
         type: ObjectId,
         ref: 'Vibe',

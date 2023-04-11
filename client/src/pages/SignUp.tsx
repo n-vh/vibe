@@ -33,14 +33,14 @@ export function SignUp() {
 
   return (
     <div className="flex h-screen flex-col">
-      <div className="my-auto flex flex-col gap-8 md:w-5/6 md:self-center lg:w-3/6 lg:pt-32">
-        <Form title={data.data ? '' : 'Sign up'}>
+      <div className="my-auto flex flex-col gap-8 pt-12 md:w-5/6 md:self-center lg:w-3/6 lg:pt-32">
+        <Form title={data.data ? '' : 'Create your account'}>
           {data.data ? (
             <div className="text-md pl-2 pt-4 font-roboto font-medium tracking-wider text-blue">
               Sign up e-mail sent!
             </div>
           ) : (
-            <div className="flex flex-col gap-4">
+            <div id="login" className="flex flex-col gap-4">
               <input
                 className="rounded-[8px] border-2 border-pink p-2"
                 value={username}
@@ -108,7 +108,7 @@ export function SignUp() {
         </Form>
         <div className="mx-6 flex flex-col">
           <Button
-            className="rounded-[16px]  border-opacity-60 bg-white bg-opacity-80  py-2 px-12 font-roboto text-xl font-bold tracking-wider text-blue shadow-md disabled:opacity-60"
+            className="rounded-[16px] border-[2.5px] border-dark-pink border-opacity-40 bg-pink py-2 px-12 font-roboto text-xl font-bold tracking-wider text-white shadow-custom disabled:opacity-60"
             text="SIGN UP"
             onClick={() => execute()}
             disabled={!!data.data || !username || !email || !password || !isChecked}

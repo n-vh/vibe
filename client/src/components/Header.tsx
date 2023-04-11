@@ -1,15 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Button from './Button';
 
 const Header: React.FC = () => {
+  const handleBack = () => {
+    history.go(-1);
+  };
+
   return (
     <div className="fixed flex w-full">
-      <img src="/wave.svg" className="h-[120px] w-full" />
-      <Link
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform font-days text-6xl text-white"
-        to="/"
+      <img
+        src="/wave.svg"
+        className="animate__animated animate__pulse header_wave h-[120px] w-full"
+      />
+      <Button
+        className="absolute top-8 block h-12 w-12 p-2 md:left-2 md:h-14 md:w-14 lg:hidden"
+        onClick={handleBack}
       >
-        vibe
+        <img src="/back.svg"></img>
+      </Button>
+
+      <Link to="/">
+        <img
+          className="absolute top-1/2 left-1/2 h-[80px] -translate-x-1/2 -translate-y-1/2"
+          src="/logo.svg"
+        />
       </Link>
     </div>
   );

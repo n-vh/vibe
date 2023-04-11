@@ -6,14 +6,19 @@ body {
   overscroll-behavior: none;
   margin: 0;
   padding: 0;
-  width: 100vw;
   height: 100vh;
   background: linear-gradient(180deg, #f1d3de 0%, #f5e9c1 100%);
   background-attachment: fixed;
+  overflow-y: scroll;
 }
 
 #inputs input:focus-visible,
 #inputs textarea:focus-visible {
   outline: none;
   border-color: transparent;
+}
+
+#login input:focus-visible {
+  outline: transparent;
+  border-color: #f1d7d7;
 }

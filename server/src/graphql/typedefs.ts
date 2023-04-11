@@ -14,15 +14,22 @@ type User {
   email: String!
   avatar: String!
   vibes: [ObjectID!]!
-  comments: [ObjectID!]!
+  replies: [ObjectID!]!
   smiles: [ObjectID!]!
   followers: [ObjectID!]!
   following: [ObjectID!]!
   createdAt: String!
 }
 
-type Node {
+type RepliesNode {
   count: Int!
+  hasReplied: Boolean!
+  vibes: [ObjectID!]!
+}
+
+type SmilesNode {
+  count: Int!
+  hasSmiled: Boolean!
   users: [ObjectID!]!
 }
 
@@ -30,8 +37,9 @@ type Vibe {
   id: ObjectID!
   user: User!
   message: String!
-  comments: Node!
-  smiles: Node!
+  replies: RepliesNode!
+  smiles: SmilesNode!
+  reply: Vibe
   createdAt: String!
 }
 
@@ -45,16 +53,28 @@ type PaginatedVibes {
   pageInfo: PageInfo!
 }
 
+enum VibeType {
+  VIBES
+  COMMENTS
+  SMILES
+}
+
 type Query {
-  user(id: ObjectID!): User
   me: Me
+  user(id: ObjectID, username: String): User
+  searchUsers(query: String!): [User!]!
   timeline(after: ObjectID): PaginatedVibes
+  vibes(id: ObjectID!, type: VibeType!): [Vibe!]!
+  vibe(id: ObjectID!): Vibe
+  vibeReplies(id: ObjectID!): [Vibe!]!
 }
 
 type Mutation {
   createVibe(message: String!): Vibe
-  smile(id: ObjectID!): Vibe
-  unsmile(id: ObjectID!): Vibe
+  deleteVibe(id: ObjectID!): Vibe
+  smileVibe(id: ObjectID!): Vibe
+  unsmileVibe(id: ObjectID!): Vibe
+  replyVibe(id: ObjectID!, message: String!): Vibe
   follow(id: ObjectID!): User
   unfollow(id: ObjectID!): User
 }
