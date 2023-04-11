@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, MouseEventHandler } from 'react';
 import { Link } from 'react-router-dom';
 import Button from './Button';
 import Message from './Message';
@@ -67,11 +67,13 @@ const Vibe: React.FC<VibeProps> = ({
   }
   `);
 
-  const handleSmile = () => {
+  const handleSmile = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (hasSmiled) {
       executeUnsmile({ smileVibeId: id });
+      e.currentTarget.children[0].classList.remove('animate__bounce');
     } else {
       executeSmile({ smileVibeId: id });
+      e.currentTarget.children[0].classList.add('animate__bounce');
     }
   };
 
@@ -145,7 +147,7 @@ const Vibe: React.FC<VibeProps> = ({
               <img
                 src={hasSmiled ? '/smiled.svg' : '/pinksmiley.svg'}
                 alt="like"
-                className="h-[30px] w-full md:h-[35px] lg:h-[30px]"
+                className="animate__animated h-[30px] w-full md:h-[35px] lg:h-[30px] "
               />
             </Button>
           </div>
