@@ -13,14 +13,6 @@ export const AuthContext: Context = async (req, rep) => {
       user: user,
     };
   } catch {
-    return {
-      user: null,
-    };
-  }
-};
-
-export const requireAuth = (context: ContextUser) => {
-  if (!context.user) {
     throw new GraphQLError('UNAUTHORIZED');
   }
 };
