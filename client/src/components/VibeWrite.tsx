@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, FormEvent } from 'react';
 import { useMutation } from 'urql';
 import { useAuthContext } from '../hooks';
 import Button from './Button';
@@ -29,13 +29,17 @@ const VibeWrite: React.FC = () => {
     }
   `);
 
-  const sendVibe = () => {
+  const sendVibe = (e: FormEvent) => {
+    e.preventDefault();
     execute({ message: value });
     setValue('');
   };
 
   return (
-    <div className="mt-8 flex min-h-[90px] gap-4 rounded-[16px] bg-white bg-opacity-90 p-3 shadow-custom md:min-h-[110px] md:p-5">
+    <form
+      className="mt-8 flex min-h-[90px] gap-4 rounded-[16px] bg-white bg-opacity-90 p-3 shadow-custom md:min-h-[110px] md:p-5"
+      onSubmit={sendVibe}
+    >
       <div className="flex h-12 w-auto pr-3 md:h-14">
         <img
           className="h-12 w-12 md:h-14 md:w-14"
@@ -54,7 +58,7 @@ const VibeWrite: React.FC = () => {
         ></textarea>
       </div>
       <div className="flex">
-        <Button className="flex self-end" onClick={sendVibe}>
+        <Button className="flex self-end" type="submit">
           <img
             src="/send.svg"
             alt="send"
@@ -62,7 +66,7 @@ const VibeWrite: React.FC = () => {
           />
         </Button>
       </div>
-    </div>
+    </form>
   );
 };
 

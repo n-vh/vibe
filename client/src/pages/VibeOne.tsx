@@ -7,6 +7,7 @@ import RightSidebar from '../components/RightSidebar';
 import { useQuery } from '../graphql';
 import { ObjectId } from 'mongodb';
 import { useEffect } from 'react';
+import { Title } from '../components/Title';
 
 export function VibeOne() {
   const { id } = useParams();
@@ -75,17 +76,20 @@ export function VibeOne() {
       >
         <div className="flex flex-col gap-6">
           {queryVibe.data?.vibe && (
-            <VibeComponent
-              id={queryVibe.data.vibe.id}
-              avatar={queryVibe.data.vibe.user.avatar}
-              username={queryVibe.data.vibe.user.username}
-              date={queryVibe.data.vibe.createdAt}
-              smileCount={queryVibe.data.vibe.smiles.count}
-              hasSmiled={queryVibe.data.vibe.smiles.hasSmiled}
-              message={queryVibe.data.vibe.message}
-              commentCount={queryVibe.data.vibe.replies.count}
-              openReplying={true}
-            />
+            <>
+              <Title text={`${queryVibe.data.vibe.user.username}'s vibe`} />
+              <VibeComponent
+                id={queryVibe.data.vibe.id}
+                avatar={queryVibe.data.vibe.user.avatar}
+                username={queryVibe.data.vibe.user.username}
+                date={queryVibe.data.vibe.createdAt}
+                smileCount={queryVibe.data.vibe.smiles.count}
+                hasSmiled={queryVibe.data.vibe.smiles.hasSmiled}
+                message={queryVibe.data.vibe.message}
+                commentCount={queryVibe.data.vibe.replies.count}
+                openReplying={true}
+              />
+            </>
           )}
         </div>
         {queryComments.data?.vibeReplies.map((comment) => (

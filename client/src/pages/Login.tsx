@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthContext, useFetch } from '../hooks';
 import Form from '../components/Form';
 import Button from '../components/Button';
+import { Title } from '../components/Title';
 
 export function Login() {
   const navigate = useNavigate();
@@ -30,9 +31,18 @@ export function Login() {
     }
   }, [data]);
 
+  const handleLogin = (e: FormEvent) => {
+    e.preventDefault();
+    execute();
+  };
+
   return (
     <div className="flex h-screen flex-col">
-      <div className="my-auto flex flex-col gap-8 md:w-5/6 md:self-center lg:w-3/6 lg:pt-32">
+      <Title text="Log in – vibe" />
+      <form
+        className="my-auto flex flex-col gap-8 md:w-5/6 md:self-center lg:w-3/6 lg:pt-32"
+        onSubmit={handleLogin}
+      >
         <Form title="Welcome back!">
           <div id="login" className="flex flex-col gap-4">
             <input
@@ -72,7 +82,7 @@ export function Login() {
           <Button
             className="rounded-[16px] border-[2.5px] border-dark-pink border-opacity-40 bg-pink py-2 px-12 font-roboto text-xl font-bold tracking-wider text-white shadow-custom disabled:opacity-60"
             text="LOG IN"
-            onClick={() => execute()}
+            type="submit"
             disabled={!username || !password}
           />
           <p className="text-md pl-2 pt-4 font-roboto font-medium tracking-wider text-blue">
@@ -83,7 +93,7 @@ export function Login() {
             instead?
           </p>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

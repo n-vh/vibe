@@ -3,7 +3,7 @@ import React from 'react';
 interface ButtonProps {
   id?: string;
   className?: string;
-  type?: 'button';
+  type?: 'button' | 'submit';
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
   text?: string;
