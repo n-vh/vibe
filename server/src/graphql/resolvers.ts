@@ -46,6 +46,10 @@ export const queryResolver = {
   vibeReplies: (_: any, v: WithId, c: ContextUser) => {
     return VibeController.getReplies(v.id, c.user.id);
   },
+
+  getFriends: (_: any, __: any, c: ContextUser) => {
+    return UserController.getFriends(c.user.id);
+  },
 };
 
 export const mutationResolver = {
