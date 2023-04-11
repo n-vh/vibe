@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useState } from 'react';
+import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
@@ -37,6 +37,8 @@ export function Settings() {
   const [passwordModal, setPasswordModal] = useState(false);
   const [deleteAccountModal, setDeleteAccountModal] = useState(false);
 
+  const [confirmPasswordChanged, setConfirmPasswordChanged] = useState(false);
+
   const [settingsChange, executeSettingsChange] = useMutation(
     `mutation ModifySettings($input: ModifySettingsInput!){
       modifySettings(input: $input) {
@@ -68,6 +70,7 @@ export function Settings() {
     await executeSettingsChange({ input: { password: inputValue } });
     setPasswordModal(false);
     executeQuery();
+    setConfirmPasswordChanged(true);
   };
 
   //* DELETE ACCOUNT *//
@@ -161,7 +164,7 @@ export function Settings() {
 
             <p className="pt-2 font-roboto text-lg tracking-wider text-dark-grey text-opacity-80 md:pt-3 md:text-xl lg:text-lg">
               Password:
-              {settingsChange.data && !settingsChange.error && (
+              {settingsChange.data && !settingsChange.error && confirmPasswordChanged && (
                 <span className="pl-2 pb-4 font-roboto text-sm tracking-wider text-dark-grey text-opacity-60 md:pt-0 md:text-lg lg:text-sm">
                   successfully changed!
                 </span>

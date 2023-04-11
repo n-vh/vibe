@@ -264,6 +264,8 @@ export function Profile() {
         </div>
       )}
 
+      <div className="flex flex-col gap-2"></div>
+
       <RightSidebar />
       <Navbar />
     </div>
