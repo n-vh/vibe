@@ -60,7 +60,7 @@ const Navbar: React.FC = () => {
           ref={ref}
         >
           <div className="flex flex-col justify-center gap-3 px-8 pt-10 md:px-12">
-            <Button onClick={() => navigate(`/profile/${user.username}`)}>
+            <Button onClick={() => navigate(`/profile/${user.username}/vibes`)}>
               <div className="flex flex-row items-center pb-3">
                 <img
                   src={`/avatars/${user.avatar}.svg`}

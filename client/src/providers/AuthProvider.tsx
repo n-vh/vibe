@@ -7,6 +7,7 @@ export const AuthContext = createContext({
   user: { id: '', username: '', avatar: '' },
   signIn: (token: string) => {},
   signOut: () => {},
+  changeAvatar: (avatar: string) => {},
 });
 
 export function AuthProvider({ children }: PropsWithChildren) {
@@ -25,6 +26,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const signOut = () => {
     setToken('');
     setUser({ id: '', username: '', avatar: '' });
+  };
+
+  const changeAvatar = (avatar: string) => {
+    setUser({ ...user, avatar });
   };
 
   useEffect(() => {
@@ -48,7 +53,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ isAuthorized: !!token, user, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ isAuthorized: !!token, user, signIn, signOut, changeAvatar }}
+    >
       {children}
     </AuthContext.Provider>
   );

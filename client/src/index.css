@@ -18,7 +18,7 @@ body {
   border-color: transparent;
 }
 
-#login input:focus-visible {
+#withBorder input:focus-visible {
   outline: transparent;
   border-color: #f1d7d7;
 }

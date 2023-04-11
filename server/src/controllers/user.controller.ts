@@ -165,7 +165,7 @@ export namespace UserController {
     }
 
     if (payload.password) {
-      const isSamePassword = comparePassword(payload.password, user.password);
+      const isSamePassword = await comparePassword(payload.password, user.password);
       const newPasswordHashed = await hashPassword(payload.password);
 
       if (!isSamePassword) {

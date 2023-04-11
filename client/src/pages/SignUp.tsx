@@ -42,7 +42,7 @@ export function SignUp() {
               Sign up e-mail sent!
             </div>
           ) : (
-            <div id="login" className="flex flex-col gap-4">
+            <div id="withBorder" className="flex flex-col gap-4">
               <input
                 className="rounded-[8px] border-2 border-pink p-2"
                 value={username}

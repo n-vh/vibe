@@ -54,7 +54,7 @@ const LeftSidebar: React.FC = () => {
             </div>
           </Button>
 
-          <Button onClick={() => navigate('/')}>
+          <Button onClick={() => navigate('/settings')}>
             <div className="flex flex-row items-center pb-3">
               <img src="/settings.svg" alt="home" className="h-[35px]" />
               <p className="pl-4 font-roboto text-lg font-bold tracking-wider text-blue">
