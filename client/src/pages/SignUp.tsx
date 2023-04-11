@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useFetch } from '../hooks/useFetch';
 import Form from '../components/Form';
 import Button from '../components/Button';
+import { Title } from '../components/Title';
 
 export function SignUp() {
   const [isChecked, setIsChecked] = useState(false);
@@ -33,6 +34,7 @@ export function SignUp() {
 
   return (
     <div className="flex h-screen flex-col">
+      <Title text="Sign up – vibe" />
       <div className="my-auto flex flex-col gap-8 pt-12 md:w-5/6 md:self-center lg:w-3/6 lg:pt-32">
         <Form title={data.data ? '' : 'Create your account'}>
           {data.data ? (

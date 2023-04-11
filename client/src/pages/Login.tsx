@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuthContext, useFetch } from '../hooks';
 import Form from '../components/Form';
 import Button from '../components/Button';
+import { Title } from '../components/Title';
 
 export function Login() {
   const navigate = useNavigate();
@@ -34,8 +35,10 @@ export function Login() {
     e.preventDefault();
     execute();
   };
+
   return (
     <div className="flex h-screen flex-col">
+      <Title text="Log in – vibe" />
       <form
         className="my-auto flex flex-col gap-8 md:w-5/6 md:self-center lg:w-3/6 lg:pt-32"
         onSubmit={handleLogin}

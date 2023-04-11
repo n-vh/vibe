@@ -6,6 +6,7 @@ import RightSidebar from '../components/RightSidebar';
 import Search from '../components/Search';
 import { useQuery } from '../graphql';
 import { Link } from 'react-router-dom';
+import { Title } from '../components/Title';
 
 export function Home() {
   const [data] = useQuery({
@@ -34,6 +35,7 @@ export function Home() {
 
   return (
     <div className="flex pb-20 pt-28 md:pb-28 lg:pb-6">
+      <Title text="Home – vibe" />
       <LeftSidebar />
       <div id="inputs" className="mx-auto flex w-[355px] flex-col gap-6 md:w-[500px]">
         <VibeWrite />

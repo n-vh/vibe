@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Vibe from '../components/Vibe';
 import Comment from '../components/Comment';
 import Nothing from '../components/Nothing';
+import { Title } from '../components/Title';
 
 export function Profile() {
   const { username, tab } = useParams();
@@ -132,6 +133,7 @@ export function Profile() {
           id="centerDiv"
           className="mx-auto flex w-[355px] flex-col gap-6 md:w-[600px]  "
         >
+          <Title text={`${profileUser.username} – vibe`} />
           <div
             id="profileDiv"
             className="mt-8 flex flex-shrink-0 flex-col rounded-[16px] bg-white bg-opacity-90 p-5 shadow-custom md:p-6"

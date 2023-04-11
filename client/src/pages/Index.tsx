@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../hooks';
 import { Home } from './Home';
 import Button from '../components/Button';
+import { Title } from '../components/Title';
 
 export function Index() {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ export function Index() {
 
   return (
     <div className="flex h-screen flex-col pt-28">
+      <Title text="vibe" />
       <div className="my-auto flex flex-col gap-4 md:w-4/6 md:self-center lg:flex-row">
         <div className="mx-6 flex flex-col items-center rounded-[16px] bg-white bg-opacity-80 shadow-custom lg:w-5/6">
           <img src="/bluesmiley.svg" className="mt-6 mb-3 h-[48px] w-full" />
