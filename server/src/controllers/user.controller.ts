@@ -156,7 +156,6 @@ export namespace UserController {
     }
 
     if (payload.email) {
-      console.log(payload.email);
       if (user.email !== payload.email) {
         return await UserController.updateOne(selfId, { email: payload.email });
       } else {
@@ -174,5 +173,11 @@ export namespace UserController {
         throw new GraphQLError('SAME_PASSWORD');
       }
     }
+  }
+
+  export async function getFriends(selfId: ObjectId) {
+    const user = await UserController.findOne({ _id: selfId });
+    const followers = await UserModel.find({ _id: { $in: user.followers } });
+    return followers.map((follower) => user.following.includes(follower._id));
   }
 }

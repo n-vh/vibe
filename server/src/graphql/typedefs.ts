@@ -73,6 +73,9 @@ type Query {
   vibes(id: ObjectID!, type: VibeType!): [Vibe!]!
   vibe(id: ObjectID!): Vibe
   vibeReplies(id: ObjectID!): [Vibe!]!
+  getFriends: [User!]!
+  getFollowers(id: ObjectID!): [User!]!
+  getFollowings(id: ObjectID!): [User!]!
 }
 
 type Mutation {
