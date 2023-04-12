@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { ObjectId } from 'mongodb';
+import { getTimeString } from '../utils/format';
+import { useAuthContext, useDeleteContext } from '../hooks';
+import { useMutation } from '../graphql';
+import { handleScrollToTop } from '../utils/scroll';
 import Button from './Button';
 import Message from './Message';
-import { getTimeString, pluralString } from '../utils/format';
-import { useAuthContext } from '../hooks';
-import { useMutation } from '../graphql';
-import { ObjectId } from 'mongodb';
-import { useDeleteContext } from '../hooks/useDeleteContext';
-import { handleScrollToTop } from '../utils/scroll';
 
 interface CommentProps {
   id: ObjectId;

@@ -1,13 +1,12 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useQuery } from '../graphql';
+import { Title } from '../components/Title';
 import Navbar from '../components/Navbar';
 import VibeComponent from '../components/Vibe';
 import Comment from '../components/Comment';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
-import { useQuery } from '../graphql';
-import { ObjectId } from 'mongodb';
-import { useEffect } from 'react';
-import { Title } from '../components/Title';
 
 export function VibeOne() {
   const { id } = useParams();

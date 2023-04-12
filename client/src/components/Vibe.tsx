@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef, MouseEventHandler } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import Button from './Button';
-import Message from './Message';
 import { getTimeString, pluralString } from '../utils/format';
-import { useAuthContext } from '../hooks';
+import { useAuthContext, useDeleteContext } from '../hooks';
 import { useMutation } from '../graphql';
 import { ObjectId } from 'mongodb';
-import { useDeleteContext } from '../hooks/useDeleteContext';
+import Button from './Button';
+import Message from './Message';
 
 interface VibeProps {
   id: ObjectId;

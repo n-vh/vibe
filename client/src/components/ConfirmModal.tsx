@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from './Button';
-import { useMutation } from 'urql';
 
 interface ConfirmModalProps {
   children: React.ReactNode;

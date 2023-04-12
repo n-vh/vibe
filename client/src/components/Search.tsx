@@ -1,9 +1,7 @@
-import React, { FormEvent } from 'react';
-import Button from './Button';
-import { useRef, useState } from 'react';
-import { useClickOutside } from '../hooks/useClickOutside';
-import { useSearchContext } from '../hooks/useSearchContext';
+import React, { FormEvent, useRef, useState } from 'react';
 import { useQuery } from '../graphql';
+import { useClickOutside, useSearchContext } from '../hooks';
+import Button from './Button';
 import User from './User';
 
 const Search: React.FC = () => {

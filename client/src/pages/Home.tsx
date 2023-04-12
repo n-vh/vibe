@@ -1,11 +1,9 @@
+import { useQuery } from '../graphql';
 import Navbar from '../components/Navbar';
 import VibeWrite from '../components/VibeWrite';
 import Vibe from '../components/Vibe';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
-import Search from '../components/Search';
-import { useQuery } from '../graphql';
-import { Link } from 'react-router-dom';
 import { Title } from '../components/Title';
 
 export function Home() {

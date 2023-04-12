@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../hooks';
-import { useSearchContext } from '../hooks/useSearchContext';
-import Button from './Button';
 import { handleScrollToTop } from '../utils/scroll';
-import { useRef } from 'react';
-import { useClickOutside } from '../hooks/useClickOutside';
+import { useAuthContext, useClickOutside, useSearchContext } from '../hooks';
+import Button from './Button';
 
 const Navbar: React.FC = () => {
   const { signOut, user } = useAuthContext();

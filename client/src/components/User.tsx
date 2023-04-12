@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSearchContext } from '../hooks/useSearchContext';
+import { useSearchContext } from '../hooks';
 
 interface UserProps {
   avatar: string;

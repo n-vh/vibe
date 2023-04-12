@@ -1,13 +1,12 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuthContext } from '../hooks';
-import { useSearchContext } from '../hooks/useSearchContext';
-import Button from './Button';
+import { useAuthContext, useSearchContext } from '../hooks';
 import { handleScrollToTop } from '../utils/scroll';
+import Button from './Button';
 
 const LeftSidebar: React.FC = () => {
-  const { signOut, user } = useAuthContext();
   const navigate = useNavigate();
+  const { signOut, user } = useAuthContext();
   const { setShowSearch } = useSearchContext();
 
   const handleSearch = () => {

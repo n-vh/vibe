@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
-import User from './User';
+import React from 'react';
 import { useQuery } from '../graphql';
-import { useAuthContext } from '../hooks';
 import Nothing from './Nothing';
+import User from './User';
 
 const RightSidebar: React.FC = () => {
   const [friendsQuery] = useQuery({

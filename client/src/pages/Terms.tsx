@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { Title } from '../components/Title';
 
 export function Terms() {

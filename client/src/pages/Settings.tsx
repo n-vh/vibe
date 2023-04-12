@@ -1,11 +1,11 @@
 import { useState } from 'react';
+import { useAuthContext } from '../hooks';
+import { useMutation, useQuery } from '../graphql';
 import Navbar from '../components/Navbar';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
-import { useAuthContext } from '../hooks';
 import Button from '../components/Button';
 import ConfirmModal from '../components/ConfirmModal';
-import { useMutation, useQuery } from '../graphql';
 
 export const avatars = [
   'ghibli',

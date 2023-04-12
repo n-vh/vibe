@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from './Button';
 import { useMutation } from 'urql';
-import { useDeleteContext } from '../hooks/useDeleteContext';
+import { useDeleteContext } from '../hooks';
 
 const DeleteModal: React.FC = () => {
   const { showDelete, resetShowDelete } = useDeleteContext();

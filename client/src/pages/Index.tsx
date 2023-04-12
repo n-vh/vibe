@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../hooks';
 import { Home } from './Home';
-import Button from '../components/Button';
 import { Title } from '../components/Title';
+import Button from '../components/Button';
 import Carousel from '../components/Carousel';
 
 export function Index() {
