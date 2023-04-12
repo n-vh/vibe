@@ -178,6 +178,6 @@ export namespace UserController {
   export async function getFriends(selfId: ObjectId) {
     const user = await UserController.findOne({ _id: selfId });
     const followers = await UserModel.find({ _id: { $in: user.followers } });
-    return followers.map((follower) => user.following.includes(follower._id));
+    return followers.filter((follower) => user.following.includes(follower._id));
   }
 }

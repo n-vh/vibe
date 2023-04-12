@@ -22,11 +22,18 @@ export type Me = {
   username: Scalars['String'];
 };
 
+export type ModifySettingsInput = {
+  avatar?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createVibe?: Maybe<Vibe>;
   deleteVibe?: Maybe<Vibe>;
   follow?: Maybe<User>;
+  modifySettings?: Maybe<User>;
   replyVibe?: Maybe<Vibe>;
   smileVibe?: Maybe<Vibe>;
   unfollow?: Maybe<User>;
@@ -46,6 +53,11 @@ export type MutationDeleteVibeArgs = {
 
 export type MutationFollowArgs = {
   id: Scalars['ObjectID'];
+};
+
+
+export type MutationModifySettingsArgs = {
+  input: ModifySettingsInput;
 };
 
 
@@ -83,6 +95,9 @@ export type PaginatedVibes = {
 
 export type Query = {
   __typename?: 'Query';
+  getFollowers: Array<User>;
+  getFollowings: Array<User>;
+  getFriends: Array<User>;
   me?: Maybe<Me>;
   searchUsers: Array<User>;
   timeline?: Maybe<PaginatedVibes>;
@@ -90,6 +105,16 @@ export type Query = {
   vibe?: Maybe<Vibe>;
   vibeReplies: Array<Vibe>;
   vibes: Array<Vibe>;
+};
+
+
+export type QueryGetFollowersArgs = {
+  id: Scalars['ObjectID'];
+};
+
+
+export type QueryGetFollowingsArgs = {
+  id: Scalars['ObjectID'];
 };
 
 
