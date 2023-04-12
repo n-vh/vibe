@@ -44,6 +44,7 @@ export function Router() {
         <Route element={<Protected />}>
           <Route path="/vibe/:id" element={<VibeOne />} />
           <Route path="/profile/:username/:tab" element={<Profile />} />
+          <Route path="/profile/:username" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />

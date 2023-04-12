@@ -13,12 +13,22 @@ body {
 }
 
 #inputs input:focus-visible,
-#inputs textarea:focus-visible {
+#inputs input:focus,
+#inputs textarea:focus-visible,
+#inputs textarea:focus {
   outline: none;
   border-color: transparent;
+  box-shadow: unset;
 }
 
-#withBorder input:focus-visible {
+#inputs textarea,
+#inputs input {
+  border-width: 0px;
+}
+
+#withBorder input:focus-visible,
+#withBorder input:focus {
   outline: transparent;
   border-color: #f1d7d7;
+  box-shadow: unset;
 }
