@@ -30,14 +30,30 @@ export type ModifySettingsInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addComment?: Maybe<Vibe>;
+  addFollow?: Maybe<User>;
+  addSmile?: Maybe<Vibe>;
   createVibe?: Maybe<Vibe>;
   deleteVibe?: Maybe<Vibe>;
-  follow?: Maybe<User>;
   modifySettings?: Maybe<User>;
-  replyVibe?: Maybe<Vibe>;
-  smileVibe?: Maybe<Vibe>;
-  unfollow?: Maybe<User>;
-  unsmileVibe?: Maybe<Vibe>;
+  removeFollow?: Maybe<User>;
+  removeSmile?: Maybe<Vibe>;
+};
+
+
+export type MutationAddCommentArgs = {
+  id: Scalars['ObjectID'];
+  message: Scalars['String'];
+};
+
+
+export type MutationAddFollowArgs = {
+  id: Scalars['ObjectID'];
+};
+
+
+export type MutationAddSmileArgs = {
+  id: Scalars['ObjectID'];
 };
 
 
@@ -51,33 +67,17 @@ export type MutationDeleteVibeArgs = {
 };
 
 
-export type MutationFollowArgs = {
-  id: Scalars['ObjectID'];
-};
-
-
 export type MutationModifySettingsArgs = {
   input: ModifySettingsInput;
 };
 
 
-export type MutationReplyVibeArgs = {
-  id: Scalars['ObjectID'];
-  message: Scalars['String'];
-};
-
-
-export type MutationSmileVibeArgs = {
+export type MutationRemoveFollowArgs = {
   id: Scalars['ObjectID'];
 };
 
 
-export type MutationUnfollowArgs = {
-  id: Scalars['ObjectID'];
-};
-
-
-export type MutationUnsmileVibeArgs = {
+export type MutationRemoveSmileArgs = {
   id: Scalars['ObjectID'];
 };
 
@@ -95,31 +95,31 @@ export type PaginatedVibes = {
 
 export type Query = {
   __typename?: 'Query';
-  getFollowers: Array<User>;
-  getFollowings: Array<User>;
-  getFriends: Array<User>;
+  comments: Array<Vibe>;
+  followers: Array<User>;
+  following: Array<User>;
+  friends: Array<User>;
   me?: Maybe<Me>;
-  searchUsers: Array<User>;
   timeline?: Maybe<PaginatedVibes>;
   user?: Maybe<User>;
+  users: Array<User>;
   vibe?: Maybe<Vibe>;
-  vibeReplies: Array<Vibe>;
   vibes: Array<Vibe>;
 };
 
 
-export type QueryGetFollowersArgs = {
+export type QueryCommentsArgs = {
   id: Scalars['ObjectID'];
 };
 
 
-export type QueryGetFollowingsArgs = {
+export type QueryFollowersArgs = {
   id: Scalars['ObjectID'];
 };
 
 
-export type QuerySearchUsersArgs = {
-  query: Scalars['String'];
+export type QueryFollowingArgs = {
+  id: Scalars['ObjectID'];
 };
 
 
@@ -134,12 +134,12 @@ export type QueryUserArgs = {
 };
 
 
-export type QueryVibeArgs = {
-  id: Scalars['ObjectID'];
+export type QueryUsersArgs = {
+  query: Scalars['String'];
 };
 
 
-export type QueryVibeRepliesArgs = {
+export type QueryVibeArgs = {
   id: Scalars['ObjectID'];
 };
 

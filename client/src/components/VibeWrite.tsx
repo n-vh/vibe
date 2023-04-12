@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, FormEvent } from 'react';
 import { useMutation } from 'urql';
 import { useAuthContext } from '../hooks';
 import Button from './Button';
+import { Mutation } from '../graphql';
 
 const VibeWrite: React.FC = () => {
   const [value, setValue] = useState<string>('');
@@ -19,19 +20,11 @@ const VibeWrite: React.FC = () => {
   }, [value]);
 
   const { user } = useAuthContext();
-  const [data, execute] = useMutation(`
-    mutation CreateVibe($message: String!){
-      createVibe(message: $message) {
-        id
-        message
-        createdAt
-      }
-    }
-  `);
+  const [, executeCreateVibe] = useMutation(Mutation.CreateVibe);
 
   const sendVibe = (e: FormEvent) => {
     e.preventDefault();
-    execute({ message: value });
+    executeCreateVibe({ message: value });
     setValue('');
   };
 

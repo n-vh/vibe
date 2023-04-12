@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ObjectId } from 'mongodb';
 import { getTimeString } from '../utils/format';
 import { useAuthContext, useDeleteContext } from '../hooks';
-import { useMutation } from '../graphql';
+import { Mutation, useMutation } from '../graphql';
 import { handleScrollToTop } from '../utils/scroll';
 import Button from './Button';
 import Message from './Message';
@@ -35,27 +35,14 @@ const Comment: React.FC<CommentProps> = ({
 
   /* smile */
 
-  const [, executeSmile] = useMutation(`
-  mutation smileVibe($smileVibeId: ObjectID!) {
-    smileVibe(id: $smileVibeId) {
-      id
-    }
-  }
-`);
-
-  const [, executeUnsmile] = useMutation(`
-mutation smileVibe($smileVibeId: ObjectID!) {
-  unsmileVibe(id: $smileVibeId) {
-    id
-  }
-}
-`);
+  const [, executeAddSmile] = useMutation(Mutation.AddSmile);
+  const [, executeRemoveSmile] = useMutation(Mutation.RemoveSmile);
 
   const handleSmile = () => {
     if (hasSmiled) {
-      executeUnsmile({ smileVibeId: id });
+      executeRemoveSmile({ vibeId: id });
     } else {
-      executeSmile({ smileVibeId: id });
+      executeAddSmile({ vibeId: id });
     }
   };
 

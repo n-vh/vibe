@@ -1,4 +1,4 @@
-import { useQuery } from '../graphql';
+import { Query, useQuery } from '../graphql';
 import Navbar from '../components/Navbar';
 import VibeWrite from '../components/VibeWrite';
 import Vibe from '../components/Vibe';
@@ -8,27 +8,7 @@ import { Title } from '../components/Title';
 
 export function Home() {
   const [data] = useQuery({
-    query: `
-      query Timeline {
-        timeline {
-          vibes {
-            id
-            replies {
-              count
-            }
-            createdAt
-            message
-            smiles {
-              count
-              hasSmiled
-            }
-            user {
-              username
-              avatar
-            }
-          }
-        }
-      }`,
+    query: Query.Timeline,
   });
 
   return (

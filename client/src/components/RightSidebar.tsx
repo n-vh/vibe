@@ -1,17 +1,11 @@
 import React from 'react';
-import { useQuery } from '../graphql';
+import { Query, useQuery } from '../graphql';
 import Nothing from './Nothing';
 import User from './User';
 
 const RightSidebar: React.FC = () => {
   const [friendsQuery] = useQuery({
-    query: `query GetFriends {
-    getFriends {
-        id
-        username
-        avatar
-    }
-}`,
+    query: Query.Friends,
     requestPolicy: 'network-only',
   });
 
@@ -22,8 +16,8 @@ const RightSidebar: React.FC = () => {
           FRIENDS
         </p>
         <div className="flex flex-col pb-8">
-          {friendsQuery.data?.getFriends.length ? (
-            friendsQuery.data?.getFriends.map((friend: any) => {
+          {friendsQuery.data?.friends.length ? (
+            friendsQuery.data?.friends.map((friend: any) => {
               return (
                 <User
                   key={`${friend.id}`}
