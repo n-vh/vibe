@@ -129,17 +129,15 @@ mutation smileVibe($smileVibeId: ObjectID!) {
 
       {/* BUTTONS */}
 
-      <div className="flex items-center gap-4 px-4">
-        {user.username === username && (
-          <>
-            <Button
-              className="font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-error md:text-lg lg:text-sm"
-              text="delete"
-              onClick={handleDelete}
-            />
-          </>
-        )}
-      </div>
+      {user.username === username && (
+        <div className="flex items-center gap-4 px-4">
+          <Button
+            className="font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-error md:text-lg lg:text-sm"
+            text="delete"
+            onClick={handleDelete}
+          />
+        </div>
+      )}
     </div>
   );
 };
