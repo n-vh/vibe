@@ -7,7 +7,6 @@ import {
   GraphQLProvider,
   SearchProvider,
 } from './providers';
-import 'flowbite';
 import './index.css';
 import 'animate.css';
 

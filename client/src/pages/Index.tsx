@@ -1,9 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../hooks';
 import { Home } from './Home';
 import { Title } from '../components/Title';
 import Button from '../components/Button';
-import Carousel from '../components/Carousel';
+import { useAuthContext } from '../hooks/useContexts';
 
 export function Index() {
   const navigate = useNavigate();
@@ -29,8 +28,6 @@ export function Index() {
         </div>
 
         {/* CAROUSEL */}
-
-        <Carousel />
 
         {/* SIGNUP BUTTON */}
 
