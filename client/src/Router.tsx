@@ -1,6 +1,5 @@
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
-import { useAuthContext } from './hooks';
-import { Home } from './pages/Home';
+import { useAuthContext, useDeleteContext, useSearchContext } from './hooks';
 import { Index } from './pages/Index';
 import { Login } from './pages/Login';
 import { Profile } from './pages/Profile';
@@ -10,11 +9,8 @@ import { Terms } from './pages/Terms';
 import { Verify } from './pages/Verify';
 import { VibeOne } from './pages/VibeOne';
 import Header from './components/Header';
-import { useSearchContext } from './hooks/useSearchContext';
 import Search from './components/Search';
-import { useDeleteContext } from './hooks/useDeleteContext';
 import DeleteModal from './components/DeleteModal';
-import { useEffect } from 'react';
 
 function Protected() {
   const { isAuthorized } = useAuthContext();
@@ -44,6 +40,7 @@ export function Router() {
         <Route element={<Protected />}>
           <Route path="/vibe/:id" element={<VibeOne />} />
           <Route path="/profile/:username/:tab" element={<Profile />} />
+          <Route path="/profile/:username" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />

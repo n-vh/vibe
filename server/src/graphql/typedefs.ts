@@ -66,26 +66,26 @@ enum VibeType {
 }
 
 type Query {
+  comments(id: ObjectID!): [Vibe!]!
+  friends: [User!]!
+  followers(id: ObjectID!): [User!]!
+  following(id: ObjectID!): [User!]!
   me: Me
-  user(id: ObjectID, username: String): User
-  searchUsers(query: String!): [User!]!
   timeline(after: ObjectID): PaginatedVibes
-  vibes(id: ObjectID!, type: VibeType!): [Vibe!]!
   vibe(id: ObjectID!): Vibe
-  vibeReplies(id: ObjectID!): [Vibe!]!
-  getFriends: [User!]!
-  getFollowers(id: ObjectID!): [User!]!
-  getFollowings(id: ObjectID!): [User!]!
+  vibes(id: ObjectID!, type: VibeType!): [Vibe!]!
+  user(id: ObjectID, username: String): User
+  users(query: String!): [User!]!
 }
 
 type Mutation {
+  addComment(id: ObjectID!, message: String!): Vibe
+  addFollow(id: ObjectID!): User
+  addSmile(id: ObjectID!): Vibe
   createVibe(message: String!): Vibe
   deleteVibe(id: ObjectID!): Vibe
-  smileVibe(id: ObjectID!): Vibe
-  unsmileVibe(id: ObjectID!): Vibe
-  replyVibe(id: ObjectID!, message: String!): Vibe
-  follow(id: ObjectID!): User
-  unfollow(id: ObjectID!): User
   modifySettings(input: ModifySettingsInput!): User
+  removeFollow(id: ObjectID!): User
+  removeSmile(id: ObjectID!): Vibe
 }
 `;

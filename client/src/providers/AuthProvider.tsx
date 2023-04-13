@@ -1,6 +1,7 @@
 import { createContext, PropsWithChildren, useEffect } from 'react';
 import { useQuery } from 'urql';
 import { useLocalStorage } from '../hooks';
+import { Query } from '../graphql';
 
 export const AuthContext = createContext({
   isAuthorized: false,
@@ -14,7 +15,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [token, setToken] = useLocalStorage('token', '');
   const [user, setUser] = useLocalStorage('user', { id: '', username: '', avatar: '' });
   const [data, execute] = useQuery({
-    query: 'query Me { me { id username avatar } }',
+    query: Query.Me,
     requestPolicy: 'network-only',
     pause: true,
   });

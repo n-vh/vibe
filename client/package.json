@@ -13,6 +13,8 @@
     "@graphql-codegen/add": "^4.0.1",
     "@graphql-codegen/typescript": "^3.0.2",
     "animate.css": "^4.1.1",
+    "flowbite": "^1.6.5",
+    "flowbite-react": "^0.4.3",
     "graphql": "^16.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

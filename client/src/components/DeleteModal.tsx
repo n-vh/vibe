@@ -1,21 +1,16 @@
 import React from 'react';
 import Button from './Button';
 import { useMutation } from 'urql';
-import { useDeleteContext } from '../hooks/useDeleteContext';
+import { useDeleteContext } from '../hooks';
+import { Mutation } from '../graphql';
 
 const DeleteModal: React.FC = () => {
   const { showDelete, resetShowDelete } = useDeleteContext();
 
-  const [, executeDelete] = useMutation(
-    `mutation deleteVibe($id: ObjectID!) {
-          deleteVibe(id: $id) {
-            id
-          }
-        }`,
-  );
+  const [, executeDelete] = useMutation(Mutation.DeleteVibe);
 
   const handleDelete = () => {
-    executeDelete({ id: showDelete });
+    executeDelete({ vibeId: showDelete });
     resetShowDelete();
   };
 

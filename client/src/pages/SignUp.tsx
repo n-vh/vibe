@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useFetch } from '../hooks/useFetch';
+import { useFetch } from '../hooks';
+import { Title } from '../components/Title';
 import Form from '../components/Form';
 import Button from '../components/Button';
-import { Title } from '../components/Title';
 
 export function SignUp() {
   const [isChecked, setIsChecked] = useState(false);

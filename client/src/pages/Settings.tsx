@@ -1,11 +1,11 @@
 import { useState } from 'react';
+import { useAuthContext } from '../hooks';
+import { Mutation, Query, useMutation, useQuery } from '../graphql';
 import Navbar from '../components/Navbar';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
-import { useAuthContext } from '../hooks';
 import Button from '../components/Button';
 import ConfirmModal from '../components/ConfirmModal';
-import { useMutation, useQuery } from '../graphql';
 
 export const avatars = [
   'ghibli',
@@ -25,8 +25,8 @@ export const avatars = [
 export function Settings() {
   const { changeAvatar } = useAuthContext();
 
-  const [queryUser, executeQuery] = useQuery({
-    query: 'query Me { me { id username avatar email } }',
+  const [meQuery, executeMeQuery] = useQuery({
+    query: Query.Me,
     requestPolicy: 'network-only',
   });
 
@@ -36,40 +36,33 @@ export function Settings() {
   const [emailModal, setEmailModal] = useState(false);
   const [passwordModal, setPasswordModal] = useState(false);
   const [deleteAccountModal, setDeleteAccountModal] = useState(false);
-
   const [confirmPasswordChanged, setConfirmPasswordChanged] = useState(false);
 
-  const [settingsChange, executeSettingsChange] = useMutation(
-    `mutation ModifySettings($input: ModifySettingsInput!){
-      modifySettings(input: $input) {
-          id
-      }
-  }`,
-  );
+  const [modifySettings, executeModifySettings] = useMutation(Mutation.ModifySettings);
 
   //* AVATAR *//
 
   const avatarChanged = async () => {
-    await executeSettingsChange({ input: { avatar: inputValue } });
+    await executeModifySettings({ input: { avatar: inputValue } });
     setAvatarModal(false);
-    executeQuery();
+    executeMeQuery();
     changeAvatar(inputValue);
   };
 
   //* EMAIL *//
 
   const emailChanged = async () => {
-    await executeSettingsChange({ input: { email: inputValue } });
+    await executeModifySettings({ input: { email: inputValue } });
     setEmailModal(false);
-    executeQuery();
+    executeMeQuery();
   };
 
   //* PASSWORD *//
 
   const passwordChanged = async () => {
-    await executeSettingsChange({ input: { password: inputValue } });
+    await executeModifySettings({ input: { password: inputValue } });
     setPasswordModal(false);
-    executeQuery();
+    executeMeQuery();
     setConfirmPasswordChanged(true);
   };
 
@@ -88,7 +81,7 @@ export function Settings() {
 
           <div className="flex items-center gap-6">
             <img
-              src={`/avatars/${queryUser.data?.me?.avatar}.svg`}
+              src={`/avatars/${meQuery.data?.me?.avatar}.svg`}
               alt="avatar"
               className="h-16 w-16 md:h-24 md:w-24"
             ></img>
@@ -129,7 +122,7 @@ export function Settings() {
             <p className="pt-2 font-roboto text-lg tracking-wider text-dark-grey text-opacity-80 md:pt-4 md:text-xl lg:text-lg">
               E-mail:
               <span className="pl-2 pb-4 font-roboto text-sm tracking-wider text-dark-grey text-opacity-60 md:pt-0 md:text-lg lg:text-sm">
-                {queryUser.data?.me?.email}
+                {meQuery.data?.me?.email}
               </span>
             </p>
             <Button
@@ -164,7 +157,7 @@ export function Settings() {
 
             <p className="pt-2 font-roboto text-lg tracking-wider text-dark-grey text-opacity-80 md:pt-3 md:text-xl lg:text-lg">
               Password:
-              {settingsChange.data && !settingsChange.error && confirmPasswordChanged && (
+              {modifySettings.data && !modifySettings.error && confirmPasswordChanged && (
                 <span className="pl-2 pb-4 font-roboto text-sm tracking-wider text-dark-grey text-opacity-60 md:pt-0 md:text-lg lg:text-sm">
                   successfully changed!
                 </span>
