@@ -32,3 +32,24 @@ body {
   border-color: #f1d7d7;
   box-shadow: unset;
 }
+
+#smileAnimation {
+  background: linear-gradient(303deg, #f2d7db, #fdf0c7);
+  background-size: 200% 200%;
+
+  -webkit-animation: AnimationName 2s ease infinite;
+  -moz-animation: AnimationName 2s ease infinite;
+  animation: AnimationName 2s ease infinite;
+}
+
+@keyframes AnimationName {
+  0% {
+    background-position: 0% 51%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 51%;
+  }
+}

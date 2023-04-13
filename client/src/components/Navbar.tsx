@@ -64,7 +64,7 @@ const Navbar: React.FC = () => {
                   alt="profile"
                   className="h-[35px] md:h-[55px]"
                 ></img>
-                <p className="pl-4 font-roboto text-lg font-bold tracking-wider text-dark-pink md:text-2xl">
+                <p className="pl-4 font-gothic text-lg font-bold tracking-wider text-dark-pink md:text-2xl">
                   PROFILE
                 </p>
               </div>
@@ -77,7 +77,7 @@ const Navbar: React.FC = () => {
                   alt="home"
                   className="h-[35px] md:h-[55px]"
                 />
-                <p className="pl-4 font-roboto text-lg font-bold tracking-wider text-dark-pink md:text-2xl">
+                <p className="pl-4 font-gothic text-lg font-bold tracking-wider text-dark-pink md:text-2xl">
                   SETTINGS
                 </p>
               </div>
@@ -86,7 +86,7 @@ const Navbar: React.FC = () => {
             <Button onClick={() => signOut()}>
               <div className="flex flex-row items-center pb-6">
                 <img src="/logoutpink.svg" alt="home" className="h-[35px] md:h-[55px]" />
-                <p className="pl-4 font-roboto text-lg font-bold tracking-wider text-dark-pink md:text-2xl">
+                <p className="pl-4 font-gothic text-lg font-bold tracking-wider text-dark-pink md:text-2xl">
                   LOG OUT
                 </p>
               </div>

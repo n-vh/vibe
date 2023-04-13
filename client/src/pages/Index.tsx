@@ -27,7 +27,7 @@ export function Index() {
           />
         </div>
 
-        {/* CAROUSEL */}
+        {/* VIBES */}
 
         {/* SIGNUP BUTTON */}
 

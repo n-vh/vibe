@@ -20,7 +20,7 @@ const DeleteModal: React.FC = () => {
 
   return (
     <div className="fixed z-50 flex h-screen w-screen items-center justify-center overflow-hidden bg-dark-grey bg-opacity-50">
-      <div className="flex h-auto w-[90%] flex-col gap-4 rounded-[16px] bg-white p-6 shadow-custom md:w-[80%] lg:w-[40%]">
+      <div className="animate__animated animate__bounceInUp flex h-auto w-[90%] flex-col gap-4 rounded-[16px] bg-white p-6 shadow-custom md:w-[80%] lg:w-[40%]">
         <p className="text-center font-roboto text-xl tracking-wider text-blue">
           Are you sure you want to delete your vibe?
         </p>

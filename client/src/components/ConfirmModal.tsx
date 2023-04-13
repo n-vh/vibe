@@ -18,7 +18,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
     <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex h-screen w-screen items-center justify-center overflow-hidden bg-dark-grey bg-opacity-50">
       <div
         id="withBorder"
-        className="flex h-auto w-[90%] flex-col gap-4 rounded-[16px] bg-white p-8 shadow-custom md:w-[80%] lg:w-[40%]"
+        className="animate__animated animate__bounceInUp flex h-auto w-[90%] flex-col gap-4 rounded-[16px] bg-white p-8 shadow-custom md:w-[80%] lg:w-[40%]"
       >
         <p className="text-center font-roboto text-xl tracking-wider text-blue">
           {children}
