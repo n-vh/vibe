@@ -1,16 +1,42 @@
-import { Title } from '../components/Title';
+import React from 'react';
+import { useTermsContext } from '../hooks';
+import Button from './Button';
 
-export function Terms() {
+const TermsModal: React.FC = () => {
+  const { setShowTerms } = useTermsContext();
+
+  const handleTerms = () => {
+    setShowTerms(false);
+  };
+
   return (
-    <div className="flex h-screen flex-col pt-28">
-      <Title text="Terms & Conditions – vibe" />
-      <div className="my-auto flex flex-col items-center gap-4 md:w-4/6 md:self-center">
-        <div className="mx-6 flex flex-col items-center rounded-[16px] bg-white bg-opacity-80 shadow-custom lg:w-5/6">
+    <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex h-screen w-screen items-center justify-center overflow-hidden bg-dark-grey bg-opacity-50">
+      <div className="animate__animated animate__bounceInUp relative flex h-[80%] w-[90%] rounded-[16px] bg-white p-8 shadow-custom md:w-[80%] lg:w-[40%]">
+        <Button
+          onClick={handleTerms}
+          className="absolute flex h-[35px] w-[35px] items-center justify-around rounded-[16px] border border-pink shadow-custom"
+        >
+          <svg
+            fill="#C0A0A0"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="#C0A0A0"
+            className="flex h-6 w-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>{' '}
+        </Button>
+
+        <div className="flex h-full flex-col items-center gap-4">
           <h2 className="pt-8 pb-4 font-gothic text-lg text-dark-pink">
             Terms & Conditions
           </h2>
-          <div className="m-2 mb-6 flex h-[55vh] w-64 overflow-auto md:w-5/6">
-            <p className="text-md justify-self-center pr-4 text-justify font-roboto font-light tracking-wider text-blue">
+          <div className="scrollbar-hide m-2 mb-6 flex overflow-auto">
+            <div className="text-md justify-self-center pr-4 text-justify font-roboto font-light tracking-wider text-blue">
               <p className="text-md text-center font-roboto font-medium tracking-wider text-blue">
                 Welcome to Vibe, a social media platform dedicated to sharing positive and
                 uplifting news By using our service, you agree to the following terms and
@@ -82,10 +108,12 @@ export function Terms() {
               with the laws of Belgium. Any disputes arising out of or in connection with
               these terms and conditions shall be subject to the exclusive jurisdiction of
               the courts of Belgium.
-            </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default TermsModal;

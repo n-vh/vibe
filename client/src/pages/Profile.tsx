@@ -1,39 +1,30 @@
+import { useEffect, useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Mutation, Query, useMutation, useQuery } from '../graphql';
+import { getFullDate, pluralString } from '../utils/format';
+import { useAuthContext } from '../hooks';
+import { Title } from '../components/Title';
 import Navbar from '../components/Navbar';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
-import { useMutation, useQuery } from '../graphql';
-import { Link } from 'react-router-dom';
 import Button from '../components/Button';
-import { useParams } from 'react-router-dom';
-import { getFullDate, pluralString } from '../utils/format';
-import { useAuthContext } from '../hooks';
-import { useEffect, useMemo, useState } from 'react';
 import Vibe from '../components/Vibe';
 import Comment from '../components/Comment';
 import Nothing from '../components/Nothing';
-import { Title } from '../components/Title';
+import User from '../components/User';
+import Loading from '../components/Loading';
 
 export function Profile() {
   const { username, tab } = useParams();
   const { user } = useAuthContext();
 
-  const [queryUser] = useQuery({
-    query: `query QueryUser($username: String) {
-      user(username: $username) {
-        avatar
-        createdAt
-        followers
-        following
-        id
-        username
-      }
-    }
-    `,
+  const [userQuery] = useQuery({
+    query: Query.User,
     variables: { username: username },
   });
 
   const profileUser = useMemo(() => {
-    const dataUser = queryUser.data?.user;
+    const dataUser = userQuery.data?.user;
 
     if (dataUser) {
       return {
@@ -46,72 +37,66 @@ export function Profile() {
         isFollowing: dataUser.followers.map((f) => `${f}`).includes(user.id),
       };
     }
-  }, [queryUser]);
+  }, [userQuery]);
 
   //* FOLLOW *//
 
-  const [followMutation, executeFollow] = useMutation(
-    `mutation MutationFollow($followId: ObjectID!) {
-      follow(id: $followId) {
-        id
-      }
-    }`,
-  );
-
-  const [unFollowMutation, executeUnFollow] = useMutation(
-    `mutation Mutation($unfollowId: ObjectID!) {
-      unfollow(id: $unfollowId) {
-        id
-      }
-    }`,
-  );
+  const [addFollow, executeAddFollow] = useMutation(Mutation.AddFollow);
+  const [removeFollow, executeRemoveFollow] = useMutation(Mutation.RemoveFollow);
 
   const handleFollow = () => {
     if (profileUser?.isFollowing) {
-      executeUnFollow({ unfollowId: profileUser?.id });
+      executeRemoveFollow({ id: profileUser?.id });
     } else {
-      executeFollow({ followId: profileUser?.id });
+      executeAddFollow({ id: profileUser?.id });
     }
   };
 
-  //* VIBES / COMMENTS / VIBES *//
+  //* FOLLOWERS / FOLLOWING *//
+
+  const [followersQuery, executeFollowersQuery] = useQuery({
+    query: Query.Followers,
+    pause: true,
+    requestPolicy: 'network-only',
+    variables: { id: profileUser?.id },
+  });
+
+  const [followingQuery, executeFollowingQuery] = useQuery({
+    query: Query.Following,
+    pause: true,
+    requestPolicy: 'network-only',
+    variables: { id: profileUser?.id },
+  });
+
+  //* VIBES / COMMENTS / SMILES *//
 
   const [vibeTab, setVibeTab] = useState(tab?.toUpperCase() || 'VIBES');
 
   const [vibeQuery, executeVibeQuery] = useQuery({
-    query: `query QueryVibes($userId: ObjectID!, $type: VibeType!) {
-    vibes(id: $userId, type: $type) {
-      id
-      createdAt
-      message
-      replies {
-        count
-      }
-      reply {
-        id
-        user {
-          username
-        }
-      }
-      smiles {
-        hasSmiled
-        count
-      }
-      user {
-        avatar
-        id
-        username
-      }
-    }
-  }`,
+    query: Query.Vibes,
     pause: true,
     variables: { userId: profileUser?.id, type: vibeTab },
     requestPolicy: 'network-only',
   });
 
   useEffect(() => {
-    if (profileUser) {
-      executeVibeQuery();
+    if (!profileUser) {
+      return;
+    }
+
+    followersQuery.data = undefined;
+    followingQuery.data = undefined;
+    vibeQuery.data = undefined;
+
+    switch (vibeTab) {
+      case 'VIBES':
+      case 'COMMENTS':
+      case 'SMILES':
+        return executeVibeQuery();
+      case 'FOLLOWERS':
+        return executeFollowersQuery();
+      case 'FOLLOWING':
+        return executeFollowingQuery();
     }
   }, [profileUser, vibeTab]);
 
@@ -157,19 +142,19 @@ export function Profile() {
                 <br />
               </div>
 
+              {/* FOLLOW BUTTON */}
+
               {username != user.username && (
                 <div className="hidden self-start md:flex">
                   <Button
                     className="rounded-lg border-2 border-dark-pink border-opacity-70 px-4 py-2 font-roboto text-sm font-bold tracking-wider text-dark-pink shadow-custom hover:bg-gradient-to-r hover:from-pink hover:to-yellow md:text-lg lg:text-base"
                     text={profileUser.isFollowing ? 'UNFOLLOW' : 'FOLLOW'}
                     onClick={handleFollow}
-                    disabled={followMutation.fetching || unFollowMutation.fetching}
+                    disabled={addFollow.fetching || removeFollow.fetching}
                   ></Button>
                 </div>
               )}
             </div>
-
-            {/* FOLLOW */}
 
             <div className="flex flex-row items-center gap-4 pb-4 pl-1 md:pl-2 md:pt-4">
               {username != user.username && (
@@ -178,20 +163,34 @@ export function Profile() {
                     className="rounded-lg border-2 border-dark-pink border-opacity-70 px-4 py-2 font-roboto text-sm font-bold tracking-wider text-dark-pink shadow-custom hover:bg-gradient-to-r hover:from-pink hover:to-yellow md:text-lg lg:text-base"
                     text={profileUser.isFollowing ? 'UNFOLLOW' : 'FOLLOW'}
                     onClick={handleFollow}
-                    disabled={followMutation.fetching || unFollowMutation.fetching}
+                    disabled={addFollow.fetching || removeFollow.fetching}
                   ></Button>
                 </div>
               )}
-              <p className="pt-2 font-roboto text-sm tracking-wider text-dark-grey text-opacity-60 md:pt-0 md:text-lg lg:text-sm ">
-                <b className="font-medium">{profileUser.followersCount}</b>{' '}
-                {pluralString(profileUser.followersCount, 'follower')}
-              </p>
-              <p className="pt-2 font-roboto text-sm tracking-wider text-dark-grey text-opacity-60 md:pt-0 md:text-lg lg:text-sm">
-                <b className="font-medium">{profileUser.followingCount}</b> following
-              </p>
+
+              {/* FOLLOWERS / FOLLOWING */}
+
+              <Button
+                className={`pt-2 font-roboto text-sm tracking-wider text-dark-grey text-opacity-60 duration-100 hover:text-dark-pink md:pt-0 md:text-lg lg:text-sm ${
+                  vibeTab === 'FOLLOWERS' && 'text-dark-pink'
+                }`}
+                text={`${profileUser.followersCount} ${pluralString(
+                  profileUser.followersCount,
+                  'follower',
+                )}`}
+                onClick={() => handleTabClick('FOLLOWERS')}
+              ></Button>
+
+              <Button
+                className={`pt-2 font-roboto text-sm tracking-wider text-dark-grey text-opacity-60 duration-100 hover:text-dark-pink md:pt-0 md:text-lg lg:text-sm ${
+                  vibeTab === 'FOLLOWING' && 'text-dark-pink'
+                }`}
+                text={`${profileUser.followingCount} following`}
+                onClick={() => handleTabClick('FOLLOWING')}
+              ></Button>
             </div>
 
-            {/* BUTTONS */}
+            {/* VIBES / COMMENTS / SMILES  */}
 
             <div className="flex items-center gap-4 px-2">
               <Button
@@ -225,11 +224,12 @@ export function Profile() {
           </div>
 
           <div id="inputs" className="flex flex-col gap-6">
-            {!vibeQuery.fetching && vibeQuery.data?.vibes.length ? (
+            {vibeQuery.data?.vibes.length ? (
               vibeQuery.data?.vibes?.map((vibe) => {
                 if (vibeTab === 'COMMENTS' && vibe.reply?.id) {
                   return (
                     <Comment
+                      key={`${vibe.id}`}
                       id={vibe.id}
                       idOP={`${vibe.reply!.id}`}
                       avatar={vibe.user.avatar}
@@ -257,8 +257,39 @@ export function Profile() {
                   />
                 );
               })
-            ) : (
+            ) : followersQuery.data?.followers.length ? (
+              followersQuery.data?.followers.map((follower: any) => {
+                return (
+                  <div className="rounded-[16px] bg-white shadow-custom">
+                    <User
+                      key={`${follower.id}`}
+                      avatar={follower.avatar}
+                      username={follower.username}
+                    />
+                  </div>
+                );
+              })
+            ) : followingQuery.data?.following.length ? (
+              followingQuery.data?.following.map((following: any) => {
+                return (
+                  <div className="rounded-[16px] bg-white shadow-custom">
+                    <User
+                      key={`${following.id}`}
+                      avatar={following.avatar}
+                      username={following.username}
+                    />
+                  </div>
+                );
+              })
+            ) : !vibeQuery.data?.vibes.length &&
+              !vibeQuery.fetching &&
+              !followersQuery.data?.followers?.length &&
+              !followersQuery.fetching &&
+              !followingQuery.data?.following?.length &&
+              !followingQuery.fetching ? (
               <Nothing />
+            ) : (
+              <Loading />
             )}
           </div>
         </div>

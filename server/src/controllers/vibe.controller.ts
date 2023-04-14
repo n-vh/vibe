@@ -16,7 +16,7 @@ export namespace VibeController {
     return vibe;
   }
 
-  export async function getReplies(vibeId: ObjectId, userId: ObjectId) {
+  export async function comments(vibeId: ObjectId, userId: ObjectId) {
     const vibe = await VibeModel.findById(vibeId);
 
     if (!vibe) {
@@ -104,7 +104,7 @@ export namespace VibeController {
     return vibe;
   }
 
-  export async function smileVibe(vibeId: ObjectId, userId: ObjectId) {
+  export async function addSmile(vibeId: ObjectId, userId: ObjectId) {
     const vibe = await VibeModel.findOne({
       $and: [{ _id: vibeId }, { 'smiles.users': { $nin: [userId] } }],
     });
@@ -127,7 +127,7 @@ export namespace VibeController {
     return vibe;
   }
 
-  export async function unsmileVibe(vibeId: ObjectId, userId: ObjectId) {
+  export async function removeSmile(vibeId: ObjectId, userId: ObjectId) {
     const vibe = await VibeModel.findOne({
       $and: [{ _id: vibeId }, { 'smiles.users': { $in: [userId] } }],
     });
@@ -150,7 +150,7 @@ export namespace VibeController {
     return vibe;
   }
 
-  export async function replyVibe(vibeId: ObjectId, userId: ObjectId, message: string) {
+  export async function addComment(vibeId: ObjectId, userId: ObjectId, message: string) {
     const vibe = await VibeModel.findOne({
       $and: [{ _id: vibeId }, { 'replies.vibes': { $nin: [vibeId] } }],
     });

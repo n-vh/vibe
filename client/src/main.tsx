@@ -1,9 +1,15 @@
 import ReactDOM from 'react-dom/client';
-import { AuthProvider } from './providers/AuthProvider';
-import { GraphQLProvider } from './providers/GraphQLProvider';
-import { SearchProvider } from './providers/SearchProvider';
-import { DeleteProvider } from './providers/DeleteProvider';
 import { Router } from './Router';
+import {
+  AuthProvider,
+  ConfirmModalProvider,
+  CookieProvider,
+  DeleteProvider,
+  GraphQLProvider,
+  PrivacyProvider,
+  SearchProvider,
+  TermsProvider,
+} from './providers';
 import './index.css';
 import 'animate.css';
 
@@ -12,7 +18,15 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <AuthProvider>
       <SearchProvider>
         <DeleteProvider>
-          <Router />
+          <ConfirmModalProvider>
+            <TermsProvider>
+              <PrivacyProvider>
+                <CookieProvider>
+                  <Router />
+                </CookieProvider>
+              </PrivacyProvider>
+            </TermsProvider>
+          </ConfirmModalProvider>
         </DeleteProvider>
       </SearchProvider>
     </AuthProvider>

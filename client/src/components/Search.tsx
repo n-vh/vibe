@@ -1,9 +1,7 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useRef, useState } from 'react';
+import { Query, useQuery } from '../graphql';
+import { useClickOutside, useSearchContext } from '../hooks';
 import Button from './Button';
-import { useRef, useState } from 'react';
-import { useClickOutside } from '../hooks/useClickOutside';
-import { useSearchContext } from '../hooks/useSearchContext';
-import { useQuery } from '../graphql';
 import User from './User';
 
 const Search: React.FC = () => {
@@ -14,21 +12,15 @@ const Search: React.FC = () => {
 
   const [inputValue, setInputValue] = useState('');
 
-  const [queryUsers, executeQueryUsers] = useQuery({
-    query: `query QueryUsers($query: String!) {
-      searchUsers(query: $query) {
-        id
-        username
-        avatar
-      }
-    }`,
+  const [searchUsersQuery, executeSearchUsersQuery] = useQuery({
+    query: Query.Users,
     variables: { query: inputValue },
     pause: true,
   });
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
-    executeQueryUsers();
+    executeSearchUsersQuery();
   };
 
   return (
@@ -59,9 +51,9 @@ const Search: React.FC = () => {
         </form>
 
         <div className="flex flex-col gap-4 ">
-          {queryUsers.data?.searchUsers.map((vibe) => (
+          {searchUsersQuery.data?.users.map((user) => (
             <div className="rounded-[16px] bg-white bg-opacity-80">
-              <User avatar={vibe.avatar} username={vibe.username} />
+              <User avatar={user.avatar} username={user.username} />
             </div>
           ))}
         </div>

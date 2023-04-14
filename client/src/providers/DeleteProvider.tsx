@@ -1,5 +1,4 @@
 import { PropsWithChildren, useState, createContext } from 'react';
-import DeleteModal from '../components/DeleteModal';
 
 export const DeleteContext = createContext({
   showDelete: '',

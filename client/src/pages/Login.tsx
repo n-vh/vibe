@@ -1,9 +1,9 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthContext, useFetch } from '../hooks';
+import { Title } from '../components/Title';
 import Form from '../components/Form';
 import Button from '../components/Button';
-import { Title } from '../components/Title';
 
 export function Login() {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ export function Login() {
         onSubmit={handleLogin}
       >
         <Form title="Welcome back!">
-          <div id="login" className="flex flex-col gap-4">
+          <div id="withBorder" className="flex flex-col gap-4">
             <input
               className="rounded-[8px] border-2 border-pink p-2"
               value={username}

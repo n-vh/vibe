@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { ObjectId } from 'mongodb';
+import { getTimeString } from '../utils/format';
+import { useAuthContext, useDeleteContext } from '../hooks';
+import { Mutation, useMutation } from '../graphql';
+import { handleScrollToTop } from '../utils/scroll';
 import Button from './Button';
 import Message from './Message';
-import { getTimeString, pluralString } from '../utils/format';
-import { useAuthContext } from '../hooks';
-import { useMutation } from '../graphql';
-import { ObjectId } from 'mongodb';
-import { useDeleteContext } from '../hooks/useDeleteContext';
-import { handleScrollToTop } from '../utils/scroll';
 
 interface CommentProps {
   id: ObjectId;
@@ -36,27 +35,14 @@ const Comment: React.FC<CommentProps> = ({
 
   /* smile */
 
-  const [, executeSmile] = useMutation(`
-  mutation smileVibe($smileVibeId: ObjectID!) {
-    smileVibe(id: $smileVibeId) {
-      id
-    }
-  }
-`);
-
-  const [, executeUnsmile] = useMutation(`
-mutation smileVibe($smileVibeId: ObjectID!) {
-  unsmileVibe(id: $smileVibeId) {
-    id
-  }
-}
-`);
+  const [, executeAddSmile] = useMutation(Mutation.AddSmile);
+  const [, executeRemoveSmile] = useMutation(Mutation.RemoveSmile);
 
   const handleSmile = () => {
     if (hasSmiled) {
-      executeUnsmile({ smileVibeId: id });
+      executeRemoveSmile({ vibeId: id });
     } else {
-      executeSmile({ smileVibeId: id });
+      executeAddSmile({ vibeId: id });
     }
   };
 
@@ -129,17 +115,15 @@ mutation smileVibe($smileVibeId: ObjectID!) {
 
       {/* BUTTONS */}
 
-      <div className="flex items-center gap-4 px-4">
-        {user.username === username && (
-          <>
-            <Button
-              className="font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-error md:text-lg lg:text-sm"
-              text="delete"
-              onClick={handleDelete}
-            />
-          </>
-        )}
-      </div>
+      {user.username === username && (
+        <div className="flex items-center gap-4 px-4">
+          <Button
+            className="font-mincho text-[16px] text-dark-grey text-opacity-70 duration-100 hover:text-error md:text-lg lg:text-sm"
+            text="delete"
+            onClick={handleDelete}
+          />
+        </div>
+      )}
     </div>
   );
 };

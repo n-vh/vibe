@@ -1,21 +1,16 @@
 import React from 'react';
 import Button from './Button';
 import { useMutation } from 'urql';
-import { useDeleteContext } from '../hooks/useDeleteContext';
+import { useDeleteContext } from '../hooks';
+import { Mutation } from '../graphql';
 
 const DeleteModal: React.FC = () => {
   const { showDelete, resetShowDelete } = useDeleteContext();
 
-  const [, executeDelete] = useMutation(
-    `mutation deleteVibe($id: ObjectID!) {
-          deleteVibe(id: $id) {
-            id
-          }
-        }`,
-  );
+  const [, executeDelete] = useMutation(Mutation.DeleteVibe);
 
   const handleDelete = () => {
-    executeDelete({ id: showDelete });
+    executeDelete({ vibeId: showDelete });
     resetShowDelete();
   };
 
@@ -25,7 +20,7 @@ const DeleteModal: React.FC = () => {
 
   return (
     <div className="fixed z-50 flex h-screen w-screen items-center justify-center overflow-hidden bg-dark-grey bg-opacity-50">
-      <div className="flex h-auto w-[90%] flex-col gap-4 rounded-[16px] bg-white p-6 shadow-custom md:w-[80%] lg:w-[40%]">
+      <div className="animate__animated animate__bounceInUp flex h-auto w-[90%] flex-col gap-4 rounded-[16px] bg-white p-6 shadow-custom md:w-[80%] lg:w-[40%]">
         <p className="text-center font-roboto text-xl tracking-wider text-blue">
           Are you sure you want to delete your vibe?
         </p>

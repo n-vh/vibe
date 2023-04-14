@@ -1,20 +1,25 @@
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
-import { useAuthContext } from './hooks';
-import { Home } from './pages/Home';
+import {
+  useAuthContext,
+  useCookieContext,
+  useDeleteContext,
+  usePrivacyContext,
+  useSearchContext,
+  useTermsContext,
+} from './hooks';
 import { Index } from './pages/Index';
 import { Login } from './pages/Login';
 import { Profile } from './pages/Profile';
 import { Settings } from './pages/Settings';
 import { SignUp } from './pages/SignUp';
-import { Terms } from './pages/Terms';
 import { Verify } from './pages/Verify';
 import { VibeOne } from './pages/VibeOne';
 import Header from './components/Header';
-import { useSearchContext } from './hooks/useSearchContext';
 import Search from './components/Search';
-import { useDeleteContext } from './hooks/useDeleteContext';
 import DeleteModal from './components/DeleteModal';
-import { useEffect } from 'react';
+import TermsModal from './components/TermsModal';
+import PrivacyModal from './components/PrivacyModal';
+import CookieModal from './components/CookieModal';
 
 function Protected() {
   const { isAuthorized } = useAuthContext();
@@ -29,21 +34,27 @@ function Protected() {
 export function Router() {
   const { showDelete } = useDeleteContext();
   const { showSearch } = useSearchContext();
+  const { showTerms } = useTermsContext();
+  const { showPrivacy } = usePrivacyContext();
+  const { showCookies } = useCookieContext();
 
   return (
     <BrowserRouter>
       <Header />
       {showDelete && <DeleteModal />}
       {showSearch && <Search />}
+      {showTerms && <TermsModal />}
+      {showPrivacy && <PrivacyModal />}
+      {showCookies && <CookieModal />}
       <Routes>
         <Route path="/" index element={<Index />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/verify" element={<Verify />} />
-        <Route path="/terms" element={<Terms />} />
         <Route element={<Protected />}>
           <Route path="/vibe/:id" element={<VibeOne />} />
           <Route path="/profile/:username/:tab" element={<Profile />} />
+          <Route path="/profile/:username" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />

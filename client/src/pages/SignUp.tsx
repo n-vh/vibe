@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useFetch } from '../hooks/useFetch';
+import { useFetch, useTermsContext } from '../hooks';
+import { Title } from '../components/Title';
 import Form from '../components/Form';
 import Button from '../components/Button';
-import { Title } from '../components/Title';
 
 export function SignUp() {
   const [isChecked, setIsChecked] = useState(false);
@@ -15,6 +15,7 @@ export function SignUp() {
     email,
     password,
   });
+  const { setShowTerms } = useTermsContext();
 
   const usernameError = useMemo(() => {
     return data.error?.message === 'USERNAME_ALREADY_USED';
@@ -27,6 +28,10 @@ export function SignUp() {
   useEffect(() => {
     data.setError(null);
   }, [username, email, password]);
+
+  const handleTerms = () => {
+    setShowTerms(true);
+  };
 
   const handleCheckBox = () => {
     setIsChecked(!isChecked);
@@ -42,7 +47,7 @@ export function SignUp() {
               Sign up e-mail sent!
             </div>
           ) : (
-            <div id="login" className="flex flex-col gap-4">
+            <div id="withBorder" className="flex flex-col gap-4">
               <input
                 className="rounded-[8px] border-2 border-pink p-2"
                 value={username}
@@ -92,9 +97,10 @@ export function SignUp() {
                 />
                 <label htmlFor="acceptTerms" className="text-sm text-blue">
                   I accept the{' '}
-                  <Link to="/terms" target="_blank" className="underline">
+                  <Button className="underline" onClick={handleTerms}>
+                    {' '}
                     terms and conditions
-                  </Link>
+                  </Button>
                 </label>
               </div>
               <div className="text-roboto flex flex-col gap-2 text-sm font-medium tracking-wider text-error">

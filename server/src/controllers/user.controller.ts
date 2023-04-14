@@ -35,7 +35,7 @@ export namespace UserController {
     return doc;
   }
 
-  export async function searchUsers(query: string) {
+  export async function users(query: string) {
     return UserModel.find({
       username: { $regex: query, $options: 'i' },
     });
@@ -113,7 +113,7 @@ export namespace UserController {
     });
   }
 
-  export async function getReplies(userId: ObjectId, selfId: ObjectId) {
+  export async function comments(userId: ObjectId, selfId: ObjectId) {
     const user = await UserController.findOne({ _id: userId });
     const vibes = await VibeModel.find({ _id: { $in: user.replies } })
       .sort({ _id: -1 })
@@ -156,7 +156,6 @@ export namespace UserController {
     }
 
     if (payload.email) {
-      console.log(payload.email);
       if (user.email !== payload.email) {
         return await UserController.updateOne(selfId, { email: payload.email });
       } else {
@@ -165,7 +164,7 @@ export namespace UserController {
     }
 
     if (payload.password) {
-      const isSamePassword = comparePassword(payload.password, user.password);
+      const isSamePassword = await comparePassword(payload.password, user.password);
       const newPasswordHashed = await hashPassword(payload.password);
 
       if (!isSamePassword) {
@@ -174,5 +173,11 @@ export namespace UserController {
         throw new GraphQLError('SAME_PASSWORD');
       }
     }
+  }
+
+  export async function friends(selfId: ObjectId) {
+    const user = await UserController.findOne({ _id: selfId });
+    const followers = await UserModel.find({ _id: { $in: user.followers } });
+    return followers.filter((follower) => user.following.includes(follower._id));
   }
 }

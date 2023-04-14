@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../hooks';
-import { useSearchContext } from '../hooks/useSearchContext';
-import Button from './Button';
 import { handleScrollToTop } from '../utils/scroll';
-import { useRef } from 'react';
-import { useClickOutside } from '../hooks/useClickOutside';
+import { useAuthContext, useClickOutside, useSearchContext } from '../hooks';
+import Button from './Button';
 
 const Navbar: React.FC = () => {
   const { signOut, user } = useAuthContext();
@@ -34,12 +31,12 @@ const Navbar: React.FC = () => {
     <>
       <div className="fixed bottom-0 flex h-[7vh] w-full flex-nowrap justify-around bg-light-yellow lg:hidden ">
         <Button onClick={handleHome}>
-          <img src="/home.svg" alt="home" className="h-[45px] w-full md:h-[60px]" />
+          <img src="/home_icon.svg" alt="home" className="h-[45px] w-full md:h-[60px]" />
         </Button>
 
         <Button onClick={handleSearch}>
           <img
-            src="/searchfull.svg"
+            src="/search_icon.svg"
             alt="search"
             className="h-[45px] w-full md:h-[60px]"
           />
@@ -60,38 +57,48 @@ const Navbar: React.FC = () => {
           ref={ref}
         >
           <div className="flex flex-col justify-center gap-3 px-8 pt-10 md:px-12">
-            <Button onClick={() => navigate(`/profile/${user.username}`)}>
-              <div className="flex flex-row items-center pb-3">
+            <Button onClick={() => navigate(`/profile/${user.username}/vibes`)}>
+              <div className="flex flex-row items-center gap-4 pb-3">
                 <img
                   src={`/avatars/${user.avatar}.svg`}
                   alt="profile"
                   className="h-[35px] md:h-[55px]"
                 ></img>
-                <p className="pl-4 font-roboto text-lg font-bold tracking-wider text-dark-pink md:text-2xl">
-                  PROFILE
-                </p>
+                <img
+                  src="/profile_text.svg"
+                  alt="profile"
+                  className="h-[28px] md:h-[36px]"
+                />
               </div>
             </Button>
 
             <Button onClick={() => navigate('/settings')}>
-              <div className="flex flex-row items-center pb-3">
+              <div className="flex flex-row items-center gap-4 pb-3">
                 <img
-                  src="/settingspink.svg"
-                  alt="home"
+                  src="/settings_icon.svg"
+                  alt="settings"
                   className="h-[35px] md:h-[55px]"
                 />
-                <p className="pl-4 font-roboto text-lg font-bold tracking-wider text-dark-pink md:text-2xl">
-                  SETTINGS
-                </p>
+                <img
+                  src="/settings_text.svg"
+                  alt="settings"
+                  className="h-[28px] md:h-[36px]"
+                />
               </div>
             </Button>
 
             <Button onClick={() => signOut()}>
-              <div className="flex flex-row items-center pb-6">
-                <img src="/logoutpink.svg" alt="home" className="h-[35px] md:h-[55px]" />
-                <p className="pl-4 font-roboto text-lg font-bold tracking-wider text-dark-pink md:text-2xl">
-                  LOG OUT
-                </p>
+              <div className="flex flex-row items-center gap-4 pb-6">
+                <img
+                  src="/logout_icon.svg"
+                  alt="logout"
+                  className="h-[35px] md:h-[55px]"
+                />
+                <img
+                  src="/logout_text.svg"
+                  alt="logout"
+                  className="h-[28px] md:h-[36px]"
+                />
               </div>
             </Button>
           </div>

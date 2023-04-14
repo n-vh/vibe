@@ -1,71 +1,34 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Query, useQuery } from '../graphql';
+import { Title } from '../components/Title';
 import Navbar from '../components/Navbar';
 import VibeComponent from '../components/Vibe';
 import Comment from '../components/Comment';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
-import { useQuery } from '../graphql';
-import { ObjectId } from 'mongodb';
-import { useEffect } from 'react';
-import { Title } from '../components/Title';
 
 export function VibeOne() {
   const { id } = useParams();
 
-  const [queryVibe] = useQuery({
-    query: `
-      query Vibe($id: ObjectID!) {
-        vibe(id: $id) {
-          id
-          user {
-            id
-            username
-            avatar
-          }
-          message
-          replies {
-            count
-          }
-          smiles {
-            hasSmiled
-            count
-          }
-          createdAt
-        }
-      }
-    `,
-    variables: { id: id },
+  const [vibeQuery] = useQuery({
+    query: Query.Vibe,
+    variables: {
+      vibeId: id,
+    },
   });
 
-  const [queryComments, executeComments] = useQuery({
-    query: `
-  query QueryComments($id: ObjectID!) {
-    vibeReplies(id: $id) {
-      createdAt
-      id
-      message
-      user {
-        avatar
-        createdAt
-        id
-        username
-      }
-      smiles {
-        hasSmiled
-        count
-      }
-    }
-  }
-  `,
+  const [commentsQuery, executeCommentsQuery] = useQuery({
+    query: Query.Comments,
     variables: {
-      id: id,
+      vibeId: id,
     },
     requestPolicy: 'network-only',
   });
 
   useEffect(() => {
-    executeComments();
-  }, [queryVibe.data]);
+    executeCommentsQuery();
+  }, [vibeQuery.data]);
 
   return (
     <div className="flex pb-20 pt-28 md:pb-28 lg:pb-6">
@@ -75,30 +38,30 @@ export function VibeOne() {
         className="mx-auto mt-8 flex w-[355px] flex-col gap-6 md:w-[500px]"
       >
         <div className="flex flex-col gap-6">
-          {queryVibe.data?.vibe && (
+          {vibeQuery.data?.vibe && (
             <>
-              <Title text={`${queryVibe.data.vibe.user.username}'s vibe`} />
+              <Title text={`${vibeQuery.data.vibe.user.username}'s vibe`} />
               <VibeComponent
-                id={queryVibe.data.vibe.id}
-                avatar={queryVibe.data.vibe.user.avatar}
-                username={queryVibe.data.vibe.user.username}
-                date={queryVibe.data.vibe.createdAt}
-                smileCount={queryVibe.data.vibe.smiles.count}
-                hasSmiled={queryVibe.data.vibe.smiles.hasSmiled}
-                message={queryVibe.data.vibe.message}
-                commentCount={queryVibe.data.vibe.replies.count}
+                id={vibeQuery.data.vibe.id}
+                avatar={vibeQuery.data.vibe.user.avatar}
+                username={vibeQuery.data.vibe.user.username}
+                date={vibeQuery.data.vibe.createdAt}
+                smileCount={vibeQuery.data.vibe.smiles.count}
+                hasSmiled={vibeQuery.data.vibe.smiles.hasSmiled}
+                message={vibeQuery.data.vibe.message}
+                commentCount={vibeQuery.data.vibe.replies.count}
                 openReplying={true}
               />
             </>
           )}
         </div>
-        {queryComments.data?.vibeReplies.map((comment) => (
+        {commentsQuery.data?.comments.map((comment) => (
           <Comment
             id={comment.id}
             idOP={id}
             avatar={comment.user.avatar}
             username={comment.user.username}
-            usernameAuthor={queryVibe.data?.vibe?.user.username}
+            usernameAuthor={vibeQuery.data?.vibe?.user.username}
             date={comment.createdAt}
             smileCount={comment.smiles.count}
             hasSmiled={comment.smiles.hasSmiled}

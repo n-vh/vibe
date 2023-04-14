@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { getTimeString, pluralString } from '../utils/format';
+import { useAuthContext, useDeleteContext } from '../hooks';
+import { Mutation, useMutation } from '../graphql';
+import { ObjectId } from 'mongodb';
 import Button from './Button';
 import Message from './Message';
-import { getTimeString, pluralString } from '../utils/format';
-import { useAuthContext } from '../hooks';
-import { useMutation } from '../graphql';
-import { ObjectId } from 'mongodb';
-import { useDeleteContext } from '../hooks/useDeleteContext';
 
 interface VibeProps {
   id: ObjectId;
@@ -51,27 +50,16 @@ const Vibe: React.FC<VibeProps> = ({
 
   /* smile */
 
-  const [, executeSmile] = useMutation(`
-    mutation smileVibe($smileVibeId: ObjectID!) {
-      smileVibe(id: $smileVibeId) {
-        id
-      }
-    }
-  `);
+  const [, executeAddSmile] = useMutation(Mutation.AddSmile);
+  const [, executeRemoveSmile] = useMutation(Mutation.RemoveSmile);
 
-  const [, executeUnsmile] = useMutation(`
-  mutation smileVibe($smileVibeId: ObjectID!) {
-    unsmileVibe(id: $smileVibeId) {
-      id
-    }
-  }
-  `);
-
-  const handleSmile = () => {
+  const handleSmile = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (hasSmiled) {
-      executeUnsmile({ smileVibeId: id });
+      executeRemoveSmile({ vibeId: id });
+      e.currentTarget.children[0].classList.remove('animate__bounce');
     } else {
-      executeSmile({ smileVibeId: id });
+      executeAddSmile({ vibeId: id });
+      e.currentTarget.children[0].classList.add('animate__bounce');
     }
   };
 
@@ -83,19 +71,12 @@ const Vibe: React.FC<VibeProps> = ({
     setReplying(!replying);
   };
 
-  const [, executeReply] = useMutation(
-    `mutation replyVibe($replyVibeId: ObjectID!, $message: String!) {
-      replyVibe(id: $replyVibeId, message: $message) {
-        id
-      }
-    }
-    `,
-  );
+  const [, executeAddComment] = useMutation(Mutation.AddComment);
 
   const handleSendReply = () => {
     setReplyMessage('');
     setReplying(false);
-    executeReply({ replyVibeId: id, message: replyMessage });
+    executeAddComment({ vibeId: id, message: replyMessage });
   };
 
   /* delete */
@@ -145,7 +126,7 @@ const Vibe: React.FC<VibeProps> = ({
               <img
                 src={hasSmiled ? '/smiled.svg' : '/pinksmiley.svg'}
                 alt="like"
-                className="h-[30px] w-full md:h-[35px] lg:h-[30px]"
+                className="animate__animated h-[30px] w-full md:h-[35px] lg:h-[30px] "
               />
             </Button>
           </div>
