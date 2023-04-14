@@ -2,7 +2,7 @@ import { PropsWithChildren, useState, createContext } from 'react';
 
 export const TermsContext = createContext({
   showTerms: false,
-  setShowTerms: (search: boolean) => {},
+  setShowTerms: (terms: boolean) => {},
 });
 
 export function TermsProvider({ children }: PropsWithChildren) {

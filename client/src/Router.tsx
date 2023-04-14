@@ -1,7 +1,9 @@
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import {
   useAuthContext,
+  useCookieContext,
   useDeleteContext,
+  usePrivacyContext,
   useSearchContext,
   useTermsContext,
 } from './hooks';
@@ -16,6 +18,8 @@ import Header from './components/Header';
 import Search from './components/Search';
 import DeleteModal from './components/DeleteModal';
 import TermsModal from './components/TermsModal';
+import PrivacyModal from './components/PrivacyModal';
+import CookieModal from './components/CookieModal';
 
 function Protected() {
   const { isAuthorized } = useAuthContext();
@@ -31,6 +35,8 @@ export function Router() {
   const { showDelete } = useDeleteContext();
   const { showSearch } = useSearchContext();
   const { showTerms } = useTermsContext();
+  const { showPrivacy } = usePrivacyContext();
+  const { showCookies } = useCookieContext();
 
   return (
     <BrowserRouter>
@@ -38,6 +44,8 @@ export function Router() {
       {showDelete && <DeleteModal />}
       {showSearch && <Search />}
       {showTerms && <TermsModal />}
+      {showPrivacy && <PrivacyModal />}
+      {showCookies && <CookieModal />}
       <Routes>
         <Route path="/" index element={<Index />} />
         <Route path="/login" element={<Login />} />

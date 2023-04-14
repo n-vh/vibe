@@ -3,8 +3,10 @@ import { Router } from './Router';
 import {
   AuthProvider,
   ConfirmModalProvider,
+  CookieProvider,
   DeleteProvider,
   GraphQLProvider,
+  PrivacyProvider,
   SearchProvider,
   TermsProvider,
 } from './providers';
@@ -18,7 +20,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <DeleteProvider>
           <ConfirmModalProvider>
             <TermsProvider>
-              <Router />
+              <PrivacyProvider>
+                <CookieProvider>
+                  <Router />
+                </CookieProvider>
+              </PrivacyProvider>
             </TermsProvider>
           </ConfirmModalProvider>
         </DeleteProvider>
