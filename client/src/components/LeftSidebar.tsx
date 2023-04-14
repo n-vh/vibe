@@ -28,37 +28,41 @@ const LeftSidebar: React.FC = () => {
       <div className="w-[333px] rounded-r-[16px] bg-white bg-opacity-90 shadow-custom">
         <div className="flex flex-col items-start pl-12 pt-10">
           <Button onClick={handleHome}>
-            <div className="flex flex-row items-center py-3">
-              <img src="/homeLS.svg" alt="home" className="h-[35px]" />
+            <div className="flex flex-row items-center gap-4 py-3">
+              <img src="/home_icon.svg" alt="home" className="h-[35px]" />
+              <img src="/home_text.svg" alt="home" className="h-[28px]" />
             </div>
           </Button>
 
           <Button onClick={() => navigate(`/profile/${user.username}/vibes`)}>
-            <div className="flex flex-row items-center pb-3">
+            <div className="flex flex-row items-center gap-4 pb-3">
               <img
                 src={`/avatars/${user.avatar}.svg`}
                 alt="profile"
                 className="h-[35px]"
               ></img>
-              <img src="/profile.svg" alt="home" className="h-[35px]" />
+              <img src="/profile_text.svg" alt="profile" className="h-[32px]" />
             </div>
           </Button>
 
           <Button onClick={handleSearch}>
-            <div className="flex flex-row items-center pb-3">
-              <img src="/searchLS.svg" alt="search" className="h-[35px]" />
+            <div className="flex flex-row items-center gap-4 pb-3">
+              <img src="/search_icon.svg" alt="search" className="h-[35px]" />
+              <img src="/search_text.svg" alt="search" className="h-[28px]" />
             </div>
           </Button>
 
           <Button onClick={() => navigate('/settings')}>
-            <div className="flex flex-row items-center pb-3">
-              <img src="/settings.svg" alt="home" className="h-[35px]" />
+            <div className="flex flex-row items-center gap-4 pb-3">
+              <img src="/settings_icon.svg" alt="settings" className="h-[35px]" />
+              <img src="/settings_text.svg" alt="settings" className="h-[32px]" />
             </div>
           </Button>
 
           <Button onClick={() => signOut()}>
-            <div className="flex flex-row items-center pb-8">
-              <img src="/logout.svg" alt="home" className="h-[35px]" />
+            <div className="flex flex-row items-center gap-4 pb-8">
+              <img src="/logout_icon.svg" alt="logout" className="h-[35px]" />
+              <img src="/logout_text.svg" alt="logout" className="h-[32px]" />
             </div>
           </Button>
         </div>

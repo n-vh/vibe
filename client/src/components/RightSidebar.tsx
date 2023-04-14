@@ -12,12 +12,10 @@ const RightSidebar: React.FC = () => {
   return (
     <div className="fixed right-0 mt-8 hidden w-[333px] rounded-l-[16px] bg-white bg-opacity-90 shadow-custom lg:block">
       <div className="flex flex-col items-start pl-12 pt-10">
-        <p className="pl-4 pb-6 font-gothic text-lg font-bold tracking-wider text-dark-pink">
-          FRIENDS
-        </p>
-        <div className="flex flex-col pb-8">
+        <img src="/friends_text.svg" alt="FRIENDS" className="h-[32px] pl-3" />
+        <div className="flex flex-col pb-8 pt-8">
           {friendsQuery.data?.friends.length ? (
-            friendsQuery.data?.friends.map((friend: any) => {
+            friendsQuery.data?.friends.map((friend) => {
               return (
                 <User
                   key={`${friend.id}`}
