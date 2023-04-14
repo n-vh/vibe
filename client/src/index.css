@@ -13,24 +13,14 @@ body {
 }
 
 #inputs input:focus-visible,
-#inputs input:focus,
-#inputs textarea:focus-visible,
-#inputs textarea:focus {
+#inputs textarea:focus-visible {
   outline: none;
   border-color: transparent;
-  box-shadow: unset;
 }
 
-#inputs textarea,
-#inputs input {
-  border-width: 0px;
-}
-
-#withBorder input:focus-visible,
-#withBorder input:focus {
+#withBorder input:focus-visible {
   outline: transparent;
   border-color: #f1d7d7;
-  box-shadow: unset;
 }
 
 #smileAnimation {
@@ -52,4 +42,13 @@ body {
   100% {
     background-position: 0% 51%;
   }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

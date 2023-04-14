@@ -6,6 +6,7 @@ import {
   DeleteProvider,
   GraphQLProvider,
   SearchProvider,
+  TermsProvider,
 } from './providers';
 import './index.css';
 import 'animate.css';
@@ -16,7 +17,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <SearchProvider>
         <DeleteProvider>
           <ConfirmModalProvider>
-            <Router />
+            <TermsProvider>
+              <Router />
+            </TermsProvider>
           </ConfirmModalProvider>
         </DeleteProvider>
       </SearchProvider>

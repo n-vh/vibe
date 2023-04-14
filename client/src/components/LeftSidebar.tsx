@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuthContext, useSearchContext } from '../hooks';
+import { useAuthContext, useSearchContext, useTermsContext } from '../hooks';
 import { handleScrollToTop } from '../utils/scroll';
 import Button from './Button';
 
@@ -8,14 +8,19 @@ const LeftSidebar: React.FC = () => {
   const navigate = useNavigate();
   const { signOut, user } = useAuthContext();
   const { setShowSearch } = useSearchContext();
+  const { setShowTerms } = useTermsContext();
+
+  const handleHome = () => {
+    navigate('/');
+    handleScrollToTop();
+  };
 
   const handleSearch = () => {
     setShowSearch(true);
   };
 
-  const handleHome = () => {
-    navigate('/');
-    handleScrollToTop();
+  const handleTerms = () => {
+    setShowTerms(true);
   };
 
   return (
@@ -24,10 +29,7 @@ const LeftSidebar: React.FC = () => {
         <div className="flex flex-col items-start pl-12 pt-10">
           <Button onClick={handleHome}>
             <div className="flex flex-row items-center py-3">
-              <img src="/home.svg" alt="home" className="h-[35px]" />
-              <p className="pl-4 pt-1 font-gothic text-lg font-bold tracking-wider text-dark-pink">
-                HOME
-              </p>
+              <img src="/homeLS.svg" alt="home" className="h-[35px]" />
             </div>
           </Button>
 
@@ -38,36 +40,25 @@ const LeftSidebar: React.FC = () => {
                 alt="profile"
                 className="h-[35px]"
               ></img>
-              <p className="pl-4 pt-1 font-gothic text-lg font-bold tracking-wider text-dark-pink">
-                PROFILE
-              </p>
+              <img src="/profile.svg" alt="home" className="h-[35px]" />
             </div>
           </Button>
 
           <Button onClick={handleSearch}>
             <div className="flex flex-row items-center pb-3">
-              <img src="/searchblue.svg" alt="search" className="h-[35px]" />
-              <p className="pl-4 pt-1 font-gothic text-lg font-bold tracking-wider text-dark-pink">
-                SEARCH
-              </p>
+              <img src="/searchLS.svg" alt="search" className="h-[35px]" />
             </div>
           </Button>
 
           <Button onClick={() => navigate('/settings')}>
             <div className="flex flex-row items-center pb-3">
               <img src="/settings.svg" alt="home" className="h-[35px]" />
-              <p className="pl-4 pt-1 font-gothic text-lg font-bold tracking-wider text-dark-pink">
-                SETTINGS
-              </p>
             </div>
           </Button>
 
           <Button onClick={() => signOut()}>
             <div className="flex flex-row items-center pb-8">
               <img src="/logout.svg" alt="home" className="h-[35px]" />
-              <p className="pl-4 pt-1 font-gothic text-lg font-bold tracking-wider text-dark-pink">
-                LOG OUT
-              </p>
             </div>
           </Button>
         </div>
@@ -99,13 +90,12 @@ const LeftSidebar: React.FC = () => {
         >
           © 2023 VIBE &nbsp; |
         </a>
-        <Link
-          to="/terms"
-          target="_blank"
+        <Button
           className="pl-2 font-roboto text-[10px] tracking-wider text-dark-pink hover:underline"
+          onClick={handleTerms}
         >
           Terms and conditions
-        </Link>
+        </Button>
       </div>
     </div>
   );

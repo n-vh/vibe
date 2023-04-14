@@ -31,12 +31,12 @@ const Navbar: React.FC = () => {
     <>
       <div className="fixed bottom-0 flex h-[7vh] w-full flex-nowrap justify-around bg-light-yellow lg:hidden ">
         <Button onClick={handleHome}>
-          <img src="/home.svg" alt="home" className="h-[45px] w-full md:h-[60px]" />
+          <img src="/homeNavbar.svg" alt="home" className="h-[45px] w-full md:h-[60px]" />
         </Button>
 
         <Button onClick={handleSearch}>
           <img
-            src="/searchfull.svg"
+            src="/searchNavbar.svg"
             alt="search"
             className="h-[45px] w-full md:h-[60px]"
           />
@@ -64,31 +64,19 @@ const Navbar: React.FC = () => {
                   alt="profile"
                   className="h-[35px] md:h-[55px]"
                 ></img>
-                <p className="pl-4 font-gothic text-lg font-bold tracking-wider text-dark-pink md:text-2xl">
-                  PROFILE
-                </p>
+                <img src="/profile.svg" alt="home" className="h-[35px]" />
               </div>
             </Button>
 
             <Button onClick={() => navigate('/settings')}>
               <div className="flex flex-row items-center pb-3">
-                <img
-                  src="/settingspink.svg"
-                  alt="home"
-                  className="h-[35px] md:h-[55px]"
-                />
-                <p className="pl-4 font-gothic text-lg font-bold tracking-wider text-dark-pink md:text-2xl">
-                  SETTINGS
-                </p>
+                <img src="/settings.svg" alt="home" className="h-[35px] md:h-[55px]" />
               </div>
             </Button>
 
             <Button onClick={() => signOut()}>
               <div className="flex flex-row items-center pb-6">
-                <img src="/logoutpink.svg" alt="home" className="h-[35px] md:h-[55px]" />
-                <p className="pl-4 font-gothic text-lg font-bold tracking-wider text-dark-pink md:text-2xl">
-                  LOG OUT
-                </p>
+                <img src="/logout.svg" alt="home" className="h-[35px] md:h-[55px]" />
               </div>
             </Button>
           </div>
