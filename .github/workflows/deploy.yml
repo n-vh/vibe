@@ -15,5 +15,6 @@ jobs:
           port: ${{ secrets.SSH_HOST_PORT }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             bash /opt/github/vibe/update.sh
