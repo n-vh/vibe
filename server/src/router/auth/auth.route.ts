@@ -5,7 +5,6 @@ import { ForgotPasswordRouteSchema, LoginRouteSchema, RouteSchema } from './auth
 import { comparePassword, hashPassword } from '~/utils/password';
 import { TokenType } from '~/shared/enums';
 import { UserModel } from '~/database/models';
-import { tokenPayload } from '~/utils/token';
 
 type SignUpRouteRequest = FastifyRequest<{
   Body: Pick<User, 'username' | 'email' | 'password'>;
@@ -19,64 +18,7 @@ type ForgotPasswordRouteRequest = FastifyRequest<{
   Body: Pick<User, 'email'>;
 }>;
 
-type VerifyRouteRequest = FastifyRequest<{
-  Body: { token: string };
-}>;
-
 export const authRouter: FastifyPluginCallback = (app, opts, next) => {
-  app.route({
-    url: '/verify',
-    method: 'POST',
-    handler: async (req: VerifyRouteRequest, rep) => {
-      try {
-        const payload = tokenPayload(app, req.body.token);
-
-        // delete the mail verify token
-        // throws error if token is not found
-        await MailVerifyController.deleteOne(req.body);
-
-        if (payload.type === TokenType.SIGNUP) {
-          // create the user
-          // throws error if user already exists
-          const user = await UserController.create(payload);
-
-          rep.send({
-            token: app.jwt.sign(
-              {
-                id: user.id,
-                username: user.username,
-                email: user.email,
-                avatar: user.avatar,
-                type: TokenType.SIGNED,
-              },
-              { expiresIn: '7d' },
-            ),
-          });
-        }
-
-        if (payload.type === TokenType.LOGIN) {
-          const user = await UserController.findOne({ email: payload.email });
-
-          rep.send({
-            token: app.jwt.sign(
-              {
-                id: user.id,
-                username: user.username,
-                type: TokenType.SIGNED,
-              },
-              { expiresIn: '7d' },
-            ),
-          });
-        }
-      } catch (e) {
-        rep.status(400).send({
-          status: 400,
-          error: e.message,
-        });
-      }
-    },
-  });
-
   app.route({
     url: '/signup',
     method: 'POST',
@@ -169,12 +111,20 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
         });
 
         // sends an email with a token
-        const token = app.mail.sendForgotPassword(req.body);
+        const token = app.mail.sendForgotPassword({
+          email: user.email,
+          username: user.username,
+        });
 
         // save the token in the database
         await MailVerifyController.create({
           token,
           type: TokenType.FORGOT_PASSWORD,
+        });
+
+        rep.send({
+          status: 200,
+          message: 'SIGNUP_TOKEN_SENT',
         });
       } catch (e) {
         rep.status(400).send({
