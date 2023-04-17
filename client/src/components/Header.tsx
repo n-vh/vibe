@@ -13,16 +13,16 @@ const Header: React.FC = () => {
   };
 
   return (
-    <div className="fixed flex w-full">
+    <div className="fixed z-[90] flex w-full">
       <img
         src="/wave.svg"
         className="animate__animated animate__pulse h-[120px] w-full"
       />
       <Button
-        className="absolute top-8 block h-12 w-12 p-2 md:left-2 md:h-14 md:w-14 lg:hidden"
+        className="absolute top-8 block h-14 w-14 p-2 md:left-2 md:h-16 md:w-16 lg:hidden"
         onClick={handleBack}
       >
-        <img src="/back.svg"></img>
+        <img src="/arrow_left_icon.svg"></img>
       </Button>
 
       <Link to="/">

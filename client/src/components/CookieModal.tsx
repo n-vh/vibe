@@ -12,7 +12,7 @@ const CookieModal: React.FC = () => {
 
   return (
     <div className="fixed bottom-0 right-0 z-[90] flex h-auto w-[70%] flex-col gap-4 rounded-tl-[16px] bg-white p-6 md:w-[60%] lg:w-[35%]">
-      <p className="text-center font-roboto text-sm tracking-wider text-blue md:px-4 md:pb-4 md:text-xl lg:px-6 lg:pt-4 lg:text-base">
+      <p className="text-center font-roboto text-sm tracking-wider text-dark-grey text-opacity-60 md:px-4 md:pb-4 md:text-xl lg:px-6 lg:pt-4 lg:text-base">
         This website uses cookies to ensure you get the best experience on our website.
       </p>
       <div className="flex flex-col items-center gap-4 md:flex md:flex-row md:justify-center md:gap-6 md:pb-4 lg:pb-3">

@@ -19,12 +19,12 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   disabled,
 }) => {
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex h-screen w-screen items-center justify-center overflow-hidden bg-dark-grey bg-opacity-50">
+    <div className="fixed top-0 left-0 right-0 bottom-0 z-[100] flex h-screen w-screen items-center justify-center overflow-hidden bg-dark-grey bg-opacity-50">
       <div
         id="withBorder"
         className="animate__animated animate__bounceInUp flex h-auto w-[90%] flex-col gap-4 rounded-[16px] bg-white p-8 shadow-custom md:w-[80%] lg:w-[40%]"
       >
-        <p className="text-center font-roboto text-xl tracking-wider text-blue">
+        <p className="text-center font-roboto text-xl tracking-wider text-dark-grey text-opacity-60">
           {children}
         </p>
         <div className="flex flex-col items-center gap-4 pt-2 md:flex md:flex-row md:justify-center md:gap-6">

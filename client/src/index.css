@@ -27,9 +27,9 @@ body {
   background: linear-gradient(303deg, #f2d7db, #fdf0c7);
   background-size: 200% 200%;
 
-  -webkit-animation: AnimationName 2s ease infinite;
-  -moz-animation: AnimationName 2s ease infinite;
-  animation: AnimationName 2s ease infinite;
+  -webkit-animation: AnimationName 1s ease infinite;
+  -moz-animation: AnimationName 1s ease infinite;
+  animation: AnimationName 1s ease infinite;
 }
 
 @keyframes AnimationName {
