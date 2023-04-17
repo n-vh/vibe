@@ -10,7 +10,7 @@ export function SignUp() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [data, execute] = useFetch('http://localhost:6543/signup', {
+  const [data, execute] = useFetch('signup', {
     username,
     email,
     password,

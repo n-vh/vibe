@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-export function useFetch<T, U = {}>(url: string, body: U) {
+export function useFetch<T, U = {}>(route: string, body: U) {
   const cancelRequest = useRef<boolean>(false);
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<Error | null>(null);
@@ -10,7 +10,7 @@ export function useFetch<T, U = {}>(url: string, body: U) {
     cancelRequest.current = false;
     setLoading(true);
 
-    fetch(url, {
+    fetch(import.meta.env.VITE_SERVER_URL + route, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
