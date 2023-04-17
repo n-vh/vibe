@@ -5,7 +5,7 @@ import { useAuthContext, useFetch } from '../hooks';
 export function Verify() {
   const { signIn } = useAuthContext();
   const [searchParams] = useSearchParams();
-  const [data, execute] = useFetch<{ token: string }>('http://localhost:6543/verify', {
+  const [data, execute] = useFetch<{ token: string }>('verify', {
     token: searchParams.get('token'),
   });
 

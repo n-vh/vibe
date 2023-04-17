@@ -11,7 +11,7 @@ export function Login() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [data, execute] = useFetch<{ token: string }>('http://localhost:6543/login', {
+  const [data, execute] = useFetch<{ token: string }>('login', {
     username,
     password,
   });
