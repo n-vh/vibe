@@ -10,25 +10,10 @@ const TermsModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex h-screen w-screen items-center justify-center overflow-hidden bg-dark-grey bg-opacity-50">
+    <div className="fixed top-0 left-0 right-0 bottom-0 z-[100] flex h-screen w-screen items-center justify-center overflow-hidden bg-dark-grey bg-opacity-50">
       <div className="animate__animated animate__bounceInUp relative flex h-[80%] w-[90%] rounded-[16px] bg-white p-8 shadow-custom md:w-[80%] lg:w-[40%]">
-        <Button
-          onClick={handleTerms}
-          className="absolute flex h-[35px] w-[35px] items-center justify-around rounded-[16px] border border-pink shadow-custom"
-        >
-          <svg
-            fill="#C0A0A0"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="#C0A0A0"
-            className="flex h-6 w-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>{' '}
+        <Button onClick={handleTerms} className="absolute flex">
+          <img src="/close_icon.svg" alt="close" className="flex h-8 md:h-10"></img>
         </Button>
 
         <div className="flex h-full flex-col items-center gap-4">
@@ -36,8 +21,8 @@ const TermsModal: React.FC = () => {
             Terms & Conditions
           </h2>
           <div className="scrollbar-hide m-2 mb-6 flex overflow-auto">
-            <div className="text-md justify-self-center pr-4 text-justify font-roboto font-light tracking-wider text-blue">
-              <p className="text-md text-center font-roboto font-medium tracking-wider text-blue">
+            <div className="text-md justify-self-center pr-4 text-justify font-roboto font-light tracking-wider text-dark-grey text-opacity-60">
+              <p className="text-md text-center font-roboto font-medium tracking-wider text-dark-grey text-opacity-60">
                 Welcome to Vibe, a social media platform dedicated to sharing positive and
                 uplifting news By using our service, you agree to the following terms and
                 conditions:
