@@ -185,7 +185,7 @@ export function Settings() {
                   placeholder="Password"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  type="text"
+                  type="password"
                   required
                 />
               </ConfirmModal>
