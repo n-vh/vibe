@@ -29,6 +29,28 @@ export function Index() {
 
         {/* VIBES */}
 
+        <div className="flex flex-col gap-6">
+          <div className="relative flex w-[550px] flex-col gap-4 rounded-[16px] bg-white bg-opacity-90 p-10 shadow-custom">
+            <div className="relative mx-auto">
+              <img
+                src="/bluesmiley.svg"
+                alt="smiley"
+                className="absolute z-[40] h-[60px]"
+              ></img>
+              <div
+                id="smileAnimation"
+                className="z-[30] h-[60px] w-[60px] rounded-full"
+              ></div>
+            </div>
+
+            <p className="px-12 py-8 text-center font-hubballi text-2xl tracking-wide text-blue">
+              Welcome to Vibe, a social media platform dedicated to sharing positive and
+              uplifting news from around the world. Share stories, inspire one another,
+              and spread joy.
+            </p>
+          </div>
+        </div>
+
         {/* SIGNUP BUTTON */}
 
         <div className="mx-6 mt-4 hidden w-1/4 flex-col justify-center lg:flex">
