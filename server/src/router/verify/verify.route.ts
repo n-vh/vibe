@@ -57,7 +57,7 @@ export const verifyRouter: FastifyPluginCallback = (app, opts, next) => {
         if (payload.type === TokenType.FORGOT_PASSWORD) {
           const user = await UserController.findOne({ email: payload.email });
 
-          user.updateOne({ password: await hashPassword(req.body.password) });
+          await user.updateOne({ password: await hashPassword(req.body.password) });
 
           rep.send({
             token: app.jwt.sign(

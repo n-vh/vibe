@@ -19,10 +19,7 @@ export function Login() {
     username,
     password,
   });
-  const [passwordData, executePassword] = useFetch(
-    'http://localhost:6543/forgot-password',
-    { email },
-  );
+  const [passwordData, executePassword] = useFetch('forgot-password', { email });
 
   const usernameError = useMemo(() => {
     return loginData.error?.message === 'USER_NOT_FOUND';

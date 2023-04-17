@@ -124,7 +124,7 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
 
         rep.send({
           status: 200,
-          message: 'SIGNUP_TOKEN_SENT',
+          message: 'FORGOT_PASSWORD_SENT',
         });
       } catch (e) {
         rep.status(400).send({
