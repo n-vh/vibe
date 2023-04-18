@@ -24,7 +24,7 @@ const Search: React.FC = () => {
   };
 
   return (
-    <div className="fixed z-40 flex h-screen w-screen items-center justify-center overflow-hidden bg-dark-grey bg-opacity-50">
+    <div className="fixed z-[100] flex h-screen w-screen items-center justify-center overflow-hidden bg-dark-grey bg-opacity-50">
       <div className="flex w-[90%] flex-col gap-4 md:w-[80%] lg:w-[40%]" ref={ref}>
         <form
           id="inputs"
