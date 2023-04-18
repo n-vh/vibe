@@ -11,15 +11,15 @@ export function Index() {
   const [smileCount, setSmileCount] = useState(0);
   const [showSlides, setShowSlides] = useState(1);
 
+  useEffect(() => {
+    setInterval(() => {
+      setShowSlides((slide) => (slide === 1 ? 2 : 1));
+    }, 6000);
+  }, []);
+
   if (isAuthorized && user?.id) {
     return <Home />;
   }
-
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     setShowSlides(showSlides === 1 ? 2 : 1);
-  //   }, 6000);
-  // }, []);
 
   return (
     <div className="flex h-screen pt-28">
