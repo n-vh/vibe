@@ -224,73 +224,63 @@ export function Profile() {
           </div>
 
           <div id="inputs" className="flex flex-col gap-6">
-            {vibeQuery.data?.vibes.length ? (
-              vibeQuery.data?.vibes?.map((vibe) => {
-                if (vibeTab === 'COMMENTS' && vibe.reply?.id) {
-                  return (
-                    <Comment
-                      key={`${vibe.id}`}
-                      id={vibe.id}
-                      idOP={`${vibe.reply!.id}`}
-                      avatar={vibe.user.avatar}
-                      username={vibe.user.username}
-                      usernameAuthor={vibe.reply?.user.username}
-                      date={vibe.createdAt}
-                      smileCount={vibe.smiles.count}
-                      hasSmiled={vibe.smiles.hasSmiled}
-                      message={vibe.message}
-                    />
-                  );
-                }
-
-                return (
-                  <Vibe
-                    id={vibe.id}
-                    key={`${vibe.id}`}
-                    avatar={vibe.user.avatar}
-                    username={vibe.user.username}
-                    date={vibe.createdAt}
-                    smileCount={vibe.smiles.count}
-                    hasSmiled={vibe.smiles.hasSmiled}
-                    message={vibe.message}
-                    commentCount={vibe.replies.count}
+            {vibeQuery.data?.vibes?.map((vibe) => {
+              return vibeTab === 'COMMENTS' && vibe.reply?.id ? (
+                <Comment
+                  key={`${vibe.id}`}
+                  id={vibe.id}
+                  idOP={`${vibe.reply!.id}`}
+                  avatar={vibe.user.avatar}
+                  username={vibe.user.username}
+                  usernameAuthor={vibe.reply?.user.username}
+                  date={vibe.createdAt}
+                  smileCount={vibe.smiles.count}
+                  hasSmiled={vibe.smiles.hasSmiled}
+                  message={vibe.message}
+                />
+              ) : (
+                <Vibe
+                  id={vibe.id}
+                  key={`${vibe.id}`}
+                  avatar={vibe.user.avatar}
+                  username={vibe.user.username}
+                  date={vibe.createdAt}
+                  smileCount={vibe.smiles.count}
+                  hasSmiled={vibe.smiles.hasSmiled}
+                  message={vibe.message}
+                  commentCount={vibe.replies.count}
+                />
+              );
+            })}
+            {followersQuery.data?.followers.map((follower: any) => {
+              return (
+                <div className="rounded-[16px] bg-white shadow-custom">
+                  <User
+                    key={`${follower.id}`}
+                    avatar={follower.avatar}
+                    username={follower.username}
                   />
-                );
-              })
-            ) : followersQuery.data?.followers.length ? (
-              followersQuery.data?.followers.map((follower: any) => {
-                return (
-                  <div className="rounded-[16px] bg-white shadow-custom">
-                    <User
-                      key={`${follower.id}`}
-                      avatar={follower.avatar}
-                      username={follower.username}
-                    />
-                  </div>
-                );
-              })
-            ) : followingQuery.data?.following.length ? (
-              followingQuery.data?.following.map((following: any) => {
-                return (
-                  <div className="rounded-[16px] bg-white shadow-custom">
-                    <User
-                      key={`${following.id}`}
-                      avatar={following.avatar}
-                      username={following.username}
-                    />
-                  </div>
-                );
-              })
-            ) : !vibeQuery.data?.vibes.length &&
-              !vibeQuery.fetching &&
-              !followersQuery.data?.followers?.length &&
-              !followersQuery.fetching &&
-              !followingQuery.data?.following?.length &&
-              !followingQuery.fetching ? (
-              <Nothing />
-            ) : (
+                </div>
+              );
+            })}
+            {followingQuery.data?.following.map((following: any) => {
+              return (
+                <div className="rounded-[16px] bg-white shadow-custom">
+                  <User
+                    key={`${following.id}`}
+                    avatar={following.avatar}
+                    username={following.username}
+                  />
+                </div>
+              );
+            })}
+            {vibeQuery.fetching || followersQuery.fetching || followingQuery.fetching ? (
               <Loading />
-            )}
+            ) : !vibeQuery.data?.vibes.length &&
+              !followersQuery.data?.followers.length &&
+              !followingQuery.data?.following.length ? (
+              <Nothing />
+            ) : null}
           </div>
         </div>
       )}

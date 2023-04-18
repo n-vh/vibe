@@ -6,7 +6,7 @@ import { ApolloServer } from '@apollo/server';
 import { fastifyApolloDrainPlugin, fastifyApolloHandler } from '@as-integrations/fastify';
 import { mail } from '~/plugins';
 import { Database } from '~/database';
-import { authRouter } from '~/router';
+import { authRouter, verifyRouter } from '~/router';
 import { AuthContext } from '~/graphql/context';
 import { typeDefinitions } from '~/graphql/typedefs';
 import { GraphQLObjectID } from '~/graphql/scalars';
@@ -44,6 +44,7 @@ const initServer = async (opts?: FastifyServerOptions) => {
   });
 
   app.register(authRouter);
+  app.register(verifyRouter);
 
   app.route({
     url: '/graphql',
