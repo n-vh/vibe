@@ -15,6 +15,7 @@ import { SignUp } from './pages/SignUp';
 import { Verify } from './pages/Verify';
 import { VibeOne } from './pages/VibeOne';
 import { ForgotPassword } from './pages/ForgotPassword';
+import { Error } from './pages/Error404';
 import Header from './components/Header';
 import Search from './components/Search';
 import DeleteModal from './components/DeleteModal';
@@ -59,7 +60,7 @@ export function Router() {
           <Route path="/profile/:username" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>
   );

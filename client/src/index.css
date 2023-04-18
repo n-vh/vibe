@@ -52,3 +52,7 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+#gradient {
+  background: linear-gradient(180deg, #f1d3de 0%, #f5e9c1 100%);
+}
