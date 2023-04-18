@@ -3,6 +3,8 @@ import { useQuery } from 'urql';
 import { useLocalStorage } from '../hooks';
 import { Query } from '../graphql';
 
+const defaultUser = { id: '', username: '', avatar: '' };
+
 export const AuthContext = createContext({
   isAuthorized: false,
   user: { id: '', username: '', avatar: '' },
@@ -13,7 +15,7 @@ export const AuthContext = createContext({
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [token, setToken] = useLocalStorage('token', '');
-  const [user, setUser] = useLocalStorage('user', { id: '', username: '', avatar: '' });
+  const [user, setUser] = useLocalStorage('user', defaultUser);
   const [data, execute] = useQuery({
     query: Query.Me,
     requestPolicy: 'network-only',
@@ -26,7 +28,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   const signOut = () => {
     setToken('');
-    setUser({ id: '', username: '', avatar: '' });
+    setUser(defaultUser);
   };
 
   const changeAvatar = (avatar: string) => {

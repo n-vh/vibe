@@ -9,6 +9,7 @@ import {
 import { comparePassword, hashPassword } from '~/utils/password';
 import { TokenType } from '~/shared/enums';
 import { UserModel } from '~/database/models';
+import { signedInToken } from '~/utils/token';
 
 type SignUpRouteRequest = FastifyRequest<{
   Body: Pick<User, 'username' | 'email' | 'password'>;
@@ -84,16 +85,9 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
           throw new Error('WRONG_PASSWORD');
         }
 
-        const token = app.jwt.sign(
-          {
-            id: user.id,
-            username: user.username,
-            type: TokenType.SIGNED,
-          },
-          { expiresIn: '7d' },
-        );
-
-        rep.send({ token });
+        rep.send({
+          token: signedInToken(app, user),
+        });
       } catch (e) {
         rep.status(400).send({
           status: 400,
@@ -138,8 +132,6 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
       }
     },
   });
-
-  // TODO password-change route
 
   next();
 };

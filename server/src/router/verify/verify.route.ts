@@ -2,7 +2,7 @@ import type { FastifyPluginCallback, FastifyRequest } from 'fastify';
 import { MailVerifyController, UserController } from '~/controllers';
 import { hashPassword } from '~/utils/password';
 import { TokenType } from '~/shared/enums';
-import { tokenPayload } from '~/utils/token';
+import { signedInToken, tokenPayload } from '~/utils/token';
 import { VerifyRouteSchema } from './verify.schema';
 
 type VerifyRouteRequest = FastifyRequest<{
@@ -28,16 +28,7 @@ export const verifyRouter: FastifyPluginCallback = (app, opts, next) => {
           const user = await UserController.create(payload);
 
           rep.send({
-            token: app.jwt.sign(
-              {
-                id: user.id,
-                username: user.username,
-                email: user.email,
-                avatar: user.avatar,
-                type: TokenType.SIGNED,
-              },
-              { expiresIn: '7d' },
-            ),
+            token: signedInToken(app, user),
           });
         }
 
@@ -45,14 +36,7 @@ export const verifyRouter: FastifyPluginCallback = (app, opts, next) => {
           const user = await UserController.findOne({ email: payload.email });
 
           rep.send({
-            token: app.jwt.sign(
-              {
-                id: user.id,
-                username: user.username,
-                type: TokenType.SIGNED,
-              },
-              { expiresIn: '7d' },
-            ),
+            token: signedInToken(app, user),
           });
         }
 
@@ -62,14 +46,7 @@ export const verifyRouter: FastifyPluginCallback = (app, opts, next) => {
           await user.updateOne({ password: await hashPassword(req.body.password) });
 
           rep.send({
-            token: app.jwt.sign(
-              {
-                id: user.id,
-                username: user.username,
-                type: TokenType.SIGNED,
-              },
-              { expiresIn: '7d' },
-            ),
+            token: signedInToken(app, user),
           });
         }
       } catch (e) {
