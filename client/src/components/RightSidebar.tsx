@@ -1,6 +1,7 @@
 import React from 'react';
 import { Query, useQuery } from '../graphql';
 import Nothing from './Nothing';
+import Loading from './Loading';
 import User from './User';
 
 const RightSidebar: React.FC = () => {
@@ -24,6 +25,8 @@ const RightSidebar: React.FC = () => {
                 />
               );
             })
+          ) : friendsQuery.fetching ? (
+            <Loading />
           ) : (
             <Nothing />
           )}
