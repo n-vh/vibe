@@ -1,7 +1,11 @@
 import type { FastifyPluginCallback, FastifyRequest } from 'fastify';
 import type { User } from '~/shared/types';
 import { MailVerifyController, UserController } from '~/controllers';
-import { ForgotPasswordRouteSchema, LoginRouteSchema, RouteSchema } from './auth.schema';
+import {
+  ForgotPasswordRouteSchema,
+  LoginRouteSchema,
+  SignUpRouteSchema,
+} from './auth.schema';
 import { comparePassword, hashPassword } from '~/utils/password';
 import { TokenType } from '~/shared/enums';
 import { UserModel } from '~/database/models';
@@ -22,7 +26,7 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
   app.route({
     url: '/signup',
     method: 'POST',
-    schema: RouteSchema,
+    schema: SignUpRouteSchema,
     handler: async (req: SignUpRouteRequest, rep) => {
       try {
         const user = await UserModel.findOne({
@@ -124,7 +128,7 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
 
         rep.send({
           status: 200,
-          message: 'FORGOT_PASSWORD_SENT',
+          message: 'PASSWORD_RESET_TOKEN_SENT',
         });
       } catch (e) {
         rep.status(400).send({

@@ -3,6 +3,7 @@ import { MailVerifyController, UserController } from '~/controllers';
 import { hashPassword } from '~/utils/password';
 import { TokenType } from '~/shared/enums';
 import { tokenPayload } from '~/utils/token';
+import { VerifyRouteSchema } from './verify.schema';
 
 type VerifyRouteRequest = FastifyRequest<{
   Body: { token: string; password?: string };
@@ -12,6 +13,7 @@ export const verifyRouter: FastifyPluginCallback = (app, opts, next) => {
   app.route({
     url: '/verify',
     method: 'POST',
+    schema: VerifyRouteSchema,
     handler: async (req: VerifyRouteRequest, rep) => {
       try {
         const payload = tokenPayload(app, req.body.token);
