@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useAuthContext, useFetch } from '../hooks';
 import { Title } from '../components/Title';
 import Form from '../components/Form';
@@ -7,8 +7,7 @@ import Button from '../components/Button';
 import ConfirmModal from '../components/ConfirmModal';
 
 export function Login() {
-  const navigate = useNavigate();
-  const { signIn } = useAuthContext();
+  const { isAuthorized, signIn } = useAuthContext();
 
   const [forgotPasswordModal, setForgotPasswordModal] = useState(false);
   const [username, setUsername] = useState('');
@@ -32,7 +31,6 @@ export function Login() {
   useEffect(() => {
     if (loginData.data && loginData.data.token) {
       signIn(loginData.data.token);
-      return navigate('/');
     }
   }, [loginData]);
 
@@ -46,6 +44,10 @@ export function Login() {
     passwordData.setData({ sent: false });
     setForgotPasswordModal(false);
   };
+
+  if (isAuthorized) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="flex h-screen flex-col">

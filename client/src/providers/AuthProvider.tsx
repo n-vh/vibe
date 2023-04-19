@@ -7,7 +7,7 @@ const defaultUser = { id: '', username: '', avatar: '' };
 
 export const AuthContext = createContext({
   isAuthorized: false,
-  user: { id: '', username: '', avatar: '' },
+  user: defaultUser,
   signIn: (token: string) => {},
   signOut: () => {},
   changeAvatar: (avatar: string) => {},
@@ -57,7 +57,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthorized: !!token, user, signIn, signOut, changeAvatar }}
+      value={{ isAuthorized: !!user.id, user, signIn, signOut, changeAvatar }}
     >
       {children}
     </AuthContext.Provider>
