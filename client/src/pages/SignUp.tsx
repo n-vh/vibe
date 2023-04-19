@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useFetch, useTermsContext } from '../hooks';
 import { Title } from '../components/Title';
@@ -37,6 +37,36 @@ export function SignUp() {
     setIsChecked(!isChecked);
   };
 
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputEmail = e.target.value;
+    setEmail(inputEmail);
+
+    const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const isValidEmail = regex.test(inputEmail);
+
+    const inputElement = e.target;
+    if (isValidEmail) {
+      inputElement.style.borderColor = 'rgba(105, 181, 140, 0.67)';
+    } else {
+      inputElement.style.borderColor = '#CC6262';
+    }
+  };
+
+  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputUsername = e.target.value;
+    setUsername(inputUsername);
+
+    const regex = /^[a-z0-9_-]{3,25}$/;
+    const isValidUsername = regex.test(inputUsername);
+
+    const inputElement = e.target;
+    if (isValidUsername) {
+      inputElement.style.borderColor = 'rgba(105, 181, 140, 0.67)';
+    } else {
+      inputElement.style.borderColor = '#CC6262';
+    }
+  };
+
   return (
     <div className="flex h-screen flex-col">
       <Title text="Sign up – vibe" />
@@ -51,12 +81,10 @@ export function SignUp() {
               <input
                 className="rounded-[8px] border-2 border-pink p-2"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={handleUsernameChange}
                 placeholder="Choose a username"
                 type="text"
                 required
-                // pattern="[A-Za-z0-9_]{3,25}"
-                // title="Only letters, numbers, underscore; between 3 and 25 characters."
               />
               {usernameError && (
                 <div className="text-roboto pl-1 text-xs tracking-wider text-error">
@@ -66,12 +94,10 @@ export function SignUp() {
               <input
                 className="rounded-[8px] border-2 border-pink p-2"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
                 placeholder="Email"
                 type="text"
                 required
-                // pattern="[A-Za-z0-9_]{3,25}"
-                // title="Only letters, numbers, underscore; between 3 and 25 characters."
               />
               {emailError && (
                 <div className="text-roboto pl-1 text-xs tracking-wider text-error">
