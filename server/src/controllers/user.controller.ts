@@ -38,7 +38,7 @@ export namespace UserController {
   export async function users(query: string) {
     return UserModel.find({
       username: { $regex: query, $options: 'i' },
-    });
+    }).limit(5);
   }
 
   export async function getSelf(userId: ObjectId) {
@@ -178,6 +178,8 @@ export namespace UserController {
   export async function friends(selfId: ObjectId) {
     const user = await UserController.findOne({ _id: selfId });
     const followers = await UserModel.find({ _id: { $in: user.followers } });
-    return followers.filter((follower) => user.following.includes(follower._id));
+    return followers
+      .filter((follower) => user.following.includes(follower._id))
+      .slice(0, 5);
   }
 }

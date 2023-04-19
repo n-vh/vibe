@@ -1,5 +1,5 @@
 {
-  "name": "doodle-graphql",
+  "name": "@vibe/server",
   "main": "dist/server.mjs",
   "scripts": {
     "dev": "vite",

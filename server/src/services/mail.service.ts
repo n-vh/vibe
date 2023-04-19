@@ -88,7 +88,7 @@ export class MailService {
     return token;
   }
 
-  private async send(data: MailgunMessageData) {
+  private send(data: MailgunMessageData) {
     this.client.messages
       .create(import.meta.env.VITE_DOMAIN_NAME, {
         ...data,
@@ -99,6 +99,9 @@ export class MailService {
 
   private appendTokenToURL<T>(payload: T, expiresIn: string, route: string = 'verify') {
     const token = this.app.jwt.sign({ payload }, { expiresIn });
-    return { url: `${import.meta.env.VITE_HOST_URL}${route}?token=${token}`, token };
+    return {
+      url: `${import.meta.env.VITE_HOST_URL}${route}?token=${token}`,
+      token: token,
+    };
   }
 }
