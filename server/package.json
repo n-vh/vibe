@@ -1,5 +1,5 @@
 {
-  "name": "doodle-graphql",
+  "name": "@vibe/server",
   "main": "dist/server.mjs",
   "scripts": {
     "dev": "vite",
@@ -17,7 +17,6 @@
     "fastify": "^4.12.0",
     "form-data": "^4.0.0",
     "graphql": "^16.6.0",
-    "graphql-constraint-directive": "^5.0.0",
     "mailgun.js": "^8.0.6",
     "mongodb": "^4.13.0",
     "mongoose": "^6.8.4"

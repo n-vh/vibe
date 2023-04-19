@@ -1,25 +1,33 @@
 import type { FastifyPluginCallback, FastifyRequest } from 'fastify';
 import type { User } from '~/shared/types';
 import { MailVerifyController, UserController } from '~/controllers';
-import { RouteSchema } from './auth.schema';
-import { comparePassword } from '~/utils/password';
-import { MailVerifyType } from '~/shared/enums';
+import {
+  ForgotPasswordRouteSchema,
+  LoginRouteSchema,
+  SignUpRouteSchema,
+} from './auth.schema';
+import { comparePassword, hashPassword } from '~/utils/password';
+import { TokenType } from '~/shared/enums';
 import { UserModel } from '~/database/models';
-import { tokenPayload } from '~/utils/token';
+import { signedInToken } from '~/utils/token';
 
 type SignUpRouteRequest = FastifyRequest<{
-  Body: Pick<User, 'username' | 'email'>;
+  Body: Pick<User, 'username' | 'email' | 'password'>;
 }>;
 
-type SignUpRouteVerifyRequest = FastifyRequest<{
-  Body: { token: string };
+type LoginRouteRequest = FastifyRequest<{
+  Body: Pick<User, 'username' | 'password'>;
+}>;
+
+type ForgotPasswordRouteRequest = FastifyRequest<{
+  Body: Pick<User, 'email'>;
 }>;
 
 export const authRouter: FastifyPluginCallback = (app, opts, next) => {
   app.route({
     url: '/signup',
     method: 'POST',
-    schema: RouteSchema,
+    schema: SignUpRouteSchema,
     handler: async (req: SignUpRouteRequest, rep) => {
       try {
         const user = await UserModel.findOne({
@@ -27,20 +35,23 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
         });
 
         if (user) {
-          if (user.email === req.body.email) {
-            throw new Error('EMAIL_ALREADY_USED');
-          } else {
-            throw new Error('USERNAME_ALREADY_USED');
-          }
+          throw new Error(
+            user.email === req.body.email
+              ? 'EMAIL_ALREADY_USED'
+              : 'USERNAME_ALREADY_USED',
+          );
         }
 
         // sends an email with a token
-        const token = app.mail.sendSignUp(req.body);
+        const token = app.mail.sendSignUp({
+          ...req.body,
+          password: await hashPassword(req.body.password),
+        });
 
         // save the token in the database
         await MailVerifyController.create({
           token,
-          type: MailVerifyType.SIGNUP,
+          type: TokenType.SIGNUP,
         });
 
         rep.send({
@@ -57,25 +68,25 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
   });
 
   app.route({
-    url: '/signup/verify',
+    url: '/login',
     method: 'POST',
-    handler: async (req: SignUpRouteVerifyRequest, rep) => {
+    schema: LoginRouteSchema,
+    handler: async (req: LoginRouteRequest, rep) => {
       try {
-        const user = tokenPayload(app, req.body.token);
+        // if the user doesn't exist, throw an error
+        const user = await UserController.findOne({
+          username: req.body.username.toLowerCase(),
+        });
 
-        // delete the mail verify token
-        // throws error if token is not found
-        // await MailVerifyController.deleteOne(req.body);
+        const samePassword = await comparePassword(req.body.password, user.password);
 
-        console.log(user);
-
-        // create the user
-        // throws error if user already exists
-        await UserController.create(user);
+        // if the password is wrong, throw an error
+        if (!samePassword) {
+          throw new Error('WRONG_PASSWORD');
+        }
 
         rep.send({
-          status: 200,
-          message: 'SIGNUP_SUCCESS',
+          token: signedInToken(app, user),
         });
       } catch (e) {
         rep.status(400).send({
@@ -87,26 +98,31 @@ export const authRouter: FastifyPluginCallback = (app, opts, next) => {
   });
 
   app.route({
-    url: '/signin',
+    url: '/forgot-password',
     method: 'POST',
-    schema: RouteSchema,
-    handler: async (req: SignUpRouteRequest, rep) => {
+    schema: ForgotPasswordRouteSchema,
+    handler: async (req: ForgotPasswordRouteRequest, rep) => {
       try {
         // if the user doesn't exist, throw an error
         const user = await UserController.findOne({
           email: req.body.email.toLowerCase(),
         });
 
-        const isPasswordValid = await comparePassword(req.body.password, user.password);
+        // sends an email with a token
+        const token = app.mail.sendForgotPassword({
+          email: user.email,
+          username: user.username,
+        });
 
-        // if the hashed password is invalid, throw an error
-        if (!isPasswordValid) {
-          throw new Error('INVALID_CREDENTIALS');
-        }
+        // save the token in the database
+        await MailVerifyController.create({
+          token,
+          type: TokenType.FORGOT_PASSWORD,
+        });
 
-        // if the user exists, send a Bearer token
         rep.send({
-          token: app.jwt.sign({ payload: user.toJSON() }, { expiresIn: '7d' }),
+          status: 200,
+          message: 'PASSWORD_RESET_TOKEN_SENT',
         });
       } catch (e) {
         rep.status(400).send({

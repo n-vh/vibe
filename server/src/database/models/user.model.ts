@@ -14,22 +14,49 @@ const schema = new Schema<User>(
       required: true,
       unique: true,
     },
+    password: {
+      type: String,
+      required: true,
+    },
     avatar: {
       type: String,
       required: true,
     },
-    vibes: {
-      type: [ObjectId],
-      required: true,
-    },
-    comments: {
-      type: [ObjectId],
-      required: true,
-    },
-    smiles: {
-      type: [ObjectId],
-      required: true,
-    },
+    vibes: [
+      {
+        type: ObjectId,
+        ref: 'Vibe',
+        default: [],
+      },
+    ],
+    replies: [
+      {
+        type: ObjectId,
+        ref: 'Vibe',
+        default: [],
+      },
+    ],
+    smiles: [
+      {
+        type: ObjectId,
+        ref: 'User',
+        default: [],
+      },
+    ],
+    followers: [
+      {
+        type: ObjectId,
+        ref: 'User',
+        default: [],
+      },
+    ],
+    following: [
+      {
+        type: ObjectId,
+        ref: 'User',
+        default: [],
+      },
+    ],
   },
   {
     versionKey: false,

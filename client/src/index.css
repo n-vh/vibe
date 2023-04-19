@@ -1,3 +1,58 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  overscroll-behavior: none;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: linear-gradient(180deg, #f1d3de 0%, #f5e9c1 100%);
+  background-attachment: fixed;
+  overflow-y: scroll;
+}
+
+#inputs input:focus-visible,
+#inputs textarea:focus-visible {
+  outline: none;
+  border-color: transparent;
+}
+
+#withBorder input:focus-visible {
+  outline: transparent;
+  border-color: #f1d7d7;
+}
+
+#smileAnimation {
+  background: linear-gradient(303deg, #f2d7db, #fdf0c7);
+  background-size: 200% 200%;
+
+  -webkit-animation: AnimationName 1s ease infinite;
+  -moz-animation: AnimationName 1s ease infinite;
+  animation: AnimationName 1s ease infinite;
+}
+
+@keyframes AnimationName {
+  0% {
+    background-position: 0% 51%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 51%;
+  }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+#gradient {
+  background: linear-gradient(180deg, #f1d3de 0%, #f5e9c1 100%);
+}

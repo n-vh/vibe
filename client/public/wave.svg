@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 150.04"  preserveAspectRatio="none" width="100%">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fbebcb;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="m0,145.25c60.32-39.69,98.96-13,124.1-6.32s92.17,22.36,136.67-2.18,76.79-7.63,89.75,1.19,20.32,10.52,29.49,4.57V0H0v145.25Z"/>
+</svg>

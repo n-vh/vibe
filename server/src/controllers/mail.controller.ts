@@ -2,8 +2,8 @@ import type { IMailVerify } from '~/shared/types';
 import { FilterQuery } from 'mongoose';
 import { MailVerifyModel } from '~/database/models';
 
-export const MailVerifyController = {
-  async create(data: IMailVerify) {
+export namespace MailVerifyController {
+  export async function create(data: IMailVerify) {
     const doc = await MailVerifyModel.findOne({
       token: data.token,
     });
@@ -13,9 +13,9 @@ export const MailVerifyController = {
     }
 
     return await MailVerifyModel.create(data);
-  },
+  }
 
-  async findOne(filter: FilterQuery<IMailVerify>) {
+  export async function findOne(filter: FilterQuery<IMailVerify>) {
     const doc = await MailVerifyModel.findOne(filter);
 
     if (!doc) {
@@ -23,9 +23,9 @@ export const MailVerifyController = {
     }
 
     return doc;
-  },
+  }
 
-  async deleteOne(filter: FilterQuery<IMailVerify>) {
+  export async function deleteOne(filter: FilterQuery<IMailVerify>) {
     const doc = await MailVerifyModel.findOneAndDelete(filter);
 
     if (!doc) {
@@ -33,5 +33,6 @@ export const MailVerifyController = {
     }
 
     return doc;
-  },
-};
+  }
+}
+//

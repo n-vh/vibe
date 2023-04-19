@@ -6,6 +6,7 @@ const schema = new Schema<Vibe>(
   {
     user: {
       type: ObjectId,
+      ref: 'User',
       required: true,
       index: true,
     },
@@ -13,23 +14,44 @@ const schema = new Schema<Vibe>(
       type: String,
       required: true,
     },
-    comments: {
+    replies: {
       count: {
         type: Number,
-        required: true,
+        default: 0,
       },
-      items: {
-        type: [ObjectId],
-        required: true,
+      hasReplied: {
+        type: Boolean,
+        default: false,
       },
+      vibes: [
+        {
+          type: ObjectId,
+          ref: 'Vibe',
+          default: [],
+        },
+      ],
     },
     smiles: {
-      type: Number,
-      required: true,
+      count: {
+        type: Number,
+        default: 0,
+      },
+      hasSmiled: {
+        type: Boolean,
+        default: false,
+      },
+      users: [
+        {
+          type: ObjectId,
+          ref: 'User',
+          default: [],
+        },
+      ],
     },
-    smiled: {
-      type: Boolean,
-      required: true,
+    reply: {
+      type: ObjectId,
+      ref: 'Vibe',
+      default: null,
     },
   },
   {

@@ -1,30 +1,45 @@
 import { ObjectId } from 'mongodb';
-import { MailVerifyType } from './enums';
+import { TokenType } from './enums';
 
 export interface Me {
-  id?: ObjectId;
+  id: ObjectId;
   username: string;
   email: string;
+  password: string;
   avatar: string;
+}
+
+export interface ReplyNode {
+  count: number;
+  hasReplied: boolean;
+  vibes: ObjectId[];
+}
+
+export interface SmileNode {
+  count: number;
+  hasSmiled: boolean;
+  users: ObjectId[];
 }
 
 export interface User extends Me {
   vibes: ObjectId[];
-  comments: ObjectId[];
+  replies: ObjectId[];
   smiles: ObjectId[];
+  followers: ObjectId[];
+  following: ObjectId[];
 }
 
 export interface Vibe {
-  id?: ObjectId;
+  id: ObjectId;
   user: ObjectId;
   message: string;
-  comments: ObjectId[];
-  smiles: number;
-  smiled: boolean;
+  replies: ReplyNode;
+  smiles: SmileNode;
+  reply: ObjectId;
 }
 
 export interface IMailVerify {
   id?: ObjectId;
   token: string;
-  type: MailVerifyType;
+  type: TokenType;
 }
