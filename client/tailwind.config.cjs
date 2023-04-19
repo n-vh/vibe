@@ -25,6 +25,9 @@ module.exports = {
         hubballi: ['Hubballi', 'cursive'],
         titan: ['Titan One', 'cursive'],
       },
+      screens: {
+        lg: '1200px',
+      },
     },
   },
   plugins: [],

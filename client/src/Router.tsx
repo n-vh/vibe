@@ -60,7 +60,8 @@ export function Router() {
           <Route path="/profile/:username" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
-        <Route path="*" element={<Error />} />
+        <Route path="/error" element={<Error />} />
+        <Route path="*" element={<Navigate to="/error" replace />} />
       </Routes>
     </BrowserRouter>
   );
